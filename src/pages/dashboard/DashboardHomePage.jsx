@@ -10,14 +10,14 @@ import OverallProgress from '../../components/dashboard/OverallProgress';
 
 const DashboardHomePage = () => (
   <DashboardLayout>
-    <Box sx={{ mb: 3 }}>
-      <Typography variant="h4" sx={{ fontWeight: 600, mb: 3 }}>
+    <Box>
+      <Typography variant="h4" sx={{ fontWeight: 600, mb: 2 }}>
         Panel Principal
       </Typography>
 
       {/* Alertas Importantes */}
-      <Box sx={{ mb: 3 }}>
-        <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="h6" sx={{ fontWeight: 600, mb: 1.5 }}>
           Alertas Importantes
         </Typography>
         
@@ -36,13 +36,13 @@ const DashboardHomePage = () => (
 
       <Grid container spacing={3}>
         {/* Columna izquierda */}
-        <Grid item xs={12} lg={8}>
+        <Grid item xs={12} md={12} lg={7}>
           <ProgressOverview />
           <QuickAccess />
         </Grid>
 
         {/* Columna derecha */}
-        <Grid item xs={12} lg={4}>
+        <Grid item xs={12} md={12} lg={5}>
           <BusinessSummary />
           <OverallProgress />
           <AiRecommendations />

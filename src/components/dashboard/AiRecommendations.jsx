@@ -27,8 +27,8 @@ const AiRecommendations = () => {
 
   return (
     <Card>
-      <CardContent>
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+      <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
           <LightbulbIcon sx={{ mr: 1, color: 'primary.main' }} />
           <Typography variant="h6" sx={{ fontWeight: 600 }}>
             Recomendaciones IA
@@ -37,8 +37,8 @@ const AiRecommendations = () => {
 
         <List sx={{ py: 0 }}>
           {recommendations.map((rec, index) => (
-            <ListItem key={index} sx={{ px: 0, py: 1 }}>
-              <ListItemIcon sx={{ minWidth: 40 }}>
+            <ListItem key={index} sx={{ px: 0, py: 0.75 }}>
+              <ListItemIcon sx={{ minWidth: 36 }}>
                 {rec.icon}
               </ListItemIcon>
               <ListItemText 
@@ -57,8 +57,9 @@ const AiRecommendations = () => {
           to="/dashboard/assistant"
           variant="contained"
           fullWidth
+          size="small"
           startIcon={<ChatIcon />}
-          sx={{ mt: 2 }}
+          sx={{ mt: 1.5 }}
         >
           Chatear con IA
         </Button>

@@ -9,13 +9,13 @@ import {
 
 const BusinessSummary = () => {
   return (
-    <Card sx={{ mb: 3 }}>
-      <CardContent>
-        <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+    <Card sx={{ mb: 2 }}>
+      <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
+        <Typography variant="h6" sx={{ fontWeight: 600, mb: 1.5 }}>
           Mi Negocio
         </Typography>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <PersonIcon sx={{ color: 'text.secondary' }} />
             <Box>
@@ -56,7 +56,8 @@ const BusinessSummary = () => {
             variant="outlined"
             startIcon={<DescriptionIcon />}
             fullWidth
-            sx={{ mt: 1 }}
+            size="small"
+            sx={{ mt: 0.5 }}
           >
             Generar Documentos
           </Button>

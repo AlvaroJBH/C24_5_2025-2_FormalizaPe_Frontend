@@ -33,21 +33,21 @@ const ProgressOverview = () => {
   };
 
   return (
-    <Card sx={{ mb: 3 }}>
-      <CardContent>
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+    <Card sx={{ mb: 2 }}>
+      <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
           <ScheduleIcon sx={{ mr: 1, color: 'primary.main' }} />
           <Typography variant="h6" sx={{ fontWeight: 600 }}>
             Progreso de Trámites
           </Typography>
         </Box>
         
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
           Estado actual de tus procesos de formalización
         </Typography>
 
         {procedures.map((proc, index) => (
-          <Box key={index} sx={{ mb: 2 }}>
+          <Box key={index} sx={{ mb: 1.5 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 {getStatusIcon(proc.status)}

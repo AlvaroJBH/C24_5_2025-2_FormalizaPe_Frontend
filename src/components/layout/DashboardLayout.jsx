@@ -14,10 +14,10 @@ const DashboardLayout = ({ children }) => (
     <Navbar />
     <Box 
       sx={{ 
-        py: 4,
-        px: 3,
+        py: 2.5,
+        px: { xs: 2, sm: 3, md: 4, lg: 5, xl: 8 },
         flexGrow: 1,
-        maxWidth: '1400px',
+        maxWidth: '1600px',
         width: '100%',
         mx: 'auto',
       }}

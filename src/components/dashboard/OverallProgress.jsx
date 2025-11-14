@@ -9,14 +9,14 @@ const OverallProgress = () => {
   };
 
   return (
-    <Card sx={{ mb: 3 }}>
-      <CardContent>
-        <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
+    <Card sx={{ mb: 2 }}>
+      <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
+        <Typography variant="h6" sx={{ fontWeight: 600, mb: 1.5 }}>
           Resumen
         </Typography>
 
-        <Box sx={{ mb: 2 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+        <Box sx={{ mb: 1.5 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
             <Typography variant="body2" color="text.secondary">
               Trámites completados
             </Typography>
@@ -26,8 +26,8 @@ const OverallProgress = () => {
           </Box>
         </Box>
 
-        <Box sx={{ mb: 2 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+        <Box sx={{ mb: 1.5 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
             <Typography variant="body2" color="text.secondary">
               Progreso total
             </Typography>
@@ -39,7 +39,7 @@ const OverallProgress = () => {
             variant="determinate" 
             value={stats.percentage}
             sx={{ 
-              height: 10, 
+              height: 8, 
               borderRadius: 1,
             }}
           />

@@ -37,15 +37,15 @@ const QuickAccess = () => {
   ];
 
   return (
-    <Box sx={{ mb: 3 }}>
-      <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+    <Box sx={{ mb: 2 }}>
+      <Typography variant="h6" sx={{ fontWeight: 600, mb: 1.5 }}>
         Accesos Rápidos
       </Typography>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5 }}>
         Herramientas principales para gestionar tu negocio
       </Typography>
 
-      <Grid container spacing={2}>
+      <Grid container spacing={1.5}>
         {quickLinks.map((link, index) => (
           <Grid item xs={12} sm={6} md={3} key={index}>
             <Card 
@@ -64,7 +64,9 @@ const QuickAccess = () => {
             >
               <CardContent sx={{ 
                 textAlign: 'center', 
-                py: 3,
+                py: 2,
+                px: 1.5,
+                '&:last-child': { pb: 2 },
               }}>
                 <Box 
                   sx={{ 
