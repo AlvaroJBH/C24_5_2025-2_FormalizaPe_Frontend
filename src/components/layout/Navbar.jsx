@@ -44,9 +44,12 @@ const Navbar = () => {
       sx={{ 
         backgroundColor: 'white', 
         borderBottom: '1px solid #E2E8F0',
+        width: '100%',
+        left: 0,
+        right: 0,
       }}
     >
-      <Toolbar sx={{ justifyContent: 'space-between' }}>
+      <Toolbar sx={{ justifyContent: 'space-between', px: 3 }}>
         {/* Logo y nombre */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Avatar 
