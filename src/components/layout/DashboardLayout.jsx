@@ -8,17 +8,22 @@ const DashboardLayout = ({ children }) => (
     flexDirection: 'column',
     minHeight: '100vh',
     backgroundColor: 'background.default',
+    m: 0,
+    p: 0,
   }}>
     <Navbar />
-    <Container 
-      maxWidth="xl" 
+    <Box 
       sx={{ 
         py: 4,
+        px: 3,
         flexGrow: 1,
+        maxWidth: '1400px',
+        width: '100%',
+        mx: 'auto',
       }}
     >
       {children}
-    </Container>
+    </Box>
   </Box>
 );
 
