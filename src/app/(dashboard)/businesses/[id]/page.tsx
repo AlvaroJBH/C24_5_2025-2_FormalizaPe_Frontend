@@ -55,7 +55,7 @@ export default function BusinessDashboardPage() {
   }
 
   return (
-    <div className="min-h-screen p-6">
+    <div className="flex flex-col flex-1 p-6 overflow-auto">
       {/* Tarjeta de alertas */}
       <div className="mb-6 p-4 border border-gray-200 rounded-xl flex items-center justify-between">
         <span className="text-gray-700 font-medium">Alertas importantes</span>

@@ -150,7 +150,7 @@ export default function BusinessesPage() {
     );
 
   return (
-    <div className="min-h-screen bg-blue-50 p-6">
+    <div className="flex flex-col flex-1 p-6 overflow-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold text-blue-700">Empresas</h1>
 

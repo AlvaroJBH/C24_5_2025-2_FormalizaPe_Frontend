@@ -4,7 +4,11 @@ import { useAuthStore } from "@/store/auth-store";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const { token, clearToken } = useAuthStore();
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
@@ -33,12 +37,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 flex flex-col">
       <nav className="bg-white shadow">
         <div className="container mx-auto px-4 flex justify-between items-center h-16">
           {/* Logo + título */}
           <div className="flex items-center gap-3">
-            {/* Logo */}
             <div className="w-10 h-10 bg-linear-to-br from-blue-800 to-blue-600 rounded-2xl flex items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -58,15 +61,39 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </svg>
             </div>
 
-            {/* Título + texto */}
             <div className="flex flex-col">
               <span className="text-blue-700 font-semibold">Formaliza.pe</span>
-              <span className="text-gray-500 text-sm">Bienvenido, Emprendedor</span>
+              <span className="text-gray-500 text-sm">
+                Bienvenido, Emprendedor
+              </span>
             </div>
           </div>
 
-          {/* Botones perfil y logout */}
+          {/* --- ICONOS DERECHA --- */}
           <div className="flex items-center gap-2">
+            {/* 🔹 Botón Home */}
+            <button
+              onClick={() => router.push("/businesses")}
+              className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium hover:bg-gray-100 transition"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-4 h-4"
+              >
+                <path d="M3 9l9-6 9 6"></path>
+                <path d="M9 22V12h6v10"></path>
+              </svg>
+            </button>
+
+            {/* Icono usuario */}
             <button
               data-slot="button"
               className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium hover:bg-gray-100 transition"
@@ -88,6 +115,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </svg>
             </button>
 
+            {/* Logout */}
             <button
               onClick={handleLogout}
               data-slot="button"
@@ -114,7 +142,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
       </nav>
 
-      <main className="container mx-auto px-4 p-6 ">{children}</main>
+      <main className="container mx-auto px-4 p-6 flex-1 overflow-auto">
+        {children}
+      </main>
     </div>
   );
 }

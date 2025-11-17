@@ -206,7 +206,7 @@ export default function SimulationsPage() {
   // RENDER
   // ------------------------
   return (
-    <div className="min-h-screen p-6">
+    <div className="flex-1 p-6 flex flex-col min-h-0">
       {/* HEADER */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-semibold text-blue-700">Simulaciones</h1>
@@ -285,15 +285,15 @@ export default function SimulationsPage() {
       </div>
 
       {/* GRID */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 flex-1 min-h-[0]">
         {/* PANEL IZQUIERDO */}
-        <Card className="lg:col-span-1 h-[80vh] flex flex-col">
+        <Card className="lg:col-span-1 flex flex-col min-h-0">
           <CardContent className="p-4 flex-1">
             <h2 className="text-blue-700 font-semibold text-lg mb-4">
               Entradas de simulación
             </h2>
 
-            <ScrollArea className="h-[70vh] pr-2">
+            <ScrollArea className="flex-1 min-h-0 pr-2">
               <div className="flex flex-col gap-3">
                 {inputsLoading && <p>Cargando entradas...</p>}
                 {inputsError && <p className="text-red-500">{inputsError}</p>}
@@ -326,8 +326,8 @@ export default function SimulationsPage() {
         </Card>
 
         {/* PANEL DERECHO — RESULTADOS */}
-        <Card className="lg:col-span-3">
-          <CardContent className="p-6 space-y-8">
+        <Card className="lg:col-span-3 flex flex-col min-h-0">
+          <CardContent className="p-6 flex-1 min-h-0 space-y-8 overflow-auto">
             <h2 className="text-blue-700 font-semibold text-lg mb-4">
               Resultados de la simulación
             </h2>
