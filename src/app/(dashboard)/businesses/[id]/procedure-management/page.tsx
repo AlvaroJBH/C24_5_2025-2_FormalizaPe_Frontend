@@ -46,7 +46,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-blue-50 p-6">
+    <div className="min-h-screen p-6">
       <h1 className="text-2xl text-blue-700 font-semibold mb-6">
         Procedimientos disponibles
       </h1>

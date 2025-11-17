@@ -33,7 +33,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100">
       <nav className="bg-white shadow">
         <div className="container mx-auto px-4 flex justify-between items-center h-16">
           {/* Logo + título */}
@@ -114,7 +114,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
       </nav>
 
-      <main className="container mx-auto px-4 p-6">{children}</main>
+      <main className="container mx-auto px-4 p-6 ">{children}</main>
     </div>
   );
 }

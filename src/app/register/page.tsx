@@ -35,7 +35,7 @@ export default function RegisterPage() {
     try {
       const token = await register({ username, email, password, dni, ruc });
       setToken(token);
-      router.push("/dashboard");
+      router.push("/businesses");
     } catch (err) {
       setError("Error al crear la cuenta");
     } finally {

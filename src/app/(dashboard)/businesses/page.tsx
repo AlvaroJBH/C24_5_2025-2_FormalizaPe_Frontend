@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useAuthStore } from "@/store/auth-store";
 import {
   getBusinesses,
@@ -100,6 +101,10 @@ export default function BusinessesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Estados para controlar los diálogos
+  const [editingBusinessId, setEditingBusinessId] = useState<number | null>(null);
+  const [deletingBusinessId, setDeletingBusinessId] = useState<number | null>(null);
+
   const fetchBusinesses = () => {
     if (!token) return;
     setLoading(true);
@@ -185,12 +190,20 @@ export default function BusinessesPage() {
             </div>
 
             <div className="flex gap-2 mt-4">
+              {/* Ver */}
+              <Button asChild size="sm" variant="secondary">
+                <Link href={`/businesses/${business.id}`}>Ver</Link>
+              </Button>
+
               {/* Editar */}
-              <Dialog>
+              <Dialog
+                open={editingBusinessId === business.id}
+                onOpenChange={(open) =>
+                  setEditingBusinessId(open ? business.id : null)
+                }
+              >
                 <DialogTrigger asChild>
-                  <Button size="sm" variant="outline">
-                    Editar
-                  </Button>
+                  <Button size="sm" variant="outline">Editar</Button>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
@@ -203,17 +216,21 @@ export default function BusinessesPage() {
                       if (!token) return;
                       await updateBusiness(business.id, data);
                       fetchBusinesses();
+                      setEditingBusinessId(null);
                     }}
                   />
                 </DialogContent>
               </Dialog>
 
               {/* Eliminar */}
-              <Dialog>
+              <Dialog
+                open={deletingBusinessId === business.id}
+                onOpenChange={(open) =>
+                  setDeletingBusinessId(open ? business.id : null)
+                }
+              >
                 <DialogTrigger asChild>
-                  <Button size="sm" variant="destructive">
-                    Eliminar
-                  </Button>
+                  <Button size="sm" variant="destructive">Eliminar</Button>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
@@ -224,7 +241,10 @@ export default function BusinessesPage() {
                     <strong>{business.name}</strong>?
                   </p>
                   <DialogFooter>
-                    <Button variant="outline" onClick={() => {}}>
+                    <Button
+                      variant="outline"
+                      onClick={() => setDeletingBusinessId(null)}
+                    >
                       Cancelar
                     </Button>
                     <Button
@@ -233,6 +253,7 @@ export default function BusinessesPage() {
                         if (!token) return;
                         await deleteBusiness(business.id);
                         fetchBusinesses();
+                        setDeletingBusinessId(null);
                       }}
                     >
                       Eliminar

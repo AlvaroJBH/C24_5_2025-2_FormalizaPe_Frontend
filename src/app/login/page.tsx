@@ -26,7 +26,7 @@ export default function LoginPage() {
     try {
       const token = await login(email, password);
       setToken(token);
-      router.push("/dashboard");
+      router.push("/businesses");
     } catch (err) {
       setError("Credenciales inválidas o error al iniciar sesión");
     } finally {
