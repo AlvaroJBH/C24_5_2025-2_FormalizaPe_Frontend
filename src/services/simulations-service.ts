@@ -11,7 +11,10 @@ export interface TaxRegime {
   code: string;
   name: string;
   description: string;
-  rulesJson: unknown | null;
+  rulesJson: {
+    beneficios?: string[];
+    requisitos?: string[];
+  } | null;
 }
 
 export interface SimulationInput {
@@ -34,6 +37,7 @@ export interface SimulationResultItem {
   totalMonthly: string;
   totalAnnual: string;
   recommended: boolean;
+  available: boolean;
 }
 
 export interface SimulationResults {
@@ -67,14 +71,33 @@ async function fetchWithAuth(input: RequestInfo, init?: RequestInit) {
 
 // --- Obtener lista de regímenes tributarios ---
 export async function getTaxRegimes(): Promise<TaxRegime[]> {
-  return fetchWithAuth(`${API_BASE_URL}/api/simulations/tax-regimes`);
+  const data = await fetchWithAuth(
+    `${API_BASE_URL}/api/simulations/tax-regimes`
+  );
+
+  return data.map((regime: any) => ({
+    ...regime,
+    rulesJson: safeParse(regime.rulesJson),
+  }));
+}
+
+function safeParse(json: any) {
+  if (!json) return {};
+  try {
+    return JSON.parse(json);
+  } catch (e) {
+    console.error("Error parsing rulesJson", e);
+    return {};
+  }
 }
 
 // --- Obtener inputs de simulación de un negocio ---
 export async function getSimulationInputsByBusinessId(
   businessId: number
 ): Promise<SimulationInput[]> {
-  return fetchWithAuth(`${API_BASE_URL}/api/simulations/inputs/business/${businessId}`);
+  return fetchWithAuth(
+    `${API_BASE_URL}/api/simulations/inputs/business/${businessId}`
+  );
 }
 
 // --- Obtener resultados de un input de simulación ---
@@ -93,4 +116,3 @@ export async function createSimulationInput(
     body: JSON.stringify(payload),
   });
 }
-
