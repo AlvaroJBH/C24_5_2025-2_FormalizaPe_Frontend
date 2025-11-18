@@ -37,7 +37,7 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-blue-50 to-blue-100 flex flex-col">
+    <div className="min-h-screen bg-linear-to-b from-blue-50 to-blue-100 flex flex-col ">
       <nav className="bg-white shadow">
         <div className="container mx-auto px-4 flex justify-between items-center h-16">
           {/* Logo + título */}
@@ -142,7 +142,7 @@ export default function DashboardLayout({
         </div>
       </nav>
 
-      <main className="container mx-auto px-4 p-6 flex-1 overflow-auto">
+      <main className="container mx-auto px-4 p-6 flex-1 overflow-auto ">
         {children}
       </main>
     </div>
