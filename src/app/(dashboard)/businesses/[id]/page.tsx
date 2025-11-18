@@ -3,7 +3,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { getBusinessById, Business } from "@/services/business-service";
+import {
+  getFormalizationStatus,
+  FormalizationProcedureDTO,
+} from "@/services/formalization-service";
+import { Calculator, MessageSquare, FileText, LineChart } from "lucide-react";
 import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 
 export default function BusinessDashboardPage() {
   const params = useParams();
@@ -13,18 +20,19 @@ export default function BusinessDashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [procedures, setProcedures] = useState<FormalizationProcedureDTO[]>([]);
+  const [loadingProcedures, setLoadingProcedures] = useState(true);
+
   useEffect(() => {
     if (!businessId) return;
 
     let isMounted = true;
+
     const fetchBusiness = async () => {
       try {
         setLoading(true);
         const data = await getBusinessById(businessId);
-        if (isMounted) {
-          setBusiness(data);
-          setError(null);
-        }
+        if (isMounted) setBusiness(data);
       } catch {
         if (isMounted) setError("Error al cargar el negocio");
       } finally {
@@ -32,16 +40,30 @@ export default function BusinessDashboardPage() {
       }
     };
 
+    const fetchProcedures = async () => {
+      try {
+        setLoadingProcedures(true);
+        const data = await getFormalizationStatus(businessId);
+        if (isMounted) setProcedures(data.procedures);
+      } catch {
+        console.error("Error cargando procedimientos");
+      } finally {
+        if (isMounted) setLoadingProcedures(false);
+      }
+    };
+
     fetchBusiness();
+    fetchProcedures();
+
     return () => {
       isMounted = false;
     };
   }, [businessId]);
 
-  if (loading) {
+  if (loading || loadingProcedures) {
     return (
       <div className="min-h-screen flex items-center justify-center text-gray-500">
-        Cargando negocio...
+        Cargando información...
       </div>
     );
   }
@@ -54,6 +76,19 @@ export default function BusinessDashboardPage() {
     );
   }
 
+  // Badge colors
+  const badgeColors: Record<string, string> = {
+    COMPLETED: "bg-green-500",
+    IN_PROGRESS: "bg-blue-500",
+    PENDING: "bg-gray-400",
+  };
+
+  const statusLabels: Record<string, string> = {
+    COMPLETED: "Completado",
+    IN_PROGRESS: "En proceso",
+    PENDING: "Pendiente",
+  };
+
   return (
     <div className="flex flex-col flex-1 p-6 overflow-auto">
       {/* Tarjeta de alertas */}
@@ -65,7 +100,6 @@ export default function BusinessDashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Columna 2/3 */}
         <div className="lg:col-span-2 flex flex-col gap-6">
-
           {/* Progreso de trámites */}
           <div className="bg-white rounded-xl shadow p-6">
             <h2 className="text-blue-700 font-semibold text-lg">
@@ -74,8 +108,38 @@ export default function BusinessDashboardPage() {
             <p className="text-gray-500 text-sm mt-1">
               Estado actual de tus procesos de formalización
             </p>
-            <div className="mt-4 h-24 bg-gray-100 rounded flex items-center justify-center text-gray-400">
-              [Container de progreso]
+
+            <div className="mt-4 flex flex-col gap-5">
+              {procedures.length === 0 ? (
+                <div className="text-gray-400 text-sm">
+                  No hay trámites registrados.
+                </div>
+              ) : (
+                procedures.map((p) => (
+                  <div key={p.procedureId} className="flex flex-col gap-2">
+                    {/* Fila principal */}
+                    <div className="flex items-center w-full">
+                      {/* Nombre */}
+                      <span className="text-sm font-medium text-gray-800 flex-1">
+                        {p.name}
+                      </span>
+
+                      {/* Pasos (pegado al nombre, alineado a la derecha del nombre) */}
+                      <span className="text-xs text-gray-500 mr-3">
+                        {p.completedSteps}/{p.totalSteps} pasos
+                      </span>
+
+                      {/* Badge (al extremo derecho) */}
+                      <Badge className={`${badgeColors[p.status]} text-white`}>
+                        {statusLabels[p.status]}
+                      </Badge>
+                    </div>
+
+                    {/* Barra de progreso */}
+                    <Progress value={p.progressPercent} className="h-2" />
+                  </div>
+                ))
+              )}
             </div>
           </div>
 
@@ -89,47 +153,65 @@ export default function BusinessDashboardPage() {
             </p>
 
             <div className="grid grid-cols-2 gap-4 mt-4">
-
               {/* Simulador tributario */}
               <Link
                 href={`/businesses/${businessId}/simulations`}
-                className="bg-gray-100 rounded-lg p-4 flex items-center justify-center hover:bg-gray-200 transition"
+                className="
+        border rounded-lg p-4 flex flex-col items-center text-center
+        border-[#4CAEFF] hover:bg-[#E8F4FF] transition
+      "
               >
-                Simulador tributario
+                <Calculator size={24} className="mb-2" color="#4CAEFF" />
+                <span className="text-black text-sm font-medium">
+                  Simulador tributario
+                </span>
               </Link>
 
               {/* Asistente IA */}
               <Link
                 href={`/businesses/${businessId}/chatbot`}
-                className="bg-gray-100 rounded-lg p-4 flex items-center justify-center hover:bg-gray-200 transition"
+                className="
+        border rounded-lg p-4 flex flex-col items-center text-center
+        border-[#3B82F6] hover:bg-[#E6EEFF] transition
+      "
               >
-                Asistente IA
+                <MessageSquare size={24} className="mb-2" color="#3B82F6" />
+                <span className="text-black text-sm font-medium">
+                  Asistente IA
+                </span>
               </Link>
 
               {/* Gestionar trámites */}
               <Link
                 href={`/businesses/${businessId}/procedure-management`}
-                className="bg-gray-100 rounded-lg p-4 flex items-center justify-center hover:bg-gray-200 transition"
+                className="
+        border rounded-lg p-4 flex flex-col items-center text-center
+        border-[#8B5CF6] hover:bg-[#F3E8FF] transition
+      "
               >
-                Gestionar trámites
+                <FileText size={24} className="mb-2" color="#8B5CF6" />
+                <span className="text-black text-sm font-medium">
+                  Gestionar trámites
+                </span>
               </Link>
 
               {/* Reportes */}
               <Link
                 href={`/businesses/${businessId}/reports`}
-                className="bg-gray-100 rounded-lg p-4 flex items-center justify-center hover:bg-gray-200 transition"
+                className="
+        border rounded-lg p-4 flex flex-col items-center text-center
+        border-[#F97316] hover:bg-[#FFF0E6] transition
+      "
               >
-                Reportes
+                <LineChart size={24} className="mb-2" color="#F97316" />
+                <span className="text-black text-sm font-medium">Reportes</span>
               </Link>
-
             </div>
           </div>
         </div>
 
         {/* Columna 1/3 */}
         <div className="flex flex-col gap-6">
-
-          {/* Datos del business */}
           <div className="bg-white rounded-xl shadow p-6">
             <h2 className="text-blue-700 font-semibold text-lg mb-2">
               Datos del negocio
@@ -139,14 +221,12 @@ export default function BusinessDashboardPage() {
             <p className="text-gray-500 text-sm">RUC: [data estatica]</p>
           </div>
 
-          {/* Botón generar documentos */}
           <div className="bg-white rounded-xl shadow p-6 flex items-center justify-center">
             <button className="bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-800 transition">
               Generar documentos
             </button>
           </div>
 
-          {/* Recomendaciones IA */}
           <div className="bg-white rounded-xl shadow p-6 flex flex-col gap-4">
             <h2 className="text-blue-700 font-semibold text-lg">
               Recomendaciones IA
@@ -158,7 +238,6 @@ export default function BusinessDashboardPage() {
               Chatear con IA
             </button>
           </div>
-
         </div>
       </div>
     </div>

@@ -1,24 +1,36 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/auth-store";
-import { getProcedures, Procedure } from "@/services/procedure-service";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+import {
+  FormalizationProcedureDTO,
+  getFormalizationStatus,
+} from "@/services/formalization-service";
 
-export default function DashboardPage() {
+export default function ProcedureManagementPage() {
+  const params = useParams();
+  const router = useRouter();
+  const businessId = Number(params.id);
+
   const { token } = useAuthStore();
-  const [procedures, setProcedures] = useState<Procedure[]>([]);
+
+  const [procedures, setProcedures] = useState<FormalizationProcedureDTO[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!token) return;
-    const fetchProcedures = async () => {
+    if (!token || !businessId) return;
+
+    const fetchData = async () => {
       try {
         setLoading(true);
-        const data = await getProcedures();
-        setProcedures(data);
-        setError(null);
-      } catch (err: unknown) {
+        const data = await getFormalizationStatus(businessId);
+        setProcedures(data.procedures);
+      } catch (err) {
         console.error(err);
         setError("Error al cargar los procedimientos");
       } finally {
@@ -26,8 +38,8 @@ export default function DashboardPage() {
       }
     };
 
-    fetchProcedures();
-  }, [token]);
+    fetchData();
+  }, [token, businessId]);
 
   if (loading) {
     return (
@@ -45,25 +57,155 @@ export default function DashboardPage() {
     );
   }
 
+  // 🎨 Tema unificado por estado
+  const StatusTheme: Record<
+    string,
+    { border: string; badge: string; label: string }
+  > = {
+    COMPLETED: {
+      border: "border-green-500",
+      badge: "bg-green-500",
+      label: "Completado",
+    },
+    IN_PROGRESS: {
+      border: "border-blue-500",
+      badge: "bg-blue-500",
+      label: "En progreso",
+    },
+    PENDING: {
+      border: "border-gray-300",
+      badge: "bg-gray-400",
+      label: "Pendiente",
+    },
+  };
+
   return (
     <div className="flex flex-col flex-1 p-6 overflow-auto">
       <h1 className="text-2xl text-blue-700 font-semibold mb-6">
-        Procedimientos disponibles
+        Progreso de Formalización
       </h1>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {procedures.map((procedure) => (
-          <div
-            key={procedure.id}
-            className="bg-white rounded-xl shadow p-4 hover:shadow-md transition"
-          >
-            <h2 className="text-blue-700 font-semibold text-lg mb-2">
-              {procedure.name}
-            </h2>
-            <p className="text-gray-600 text-sm mb-2">{procedure.description}</p>
-            <span className="text-gray-400 text-xs">{procedure.category}</span>
-          </div>
-        ))}
+      {/* =======================
+      🔵 RESUMEN GENERAL
+      ======================= */}
+      {procedures.length > 0 &&
+        (() => {
+          const completed = procedures.filter(
+            (p) => p.status === "COMPLETED"
+          ).length;
+          const inProgress = procedures.filter(
+            (p) => p.status === "IN_PROGRESS"
+          ).length;
+          const pending = procedures.filter(
+            (p) => p.status === "PENDING"
+          ).length;
+          const blocked = procedures.filter(
+            (p) => p.status === "BLOCKED"
+          ).length;
+
+          const overallProgress =
+            procedures.reduce((acc, p) => acc + p.progressPercent, 0) /
+            procedures.length;
+
+          return (
+            <div className="bg-white rounded-xl shadow p-6 mb-8 border">
+              <h2 className="text-xl font-semibold text-blue-700">
+                Resumen de Formalización
+              </h2>
+              <p className="text-gray-600 text-sm mb-4">
+                Estado actual de todos tus trámites de formalización
+              </p>
+
+              {/* CONTADORES */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div className="text-center">
+                  <p className="text-3xl font-bold text-green-600">
+                    {completed}
+                  </p>
+                  <p className="text-sm text-gray-500">Completados</p>
+                </div>
+
+                <div className="text-center">
+                  <p className="text-3xl font-bold text-blue-600">
+                    {inProgress}
+                  </p>
+                  <p className="text-sm text-gray-500">En Proceso</p>
+                </div>
+
+                <div className="text-center">
+                  <p className="text-3xl font-bold text-gray-500">{pending}</p>
+                  <p className="text-sm text-gray-500">Pendientes</p>
+                </div>
+
+                <div className="text-center">
+                  <p className="text-3xl font-bold text-red-500">{blocked}</p>
+                  <p className="text-sm text-gray-500">Bloqueados</p>
+                </div>
+              </div>
+
+              {/* PROGRESO GENERAL */}
+              <p className="text-sm text-gray-600 mb-2">Progreso general</p>
+              <Progress value={overallProgress} className="h-2" />
+
+              <p className="text-right text-sm text-gray-500 mt-1 font-medium">
+                {overallProgress.toFixed(0)}%
+              </p>
+            </div>
+          );
+        })()}
+
+      {/* GRID DE 2 COLUMNAS */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {procedures.map((p) => {
+          const theme = StatusTheme[p.status];
+
+          return (
+            <div
+              key={p.procedureId}
+              className={`relative bg-white rounded-xl shadow p-6 border-l-4 ${theme.border}`}
+            >
+              {/* BADGE STATUS */}
+              <div className="absolute top-4 right-4">
+                <Badge className={`${theme.badge} text-white`}>
+                  {theme.label}
+                </Badge>
+              </div>
+
+              {/* TITULO */}
+              <h2 className="text-lg font-semibold text-black mb-1">
+                {p.name}
+              </h2>
+
+              {/* DESCRIPCIÓN */}
+              <p className="text-gray-600 text-sm mb-3">{p.description}</p>
+
+              {/* CATEGORY */}
+              <span className="text-xs text-gray-400 block mb-4">
+                {p.category}
+              </span>
+
+              {/* PROGRESS BAR */}
+              <Progress value={p.progressPercent} className="h-2" />
+
+              {/* TEXTO PROGRESO */}
+              <p className="mt-2 text-xs text-gray-500">
+                {p.completedSteps} / {p.totalSteps} pasos completados
+              </p>
+
+              {/* BOTÓN VER DETALLES */}
+              <Button
+                className="w-full mt-4"
+                onClick={() =>
+                  router.push(
+                    `/businesses/${businessId}/procedure-management/${p.procedureId}`
+                  )
+                }
+              >
+                Ver detalles
+              </Button>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
