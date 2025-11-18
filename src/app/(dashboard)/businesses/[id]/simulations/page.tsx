@@ -27,6 +27,13 @@ import {
 } from "@/services/simulations-service";
 
 import { Progress } from "@/components/ui/progress";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function SimulationsPage() {
   const params = useParams();
@@ -36,11 +43,16 @@ export default function SimulationsPage() {
   // ESTADOS
   // ------------------------
   const [createOpen, setCreateOpen] = useState(false);
-  const [selectedSimulationId, setSelectedSimulationId] = useState<number | null>(null);
+  const [selectedSimulationId, setSelectedSimulationId] = useState<
+    number | null
+  >(null);
 
   const [taxRegimes, setTaxRegimes] = useState<TaxRegime[]>([]);
-  const [simulationInputs, setSimulationInputs] = useState<SimulationInput[]>([]);
-  const [simulationResults, setSimulationResults] = useState<SimulationResults | null>(null);
+  const [simulationInputs, setSimulationInputs] = useState<SimulationInput[]>(
+    []
+  );
+  const [simulationResults, setSimulationResults] =
+    useState<SimulationResults | null>(null);
 
   const [regimesLoading, setRegimesLoading] = useState(true);
   const [inputsLoading, setInputsLoading] = useState(true);
@@ -60,6 +72,24 @@ export default function SimulationsPage() {
     type: "",
     assets: "",
   });
+  const businessTypes = [
+    {
+      value: "EIRL",
+      label: "Empresa Individual de Responsabilidad Limitada (EIRL)",
+    },
+    { value: "SAC", label: "Sociedad Anónima Cerrada (SAC)" },
+    {
+      value: "SRL",
+      label: "Sociedad Comercial de Responsabilidad Limitada (SRL)",
+    },
+    { value: "Persona Natural", label: "Persona Natural con Negocio" },
+  ];
+  const workerRanges = [
+    { value: 1, label: "0 - 1 trabajadores" },
+    { value: 5, label: "2 - 5 trabajadores" },
+    { value: 10, label: "6 - 10 trabajadores" },
+    { value: 11, label: "Más de 10" },
+  ];
 
   const [formError, setFormError] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
@@ -192,7 +222,11 @@ export default function SimulationsPage() {
   const enrichedResults =
     simulationResults?.results.map((result) => {
       const r = taxRegimes.find((x) => x.code === result.regimeCode);
-      const rules = (r?.rulesJson as { beneficios?: string[]; requisitos?: string[] } | null) || {};
+      const rules =
+        (r?.rulesJson as {
+          beneficios?: string[];
+          requisitos?: string[];
+        } | null) || {};
 
       return {
         ...result,
@@ -222,52 +256,106 @@ export default function SimulationsPage() {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Nueva simulación</DialogTitle>
+              <p className="text-sm text-gray-500">
+                Completa los datos para estimar tus impuestos según cada régimen
+                tributario.
+              </p>
             </DialogHeader>
 
             <div className="space-y-4 mt-4">
+              {/* Ingresos */}
               <div>
-                <Label>Ingresos mensuales</Label>
+                <Label>Ingresos mensuales (S/)</Label>
                 <Input
                   type="number"
+                  placeholder="Ej: 5000"
                   value={form.monthlyIncome}
-                  onChange={(e) => handleFormChange("monthlyIncome", e.target.value)}
+                  onChange={(e) =>
+                    handleFormChange("monthlyIncome", e.target.value)
+                  }
                 />
+                <p className="text-xs text-gray-500 mt-1">
+                  Monto total que generas en ventas cada mes.
+                </p>
               </div>
 
+              {/* Gastos */}
               <div>
-                <Label>Gastos mensuales</Label>
+                <Label>Gastos mensuales (S/)</Label>
                 <Input
                   type="number"
+                  placeholder="Ej: 2000"
                   value={form.monthlyExpense}
-                  onChange={(e) => handleFormChange("monthlyExpense", e.target.value)}
+                  onChange={(e) =>
+                    handleFormChange("monthlyExpense", e.target.value)
+                  }
                 />
+                <p className="text-xs text-gray-500 mt-1">
+                  Incluye costos del negocio: compras, servicios, alquiler, etc.
+                </p>
               </div>
 
+              {/* Cantidad de trabajadores */}
               <div>
-                <Label>Cantidad</Label>
-                <Input
-                  type="number"
-                  value={form.quantity}
-                  onChange={(e) => handleFormChange("quantity", e.target.value)}
-                />
+                <Label>Cantidad de trabajadores</Label>
+                <Select
+                  onValueChange={(value) => handleFormChange("quantity", value)}
+                  value={String(form.quantity)}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Selecciona un rango" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {workerRanges.map((w) => (
+                      <SelectItem key={w.value} value={String(w.value)}>
+                        {w.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-gray-500 mt-1">
+                  Selecciona el rango que mejor representa el número de
+                  trabajadores.
+                </p>
               </div>
 
+              {/* Tipo de negocio */}
               <div>
                 <Label>Tipo de negocio</Label>
-                <Input
-                  type="text"
+                <Select
+                  onValueChange={(value) => handleFormChange("type", value)}
                   value={form.type}
-                  onChange={(e) => handleFormChange("type", e.target.value)}
-                />
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Selecciona un tipo" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {businessTypes.map((t) => (
+                      <SelectItem key={t.value} value={t.value}>
+                        {t.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-gray-500 mt-1">
+                  Elige la forma jurídica registrada o planificada para tu
+                  negocio.
+                </p>
               </div>
 
+              {/* Activos */}
               <div>
-                <Label>Activos</Label>
+                <Label>Valor total de activos (S/)</Label>
                 <Input
                   type="number"
+                  placeholder="Ej: 10000"
                   value={form.assets}
                   onChange={(e) => handleFormChange("assets", e.target.value)}
                 />
+                <p className="text-xs text-gray-500 mt-1">
+                  Suma del valor de maquinaria, equipos, inventario y bienes del
+                  negocio.
+                </p>
               </div>
 
               {formError && <p className="text-red-500 text-sm">{formError}</p>}
@@ -315,8 +403,8 @@ export default function SimulationsPage() {
                         Simulación {item.versionNumber}
                       </p>
                       <p className="text-sm text-gray-500">
-                        Ingresos: {item.monthlyIncome.toLocaleString()} — Gastos:{" "}
-                        {item.monthlyExpense.toLocaleString()}
+                        Ingresos: {item.monthlyIncome.toLocaleString()} —
+                        Gastos: {item.monthlyExpense.toLocaleString()}
                       </p>
                     </div>
                   ))}
@@ -342,32 +430,49 @@ export default function SimulationsPage() {
                 <div
                   key={result.resultId}
                   className={cn(
-                    "p-4 rounded-lg border shadow-sm relative",
+                    "p-5 rounded-lg border shadow-sm flex flex-col gap-4 transition-opacity",
                     result.recommended
                       ? "border-green-500 bg-green-50"
-                      : "border-gray-300 bg-gray-100"
+                      : "border-gray-300 bg-gray-100",
+                    !result.available && "opacity-50 cursor-not-allowed" // <-- atenuar si no está disponible
                   )}
                 >
-                  {result.recommended && (
-                    <span className="absolute top-2 right-2 text-xs bg-green-600 text-white px-2 py-1 rounded">
-                      Recomendado
-                    </span>
+                  {/* HEADER */}
+                  <div className="flex justify-between items-start min-h-[28px]">
+                    <h3 className="font-semibold text-gray-800">
+                      {result.regimeName} ({result.regimeCode})
+                    </h3>
+
+                    {result.recommended && result.available ? (
+                      <span className="text-xs bg-green-600 text-white px-2 py-1 rounded">
+                        Recomendado
+                      </span>
+                    ) : (
+                      <span className="invisible text-xs px-2 py-1 rounded">
+                        Recomendado
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Mensaje de no disponible */}
+                  {!result.available && (
+                    <p className="text-sm text-red-600 font-medium">
+                      No disponible para este negocio
+                    </p>
                   )}
 
-                  <h3 className="font-semibold text-gray-800 mb-1">
-                    {result.regime?.name} ({result.regimeCode})
-                  </h3>
-
-                  <p className="text-sm text-gray-600 mb-3">
+                  <p className="text-sm text-gray-600 leading-relaxed">
                     {result.regime?.description}
                   </p>
 
-                  <div className="space-y-4 text-sm text-gray-700 mb-4">
+                  {/* BLOQUE DE NÚMEROS */}
+                  <div className="space-y-4 text-sm text-gray-700">
                     <div className="space-y-2">
                       <div className="flex justify-between">
                         <span>Impuesto mensual</span>
                         <span>S/ {result.monthlyTax}</span>
                       </div>
+
                       <div className="flex justify-between">
                         <span>IGV mensual</span>
                         <span>S/ {result.monthlyIgv}</span>
@@ -381,6 +486,7 @@ export default function SimulationsPage() {
                         <span>Total mensual</span>
                         <span>S/ {result.totalMonthly}</span>
                       </div>
+
                       <div className="flex justify-between">
                         <span>Total anual</span>
                         <span>S/ {result.totalAnnual}</span>
@@ -389,27 +495,27 @@ export default function SimulationsPage() {
                   </div>
 
                   {/* BENEFICIOS / REQUISITOS */}
-                  <div className="text-sm text-gray-700">
+                  <div className="text-sm text-gray-700 space-y-3">
                     {!!result.beneficios?.length && (
-                      <>
-                        <p className="font-semibold">Beneficios:</p>
-                        <ul className="list-disc ml-5 text-gray-600">
+                      <div>
+                        <p className="font-semibold mb-1">Beneficios:</p>
+                        <ul className="list-disc ml-5 text-gray-600 space-y-1">
                           {result.beneficios.map((b, i) => (
                             <li key={i}>{b}</li>
                           ))}
                         </ul>
-                      </>
+                      </div>
                     )}
 
                     {!!result.requisitos?.length && (
-                      <>
-                        <p className="font-semibold mt-2">Requisitos:</p>
-                        <ul className="list-disc ml-5 text-gray-600">
+                      <div>
+                        <p className="font-semibold mb-1">Requisitos:</p>
+                        <ul className="list-disc ml-5 text-gray-600 space-y-1">
                           {result.requisitos.map((r, i) => (
                             <li key={i}>{r}</li>
                           ))}
                         </ul>
-                      </>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -435,7 +541,10 @@ export default function SimulationsPage() {
                         const pct = (value / max) * 100;
 
                         return (
-                          <div key={result.resultId} className="space-y-2 relative">
+                          <div
+                            key={result.resultId}
+                            className="space-y-2 relative"
+                          >
                             <div className="flex justify-between">
                               <span className="font-medium text-gray-800">
                                 {result.regimeName || result.regime?.name}
@@ -450,14 +559,18 @@ export default function SimulationsPage() {
                                 value={pct}
                                 className={cn(
                                   "h-3",
-                                  result.recommended ? "bg-green-100" : "bg-blue-100"
+                                  result.recommended
+                                    ? "bg-green-100"
+                                    : "bg-blue-100"
                                 )}
                               />
 
                               <div
                                 className={cn(
                                   "absolute top-0 left-0 h-3 rounded transition-all",
-                                  result.recommended ? "bg-green-600" : "bg-blue-500"
+                                  result.recommended
+                                    ? "bg-green-600"
+                                    : "bg-blue-500"
                                 )}
                                 style={{ width: `${pct}%` }}
                               />

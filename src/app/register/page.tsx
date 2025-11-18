@@ -37,6 +37,7 @@ export default function RegisterPage() {
       setToken(token);
       router.push("/businesses");
     } catch (err) {
+      console.error(err);
       setError("Error al crear la cuenta");
     } finally {
       setLoading(false);
@@ -84,12 +85,12 @@ export default function RegisterPage() {
         <form onSubmit={handleSubmit} className="text-left space-y-4">
           <div>
             <Label htmlFor="username" className="text-gray-800 text-sm">
-              Nombre de empresa
+              Nombre
             </Label>
             <Input
               type="text"
               id="username"
-              placeholder="Mi empresa SAC"
+              placeholder="John Doe"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
