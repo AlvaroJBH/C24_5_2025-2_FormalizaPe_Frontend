@@ -239,21 +239,23 @@ export default function SimulationsPage() {
   // ------------------------
   // RENDER
   // ------------------------
+  // Improved styling: straight borders, refined shadows, neutral colors, responsive behavior
+  // Paste your component logic and wrap with these updated classes
+
   return (
     <div className="flex-1 p-6 flex flex-col min-h-0">
       {/* HEADER */}
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl font-semibold text-blue-700">Simulaciones</h1>
+        <h1 className="text-xl font-semibold text-slate-700">Simulaciones</h1>
 
         <Dialog open={createOpen} onOpenChange={setCreateOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-blue-700 hover:bg-blue-800">
+            <Button className="bg-slate-700 hover:bg-slate-800 rounded-none shadow-sm">
               Crear simulación
             </Button>
           </DialogTrigger>
 
-          {/* ---------- FORMULARIO ---------- */}
-          <DialogContent>
+          <DialogContent className="rounded-none border border-gray-300 shadow-lg">
             <DialogHeader>
               <DialogTitle>Nueva simulación</DialogTitle>
               <p className="text-sm text-gray-500">
@@ -269,6 +271,7 @@ export default function SimulationsPage() {
                 <Input
                   type="number"
                   placeholder="Ej: 5000"
+                  className="rounded-none"
                   value={form.monthlyIncome}
                   onChange={(e) =>
                     handleFormChange("monthlyIncome", e.target.value)
@@ -285,6 +288,7 @@ export default function SimulationsPage() {
                 <Input
                   type="number"
                   placeholder="Ej: 2000"
+                  className="rounded-none"
                   value={form.monthlyExpense}
                   onChange={(e) =>
                     handleFormChange("monthlyExpense", e.target.value)
@@ -295,14 +299,14 @@ export default function SimulationsPage() {
                 </p>
               </div>
 
-              {/* Cantidad de trabajadores */}
+              {/* Trabajadores */}
               <div>
                 <Label>Cantidad de trabajadores</Label>
                 <Select
                   onValueChange={(value) => handleFormChange("quantity", value)}
                   value={String(form.quantity)}
                 >
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full rounded-none">
                     <SelectValue placeholder="Selecciona un rango" />
                   </SelectTrigger>
                   <SelectContent>
@@ -326,7 +330,7 @@ export default function SimulationsPage() {
                   onValueChange={(value) => handleFormChange("type", value)}
                   value={form.type}
                 >
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full rounded-none">
                     <SelectValue placeholder="Selecciona un tipo" />
                   </SelectTrigger>
                   <SelectContent>
@@ -349,6 +353,7 @@ export default function SimulationsPage() {
                 <Input
                   type="number"
                   placeholder="Ej: 10000"
+                  className="rounded-none"
                   value={form.assets}
                   onChange={(e) => handleFormChange("assets", e.target.value)}
                 />
@@ -362,7 +367,7 @@ export default function SimulationsPage() {
 
               <Button
                 disabled={creating}
-                className="w-full bg-blue-700 hover:bg-blue-800"
+                className="w-full bg-slate-700 hover:bg-slate-800 rounded-none shadow-sm"
                 onClick={handleCreateSimulation}
               >
                 {creating ? "Creando..." : "Crear simulación"}
@@ -373,11 +378,11 @@ export default function SimulationsPage() {
       </div>
 
       {/* GRID */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 flex-1 min-h-[0]">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 flex-1 min-h-0">
         {/* PANEL IZQUIERDO */}
-        <Card className="lg:col-span-1 flex flex-col min-h-0">
+        <Card className="lg:col-span-1 flex flex-col min-h-0 rounded-none border border-gray-300 shadow-sm">
           <CardContent className="p-4 flex-1">
-            <h2 className="text-blue-700 font-semibold text-lg mb-4">
+            <h2 className="text-slate-700 font-semibold text-lg mb-4">
               Entradas de simulación
             </h2>
 
@@ -393,9 +398,9 @@ export default function SimulationsPage() {
                       key={item.id}
                       onClick={() => setSelectedSimulationId(item.id)}
                       className={cn(
-                        "p-4 rounded-lg border cursor-pointer transition",
+                        "p-4 rounded-none border cursor-pointer transition shadow-sm",
                         selectedSimulationId === item.id
-                          ? "bg-blue-50 border-blue-300"
+                          ? "bg-slate-200 border-slate-400"
                           : "bg-gray-100 border-gray-300 hover:bg-gray-200"
                       )}
                     >
@@ -413,10 +418,10 @@ export default function SimulationsPage() {
           </CardContent>
         </Card>
 
-        {/* PANEL DERECHO — RESULTADOS */}
-        <Card className="lg:col-span-3 flex flex-col min-h-0">
+        {/* PANEL DERECHO */}
+        <Card className="lg:col-span-3 flex flex-col min-h-0 rounded-none border border-gray-300 shadow-md">
           <CardContent className="p-6 flex-1 min-h-0 space-y-8 overflow-auto">
-            <h2 className="text-blue-700 font-semibold text-lg mb-4">
+            <h2 className="text-slate-700 font-semibold text-lg mb-4">
               Resultados de la simulación
             </h2>
 
@@ -430,31 +435,29 @@ export default function SimulationsPage() {
                 <div
                   key={result.resultId}
                   className={cn(
-                    "p-5 rounded-lg border shadow-sm flex flex-col gap-4 transition-opacity",
+                    "p-5 rounded-none border shadow-sm flex flex-col gap-4",
                     result.recommended
                       ? "border-green-500 bg-green-50"
                       : "border-gray-300 bg-gray-100",
-                    !result.available && "opacity-50 cursor-not-allowed" // <-- atenuar si no está disponible
+                    !result.available && "opacity-50 cursor-not-allowed"
                   )}
                 >
-                  {/* HEADER */}
                   <div className="flex justify-between items-start min-h-[28px]">
                     <h3 className="font-semibold text-gray-800">
                       {result.regimeName} ({result.regimeCode})
                     </h3>
 
                     {result.recommended && result.available ? (
-                      <span className="text-xs bg-green-600 text-white px-2 py-1 rounded">
+                      <span className="text-xs bg-green-600 text-white px-2 py-1 rounded-none shadow-sm">
                         Recomendado
                       </span>
                     ) : (
-                      <span className="invisible text-xs px-2 py-1 rounded">
-                        Recomendado
+                      <span className="invisible text-xs px-2 py-1 rounded-none">
+                        R
                       </span>
                     )}
                   </div>
 
-                  {/* Mensaje de no disponible */}
                   {!result.available && (
                     <p className="text-sm text-red-600 font-medium">
                       No disponible para este negocio
@@ -465,7 +468,6 @@ export default function SimulationsPage() {
                     {result.regime?.description}
                   </p>
 
-                  {/* BLOQUE DE NÚMEROS */}
                   <div className="space-y-4 text-sm text-gray-700">
                     <div className="space-y-2">
                       <div className="flex justify-between">
@@ -494,7 +496,6 @@ export default function SimulationsPage() {
                     </div>
                   </div>
 
-                  {/* BENEFICIOS / REQUISITOS */}
                   <div className="text-sm text-gray-700 space-y-3">
                     {!!result.beneficios?.length && (
                       <div>
@@ -524,8 +525,8 @@ export default function SimulationsPage() {
 
             {/* COMPARACIÓN VISUAL */}
             {enrichedResults.length > 0 && (
-              <div className="mt-10 p-6 border rounded-lg bg-white shadow-sm">
-                <h3 className="text-blue-700 font-semibold text-lg mb-4">
+              <div className="mt-10 p-6 border rounded-none bg-white shadow-sm">
+                <h3 className="text-slate-700 font-semibold text-lg mb-4">
                   Comparación visual de costos anuales
                 </h3>
 
@@ -558,30 +559,25 @@ export default function SimulationsPage() {
                               <Progress
                                 value={pct}
                                 className={cn(
-                                  "h-3",
+                                  "h-3 rounded-none",
                                   result.recommended
                                     ? "bg-green-100"
-                                    : "bg-blue-100"
+                                    : "bg-slate-100"
                                 )}
                               />
 
                               <div
                                 className={cn(
-                                  "absolute top-0 left-0 h-3 rounded transition-all",
+                                  "absolute top-0 left-0 h-3 rounded-none transition-all",
                                   result.recommended
                                     ? "bg-green-600"
-                                    : "bg-blue-500"
+                                    : "bg-slate-600"
                                 )}
                                 style={{ width: `${pct}%` }}
                               />
 
                               {result.recommended && (
-                                <span
-                                  className="
-                                  absolute left-1/2 -top-6 -translate-x-1/2
-                                  bg-green-600 text-white text-xs px-2 py-1 rounded shadow
-                                "
-                                >
+                                <span className="absolute left-1/2 -top-6 -translate-x-1/2 bg-green-600 text-white text-xs px-2 py-1 rounded-none shadow-sm">
                                   Mejor opción
                                 </span>
                               )}

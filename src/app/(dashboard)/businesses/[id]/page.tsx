@@ -90,53 +90,63 @@ export default function BusinessDashboardPage() {
   };
 
   return (
-    <div className="flex flex-col flex-1 p-6 overflow-auto">
-      {/* Tarjeta de alertas */}
-      <div className="mb-6 p-4 border border-gray-200 rounded-xl flex items-center justify-between">
-        <span className="text-gray-700 font-medium">Alertas importantes</span>
-        <span className="text-sm text-gray-400">[data estatica]</span>
+    <div className="flex flex-col flex-1 p-6 overflow-auto ">
+      {/* Alertas 
+      <div className="
+        mb-6 p-4 border border-amber-200 rounded-none
+        bg-amber-50/50 backdrop-blur-sm
+        transition-shadow hover:shadow-md
+        flex items-center justify-between
+      ">
+        <span className="text-amber-900 font-medium">Alertas importantes</span>
+        <span className="text-sm text-amber-600/70">[data estatica]</span>
       </div>
+      */}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Columna 2/3 */}
+        
+        {/* Columna izquierda (2/3) */}
         <div className="lg:col-span-2 flex flex-col gap-6">
+
           {/* Progreso de trámites */}
-          <div className="bg-white rounded-xl shadow p-6">
-            <h2 className="text-blue-700 font-semibold text-lg">
-              Progreso de trámites
-            </h2>
-            <p className="text-gray-500 text-sm mt-1">
+          <div className="bg-white rounded-none shadow-md transition-shadow hover:shadow-lg p-6 border  border-gray-100">
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-1 h-6 bg-blue-600 rounded-full"></div>
+              <h2 className="text-blue-700 font-semibold text-lg">
+                Progreso de trámites
+              </h2>
+            </div>
+
+            <p className="text-gray-500 text-sm mb-4">
               Estado actual de tus procesos de formalización
             </p>
 
-            <div className="mt-4 flex flex-col gap-5">
+            <div className="flex flex-col gap-5">
               {procedures.length === 0 ? (
-                <div className="text-gray-400 text-sm">
+                <div className="py-6 text-gray-400 text-sm bg-gray-50 rounded-none text-center">
                   No hay trámites registrados.
                 </div>
               ) : (
                 procedures.map((p) => (
-                  <div key={p.procedureId} className="flex flex-col gap-2">
-                    {/* Fila principal */}
+                  <div
+                    key={p.procedureId}
+                    className="flex flex-col gap-2 p-3 rounded-none transition hover:bg-gray-50"
+                  >
                     <div className="flex items-center w-full">
-                      {/* Nombre */}
                       <span className="text-sm font-medium text-gray-800 flex-1">
                         {p.name}
                       </span>
 
-                      {/* Pasos (pegado al nombre, alineado a la derecha del nombre) */}
                       <span className="text-xs text-gray-500 mr-3">
                         {p.completedSteps}/{p.totalSteps} pasos
                       </span>
 
-                      {/* Badge (al extremo derecho) */}
-                      <Badge className={`${badgeColors[p.status]} text-white`}>
+                      <Badge className={`${badgeColors[p.status]} text-white rounded-none`}>
                         {statusLabels[p.status]}
                       </Badge>
                     </div>
 
-                    {/* Barra de progreso */}
-                    <Progress value={p.progressPercent} className="h-2" />
+                    <Progress value={p.progressPercent} className="h-2 rounded-none" />
                   </div>
                 ))
               )}
@@ -144,100 +154,114 @@ export default function BusinessDashboardPage() {
           </div>
 
           {/* Accesos rápidos */}
-          <div className="bg-white rounded-xl shadow p-6">
-            <h2 className="text-blue-700 font-semibold text-lg">
-              Accesos rápidos
-            </h2>
-            <p className="text-gray-500 text-sm mt-1">
+          <div className="bg-white rounded-none shadow p-6 border border-gray-100 transition-shadow hover:shadow-lg">
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-1 h-6 bg-blue-600 rounded-none"></div>
+              <h2 className="text-blue-700 font-semibold text-lg">
+                Accesos rápidos
+              </h2>
+            </div>
+
+            <p className="text-gray-500 text-sm mb-4">
               Herramientas principales para gestionar tu negocio
             </p>
 
-            <div className="grid grid-cols-2 gap-4 mt-4">
-              {/* Simulador tributario */}
-              <Link
-                href={`/businesses/${businessId}/simulations`}
-                className="
-        border rounded-lg p-4 flex flex-col items-center text-center
-        border-[#4CAEFF] hover:bg-[#E8F4FF] transition
-      "
-              >
-                <Calculator size={24} className="mb-2" color="#4CAEFF" />
-                <span className="text-black text-sm font-medium">
-                  Simulador tributario
-                </span>
-              </Link>
-
-              {/* Asistente IA */}
-              <Link
-                href={`/businesses/${businessId}/chatbot`}
-                className="
-        border rounded-lg p-4 flex flex-col items-center text-center
-        border-[#3B82F6] hover:bg-[#E6EEFF] transition
-      "
-              >
-                <MessageSquare size={24} className="mb-2" color="#3B82F6" />
-                <span className="text-black text-sm font-medium">
-                  Asistente IA
-                </span>
-              </Link>
-
-              {/* Gestionar trámites */}
-              <Link
-                href={`/businesses/${businessId}/procedure-management`}
-                className="
-        border rounded-lg p-4 flex flex-col items-center text-center
-        border-[#8B5CF6] hover:bg-[#F3E8FF] transition
-      "
-              >
-                <FileText size={24} className="mb-2" color="#8B5CF6" />
-                <span className="text-black text-sm font-medium">
-                  Gestionar trámites
-                </span>
-              </Link>
-
-              {/* Reportes */}
-              <Link
-                href={`/businesses/${businessId}/reports`}
-                className="
-        border rounded-lg p-4 flex flex-col items-center text-center
-        border-[#F97316] hover:bg-[#FFF0E6] transition
-      "
-              >
-                <LineChart size={24} className="mb-2" color="#F97316" />
-                <span className="text-black text-sm font-medium">Reportes</span>
-              </Link>
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                {
+                  label: "Simulador tributario",
+                  href: `/businesses/${businessId}/simulations`,
+                  icon: <Calculator size={22} color="#4CAEFF" />,
+                  border: "#4CAEFF",
+                  hover: "hover:bg-[#E8F4FF]",
+                },
+                {
+                  label: "Asistente IA",
+                  href: `/businesses/${businessId}/chatbot`,
+                  icon: <MessageSquare size={22} color="#3B82F6" />,
+                  border: "#3B82F6",
+                  hover: "hover:bg-[#E6EEFF]",
+                },
+                {
+                  label: "Gestionar trámites",
+                  href: `/businesses/${businessId}/procedure-management`,
+                  icon: <FileText size={22} color="#8B5CF6" />,
+                  border: "#8B5CF6",
+                  hover: "hover:bg-[#F3E8FF]",
+                },
+                {
+                  label: "Reportes",
+                  href: `/businesses/${businessId}/reports`,
+                  icon: <LineChart size={22} color="#F97316" />,
+                  border: "#F97316",
+                  hover: "hover:bg-[#FFF0E6]",
+                },
+              ].map((card, i) => (
+                <Link
+                  key={i}
+                  href={card.href}
+                  className={`
+                    border rounded-none p-4 flex flex-col items-center text-center 
+                    shadow-md transition-all 
+                    hover:shadow-lg hover:-translate-y-1 
+                    border-[${card.border}]
+                    ${card.hover}
+                  `}
+                >
+                  <div className="mb-2">{card.icon}</div>
+                  <span className="text-sm font-medium text-gray-800">
+                    {card.label}
+                  </span>
+                </Link>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* Columna 1/3 */}
+        {/* Columna derecha */}
         <div className="flex flex-col gap-6">
-          <div className="bg-white rounded-xl shadow p-6">
-            <h2 className="text-blue-700 font-semibold text-lg mb-2">
-              Datos del negocio
-            </h2>
-            <p className="text-gray-500 text-sm">Nombre: {business.name}</p>
-            <p className="text-gray-500 text-sm">Sector: {business.sector}</p>
-            <p className="text-gray-500 text-sm">RUC: [data estatica]</p>
+
+          {/* Datos del negocio */}
+          <div className="bg-white rounded-none shadow-md p-6 border border-gray-100 transition-shadow hover:shadow-lg">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-1 h-6 bg-blue-600 rounded-none"></div>
+              <h2 className="text-blue-700 font-semibold text-lg">
+                Datos del negocio
+              </h2>
+            </div>
+
+            <div className="space-y-2">
+              <p className="text-sm text-gray-700"><b>Nombre:</b> {business.name}</p>
+              <p className="text-sm text-gray-700"><b>Sector:</b> {business.sector}</p>
+              <p className="text-sm text-gray-700"><b>RUC:</b> [data estatica]</p>
+            </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow p-6 flex items-center justify-center">
-            <button className="bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-800 transition">
+          {/* Botón de documentos 
+          <div className="bg-white rounded-none shadow-md p-6 border border-gray-100 flex items-center justify-center transition-shadow hover:shadow-lg">
+            <button className="bg-blue-600 text-white px-5 py-3 rounded-sm transition hover:bg-blue-700 shadow-sm hover:shadow">
               Generar documentos
             </button>
           </div>
+            */}
+          {/* Recomendaciones IA 
+          <div className="bg-white rounded-none shadow-md p-6 border border-gray-100 transition-shadow hover:shadow-lg flex flex-col gap-4">
+            <div className="flex items-center gap-2">
+              <div className="w-1 h-6 bg-blue-600 rounded-none"></div>
+              <h2 className="text-blue-700 font-semibold text-lg">
+                Recomendaciones IA
+              </h2>
+            </div>
 
-          <div className="bg-white rounded-xl shadow p-6 flex flex-col gap-4">
-            <h2 className="text-blue-700 font-semibold text-lg">
-              Recomendaciones IA
-            </h2>
-            <div className="h-32 bg-gray-100 rounded flex items-center justify-center text-gray-400">
+            <div className="h-32 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 border border-gray-200/50 shadow-inner">
               [Container vacío]
             </div>
-            <button className="bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-800 transition">
+
+            <button className="bg-blue-600 text-white px-5 py-3 rounded-sm transition hover:bg-blue-700 shadow-sm hover:shadow">
               Chatear con IA
             </button>
           </div>
+            */}
         </div>
       </div>
     </div>

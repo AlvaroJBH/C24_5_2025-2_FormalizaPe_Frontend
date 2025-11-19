@@ -3,6 +3,7 @@
 import { useAuthStore } from "@/store/auth-store";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import "../globals.css";
 
 export default function DashboardLayout({
   children,
@@ -37,12 +38,12 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-blue-50 to-blue-100 flex flex-col ">
+    <div className="min-h-screen app-background flex flex-col">
       <nav className="bg-white shadow">
         <div className="container mx-auto px-4 flex justify-between items-center h-16">
           {/* Logo + título */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-linear-to-br from-blue-800 to-blue-600 rounded-2xl flex items-center justify-center">
+            <div className="w-10 h-10 bg-linear-to-br from-blue-800 to-blue-600 rounded-sm flex items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"

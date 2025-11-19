@@ -104,7 +104,9 @@ export default function ProcedureDetailsPage() {
       {/* LEFT COLUMN – card */}
       <div className="md:col-span-1">
         <div
-          className={`bg-white rounded-xl shadow-sm p-6 space-y-5 border-l-4 ${statusStyles[procedure.status]}`}
+          className={`bg-white rounded-none shadow-md p-6 space-y-5 border border-gray-300 border-l-[6px] ${
+            statusStyles[procedure.status]
+          }`}
         >
           <div>
             <h1 className="text-2xl font-semibold text-blue-700">
@@ -116,7 +118,11 @@ export default function ProcedureDetailsPage() {
             <span className="text-xs text-gray-500">{procedure.category}</span>
 
             <div className="mt-3">
-              <Badge className={`${badgeColors[procedure.status]} text-white`}>
+              <Badge
+                className={`${
+                  badgeColors[procedure.status]
+                } text-white rounded-none`}
+              >
                 {statusLabels[procedure.status]}
               </Badge>
             </div>
@@ -124,7 +130,10 @@ export default function ProcedureDetailsPage() {
 
           {/* progress */}
           <div>
-            <Progress value={procedure.progressPercent} className="h-2" />
+            <Progress
+              value={procedure.progressPercent}
+              className="h-2 rounded-none"
+            />
             <p className="text-sm text-gray-500 mt-2">
               {procedure.completedSteps} / {procedure.totalSteps} pasos
               completados
@@ -141,21 +150,25 @@ export default function ProcedureDetailsPage() {
           {procedure.steps.map((step: FormalizationStepDTO) => (
             <div
               key={step.stepId}
-              className={`bg-white rounded-xl shadow-sm p-4 border-l-4 ${step.status === "COMPLETED"
-                  ? "border-green-500"
+              className={`
+              bg-white rounded-none shadow-md p-4 border border-gray-300 border-l-[6px]
+              ${
+                step.status === "COMPLETED"
+                  ? "border-green-600"
                   : step.status === "IN_PROGRESS"
-                  ? "border-blue-500"
-                  : "border-gray-300"
-                } flex items-start justify-between`}
+                  ? "border-blue-600"
+                  : "border-gray-400"
+              }
+              flex items-start justify-between
+            `}
             >
               {/* Step content */}
               <div className="flex-1 pr-6">
                 <p className="font-medium">{step.title}</p>
                 <p className="text-sm text-gray-600">{step.description}</p>
 
-                {/* notes */}
                 <Textarea
-                  className="mt-2"
+                  className="mt-2 rounded-none"
                   defaultValue={step.notes || ""}
                   onBlur={(e) =>
                     toggleStep({
@@ -174,13 +187,13 @@ export default function ProcedureDetailsPage() {
                 onClick={() => handleToggleStep(step)}
                 disabled={savingStep === step.stepId}
                 className={`
-                  w-9 h-9 flex items-center justify-center border rounded-xl transition
-                  ${
-                    step.status === "COMPLETED"
-                      ? "bg-green-500 border-green-600 text-white"
-                      : "bg-gray-50 border-gray-300"
-                  }
-                `}
+                w-9 h-9 flex items-center justify-center border rounded-none transition
+                ${
+                  step.status === "COMPLETED"
+                    ? "bg-green-600 border-green-700 text-white"
+                    : "bg-gray-100 border-gray-400"
+                }
+              `}
               >
                 {step.status === "COMPLETED" && <Check size={18} />}
               </button>

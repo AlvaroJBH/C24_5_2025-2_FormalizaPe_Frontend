@@ -81,13 +81,11 @@ export default function ProcedureManagementPage() {
 
   return (
     <div className="flex flex-col flex-1 p-6 overflow-auto">
-      <h1 className="text-2xl text-blue-700 font-semibold mb-6">
+      <h1 className="text-2xl text-slate-700 font-semibold mb-6">
         Progreso de Formalización
       </h1>
 
-      {/* =======================
-      🔵 RESUMEN GENERAL
-      ======================= */}
+      {/* ======================= RESUMEN GENERAL ======================= */}
       {procedures.length > 0 &&
         (() => {
           const completed = procedures.filter(
@@ -108,15 +106,14 @@ export default function ProcedureManagementPage() {
             procedures.length;
 
           return (
-            <div className="bg-white rounded-xl shadow p-6 mb-8 border">
-              <h2 className="text-xl font-semibold text-blue-700">
+            <div className="bg-white rounded-none shadow-md p-6 mb-8 border border-gray-300">
+              <h2 className="text-xl font-semibold text-slate-700">
                 Resumen de Formalización
               </h2>
               <p className="text-gray-600 text-sm mb-4">
                 Estado actual de todos tus trámites de formalización
               </p>
 
-              {/* CONTADORES */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                 <div className="text-center">
                   <p className="text-3xl font-bold text-green-600">
@@ -133,19 +130,18 @@ export default function ProcedureManagementPage() {
                 </div>
 
                 <div className="text-center">
-                  <p className="text-3xl font-bold text-gray-500">{pending}</p>
+                  <p className="text-3xl font-bold text-gray-600">{pending}</p>
                   <p className="text-sm text-gray-500">Pendientes</p>
                 </div>
 
                 <div className="text-center">
-                  <p className="text-3xl font-bold text-red-500">{blocked}</p>
+                  <p className="text-3xl font-bold text-red-600">{blocked}</p>
                   <p className="text-sm text-gray-500">Bloqueados</p>
                 </div>
               </div>
 
-              {/* PROGRESO GENERAL */}
               <p className="text-sm text-gray-600 mb-2">Progreso general</p>
-              <Progress value={overallProgress} className="h-2" />
+              <Progress value={overallProgress} className="h-2 rounded-none" />
 
               <p className="text-right text-sm text-gray-500 mt-1 font-medium">
                 {overallProgress.toFixed(0)}%
@@ -154,7 +150,7 @@ export default function ProcedureManagementPage() {
           );
         })()}
 
-      {/* GRID DE 2 COLUMNAS */}
+      {/* ======================= LISTA DE PROCEDIMIENTOS ======================= */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {procedures.map((p) => {
           const theme = StatusTheme[p.status];
@@ -162,39 +158,35 @@ export default function ProcedureManagementPage() {
           return (
             <div
               key={p.procedureId}
-              className={`relative bg-white rounded-xl shadow p-6 border-l-4 ${theme.border}`}
+              className={`relative bg-white rounded-none shadow-md p-6 border border-gray-300 border-l-[6px] ${theme.border}`}
             >
-              {/* BADGE STATUS */}
               <div className="absolute top-4 right-4">
-                <Badge className={`${theme.badge} text-white`}>
+                <Badge className={`${theme.badge} text-white rounded-none`}>
                   {theme.label}
                 </Badge>
               </div>
 
-              {/* TITULO */}
-              <h2 className="text-lg font-semibold text-black mb-1">
+              <h2 className="text-lg font-semibold text-slate-800 mb-1">
                 {p.name}
               </h2>
 
-              {/* DESCRIPCIÓN */}
               <p className="text-gray-600 text-sm mb-3">{p.description}</p>
 
-              {/* CATEGORY */}
               <span className="text-xs text-gray-400 block mb-4">
                 {p.category}
               </span>
 
-              {/* PROGRESS BAR */}
-              <Progress value={p.progressPercent} className="h-2" />
+              <Progress
+                value={p.progressPercent}
+                className="h-2 rounded-none"
+              />
 
-              {/* TEXTO PROGRESO */}
               <p className="mt-2 text-xs text-gray-500">
                 {p.completedSteps} / {p.totalSteps} pasos completados
               </p>
 
-              {/* BOTÓN VER DETALLES */}
               <Button
-                className="w-full mt-4"
+                className="w-full mt-4 bg-slate-700 hover:bg-slate-800 rounded-none shadow-sm"
                 onClick={() =>
                   router.push(
                     `/businesses/${businessId}/procedure-management/${p.procedureId}`

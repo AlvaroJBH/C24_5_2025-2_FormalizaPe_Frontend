@@ -120,3 +120,13 @@
     @apply bg-background text-foreground;
   }
 }
+
+.app-background {
+  background:
+    linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, #f7faff, #eaf2ff);
+  background-size: 12px 12px, 12px 12px, auto;
+}
+
+
