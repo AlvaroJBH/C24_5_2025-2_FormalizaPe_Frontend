@@ -233,7 +233,7 @@ export default function BusinessDashboardPage() {
             <div className="space-y-2">
               <p className="text-sm text-gray-700"><b>Nombre:</b> {business.name}</p>
               <p className="text-sm text-gray-700"><b>Sector:</b> {business.sector}</p>
-              <p className="text-sm text-gray-700"><b>RUC:</b> [data estatica]</p>
+              {/*<p className="text-sm text-gray-700"><b>RUC:</b> [data estatica]</p>*/}
             </div>
           </div>
 

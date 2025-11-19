@@ -12,17 +12,14 @@ export default function DashboardLayout({
 }) {
   const { token, clearToken } = useAuthStore();
   const router = useRouter();
-  const [isClient, setIsClient] = useState(false);
+  const isClient = typeof window !== "undefined";
 
   useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    if (isClient && !token) {
+    if (!isClient) return;
+    if (!token) {
       router.replace("/login");
     }
-  }, [token, isClient, router]);
+  }, [token, router, isClient]);
 
   const handleLogout = () => {
     clearToken();

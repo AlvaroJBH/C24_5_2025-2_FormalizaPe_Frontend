@@ -149,6 +149,10 @@ export default function SimulationsPage() {
     async function loadResults() {
       try {
         setResultsLoading(true);
+        if (selectedSimulationId == null) {
+          setResultsError("No hay simulación seleccionada");
+          return;
+        }
         const data = await getSimulationResultsByInputId(selectedSimulationId);
         setSimulationResults(data);
         setResultsError(null);
