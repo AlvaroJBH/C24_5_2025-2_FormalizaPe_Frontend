@@ -26,9 +26,11 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import ReactMarkdown from "react-markdown";
+import { useParams } from "next/navigation";
 
 export default function ChatbotPage() {
-  const businessId = 1;
+  const { id } = useParams();
+  const businessId = Number(id);
 
   const [conversations, setConversations] = useState<ConversationResponse[]>([]);
   const [selected, setSelected] = useState<ConversationResponse | null>(null);
