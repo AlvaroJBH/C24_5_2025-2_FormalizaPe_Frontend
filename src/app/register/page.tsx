@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { GradientButton } from "@/components/common/gradient-button";
 import { register } from "@/services/auth-service";
 import { useAuthStore } from "@/store/auth-store";
+import Image from "next/image";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -57,22 +58,13 @@ export default function RegisterPage() {
 
         {/* Logo */}
         <div className="w-20 h-20 bg-linear-to-br from-blue-800 to-blue-600 rounded-2xl mx-auto mb-6 flex items-center justify-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="w-10 h-10 text-white"
-          >
-            <path d="M10 12h4" />
-            <path d="M10 8h4" />
-            <path d="M14 21v-3a2 2 0 0 0-4 0v3" />
-            <path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2" />
-            <path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16" />
-          </svg>
+          <Image
+            src="/icono formalizape.ico"
+            width={24}
+            height={24}
+            alt="Icono Formalizape"
+            className="w-full h-full"
+          />
         </div>
 
         <h2 className="text-2xl font-semibold text-blue-700 mb-1">
@@ -169,7 +161,11 @@ export default function RegisterPage() {
 
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
-          <GradientButton type="submit" className="w-full mt-4" disabled={loading}>
+          <GradientButton
+            type="submit"
+            className="w-full mt-4"
+            disabled={loading}
+          >
             {loading ? "Cargando..." : "Crear cuenta"}
           </GradientButton>
         </form>

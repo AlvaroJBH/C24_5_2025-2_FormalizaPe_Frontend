@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function HomePage() {
   return (
@@ -7,22 +8,13 @@ export default function HomePage() {
       <div className="bg-white rounded-2xl shadow-lg p-10 max-w-3xl w-full text-center">
         {/* Logo */}
         <div className="w-24 h-24 bg-linear-to-br from-blue-800 to-blue-600 rounded-2xl mx-auto mb-6 flex items-center justify-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="w-12 h-12 text-white"
-          >
-            <path d="M10 12h4"></path>
-            <path d="M10 8h4"></path>
-            <path d="M14 21v-3a2 2 0 0 0-4 0v3"></path>
-            <path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"></path>
-            <path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"></path>
-          </svg>
+          <Image
+            src="/icono formalizape.ico"
+            width={24}
+            height={24}
+            alt="Icono Formalizape"
+            className="w-full h-full"
+          />
         </div>
 
         {/* Textos */}

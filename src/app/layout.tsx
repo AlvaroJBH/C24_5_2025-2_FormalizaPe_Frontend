@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "FormalizaPe",
   description: "Formaliza tu negocio",
   icons: {
-    icon: "/favicon.svg",
+    icon: "/icono formalizape.ico",
   },
 };
 
