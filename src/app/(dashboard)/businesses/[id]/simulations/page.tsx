@@ -34,10 +34,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Business, getBusinessById } from "@/services/business-service";
+import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
 
 export default function SimulationsPage() {
   const params = useParams();
   const businessId = Number(params.id);
+  const [business, setBusiness] = useState<Business | null>(null)
 
   // ------------------------
   // ESTADOS
@@ -107,6 +110,8 @@ export default function SimulationsPage() {
         const data = await getTaxRegimes();
         setTaxRegimes(data);
         setRegimesError(null);
+        const business_data = await getBusinessById(businessId);
+        setBusiness(business_data)
       } catch {
         setRegimesError("Error al cargar regímenes tributarios");
       } finally {
@@ -248,6 +253,13 @@ export default function SimulationsPage() {
 
   return (
     <div className="flex-1 p-6 flex flex-col min-h-0">
+      <AppBreadcrumb
+        items={[
+          { label: "Inicio", href: "/businesses" },
+          { label: business?.name ?? "Business", href: `/businesses/${businessId}` },
+          { label: "Simulador", href: `/businesses/${businessId}/simulations` },
+        ]}
+      />
       {/* HEADER */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-semibold text-slate-700">Simulaciones</h1>

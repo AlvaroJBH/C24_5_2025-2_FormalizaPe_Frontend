@@ -23,6 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
+import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
 
 interface BusinessFormProps {
   initial?: Partial<Business>;
@@ -171,6 +172,11 @@ export default function BusinessesPage() {
 
   return (
     <div className="flex flex-col flex-1 p-6 overflow-auto">
+      <AppBreadcrumb
+        items={[
+          { label: "Inicio", href: "/businesses" },
+        ]}
+      />
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold text-blue-700">Empresas</h1>
 

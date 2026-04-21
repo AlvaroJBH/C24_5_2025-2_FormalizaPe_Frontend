@@ -1,5 +1,3 @@
-// Improved responsive + better shadows + better color scheme + straight borders
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -27,10 +25,13 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import ReactMarkdown from "react-markdown";
 import { useParams } from "next/navigation";
+import { Business, getBusinessById } from "@/services/business-service";
+import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
 
 export default function ChatbotPage() {
   const { id } = useParams();
   const businessId = Number(id);
+  const [business, setBusiness] = useState<Business | null>(null)
 
   const [conversations, setConversations] = useState<ConversationResponse[]>([]);
   const [selected, setSelected] = useState<ConversationResponse | null>(null);
@@ -44,12 +45,14 @@ export default function ChatbotPage() {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
-    loadConversations();
+    loadData();
   }, []);
 
-  async function loadConversations() {
+  async function loadData() {
     const list = await getConversationsByBusiness(businessId);
     setConversations(list);
+    const business_data = await getBusinessById(businessId);
+    setBusiness(business_data)
 
     if (list.length > 0) {
       loadConversation(list[0]);
@@ -69,7 +72,7 @@ export default function ChatbotPage() {
     setDialogOpen(false);
     setNewTitle("");
 
-    await loadConversations();
+    await loadData();
     loadConversation(conv);
   }
 
@@ -109,7 +112,17 @@ export default function ChatbotPage() {
   }
 
   return (
+    <div className="flex flex-col flex-1 p-6 overflow-auto">
+    <AppBreadcrumb
+        items={[
+          { label: "Inicio", href: "/businesses" },
+          { label: business?.name ?? "Business", href: `/businesses/${businessId}` },
+          { label: "QAs", href: `/businesses/${businessId}/help/faqs` },
+          { label: "Chatbot", href: `/businesses/${businessId}/chatbot` },
+        ]}
+    />
     <div className="flex flex-col md:flex-row h-[calc(100vh-10rem)] p-4 gap-4">
+      
       {/* SIDEBAR */}
       <div className="w-full md:w-72 border border-gray-300 rounded-none bg-white shadow-md p-4 flex flex-col">
         <div className="flex justify-between items-center mb-4">
@@ -249,6 +262,7 @@ export default function ChatbotPage() {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 }

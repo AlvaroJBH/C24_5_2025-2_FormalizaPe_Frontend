@@ -128,5 +128,8 @@
     linear-gradient(to bottom, #f7faff, #eaf2ff);
   background-size: 12px 12px, 12px 12px, auto;
 }
+html {
+  scrollbar-gutter: stable;
+}
 
 

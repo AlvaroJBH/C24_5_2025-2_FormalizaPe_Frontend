@@ -16,10 +16,13 @@ import {
   SimulationResultItem,
   SimulationResults,
 } from "@/services/simulations-service";
+import { Business, getBusinessById } from "@/services/business-service";
+import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
 
 export default function ReportPage() {
   const params = useParams();
   const businessId = Number(params.id);
+  const [business, setBusiness] = useState<Business | null>(null)
   const { token } = useAuthStore();
 
   /** TRÁMITES */
@@ -49,6 +52,8 @@ export default function ReportPage() {
         setLoadingProcedures(true);
         const data = await getFormalizationStatus(businessId);
         setProcedures(data.procedures);
+        const business_data = await getBusinessById(businessId);
+        setBusiness(business_data)
       } catch (err) {
         console.error(err);
         setErrorProcedures("Error al cargar los trámites");
@@ -118,6 +123,13 @@ export default function ReportPage() {
 
   return (
     <div className="flex flex-col flex-1 p-6">
+      <AppBreadcrumb
+        items={[
+          { label: "Inicio", href: "/businesses" },
+          { label: business?.name ?? "Business", href: `/businesses/${businessId}` },
+          { label: "Simulador", href: `/businesses/${businessId}/reports` },
+        ]}
+      />
       <Tabs defaultValue="tramites" className="w-full">
         <TabsList className="mb-4 border-b w-full text-lg rounded-none">
           <TabsTrigger

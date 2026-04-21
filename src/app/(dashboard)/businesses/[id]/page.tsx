@@ -11,6 +11,7 @@ import { Calculator, MessageSquare, FileText, LineChart } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
 
 export default function BusinessDashboardPage() {
   const params = useParams();
@@ -91,20 +92,13 @@ export default function BusinessDashboardPage() {
 
   return (
     <div className="flex flex-col flex-1 p-6 overflow-auto ">
-      {/* Alertas 
-      <div className="
-        mb-6 p-4 border border-amber-200 rounded-none
-        bg-amber-50/50 backdrop-blur-sm
-        transition-shadow hover:shadow-md
-        flex items-center justify-between
-      ">
-        <span className="text-amber-900 font-medium">Alertas importantes</span>
-        <span className="text-sm text-amber-600/70">[data estatica]</span>
-      </div>
-      */}
-
+      <AppBreadcrumb
+        items={[
+          { label: "Inicio", href: "/businesses" },
+          { label: business.name, href: `/businesses/${businessId}` },
+        ]}
+      />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
         {/* Columna izquierda (2/3) */}
         <div className="lg:col-span-2 flex flex-col gap-6">
 
@@ -176,8 +170,8 @@ export default function BusinessDashboardPage() {
                   hover: "hover:bg-[#E8F4FF]",
                 },
                 {
-                  label: "Asistente IA",
-                  href: `/businesses/${businessId}/chatbot`,
+                  label: "Preguntas Frecuentes",
+                  href: `/businesses/${businessId}/help/faqs`,
                   icon: <MessageSquare size={22} color="#3B82F6" />,
                   border: "#3B82F6",
                   hover: "hover:bg-[#E6EEFF]",

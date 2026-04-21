@@ -10,11 +10,14 @@ import {
   FormalizationProcedureDTO,
   getFormalizationStatus,
 } from "@/services/formalization-service";
+import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
+import { Business, getBusinessById } from "@/services/business-service";
 
 export default function ProcedureManagementPage() {
   const params = useParams();
   const router = useRouter();
   const businessId = Number(params.id);
+  const [business, setBusiness] = useState<Business | null>(null)
 
   const { token } = useAuthStore();
 
@@ -30,6 +33,8 @@ export default function ProcedureManagementPage() {
         setLoading(true);
         const data = await getFormalizationStatus(businessId);
         setProcedures(data.procedures);
+        const business_data = await getBusinessById(businessId);
+        setBusiness(business_data)
       } catch (err) {
         console.error(err);
         setError("Error al cargar los procedimientos");
@@ -81,6 +86,13 @@ export default function ProcedureManagementPage() {
 
   return (
     <div className="flex flex-col flex-1 p-6 overflow-auto">
+      <AppBreadcrumb
+          items={[
+            { label: "Inicio", href: "/businesses" },
+            { label: business?.name ?? "Business", href: `/businesses/${businessId}` },
+            { label: "Progreso", href: `/businesses/${businessId}/procedure-management` },
+        ]}
+      />
       <h1 className="text-2xl text-slate-700 font-semibold mb-6">
         Progreso de Formalización
       </h1>
