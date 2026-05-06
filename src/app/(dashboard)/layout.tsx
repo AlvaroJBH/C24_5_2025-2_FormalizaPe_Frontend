@@ -3,7 +3,6 @@
 import { useAuthStore } from "@/store/auth-store";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import "../globals.css";
 import Image from "next/image";
 
 export default function DashboardLayout({
@@ -11,28 +10,39 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { token, clearToken } = useAuthStore();
   const router = useRouter();
-  const isClient = typeof window !== "undefined";
+  const token = useAuthStore((s) => s.token);
+  const clearToken = useAuthStore((s) => s.clearToken);
+
+  // 🔑 estado local de hidratación (el que ya sabes que funciona)
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    if (!isClient) return;
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
     if (!token) {
       router.replace("/login");
     }
-  }, [token, router, isClient]);
+  }, [hydrated, token, router]);
 
   const handleLogout = () => {
     clearToken();
-    router.push("/login");
+    router.replace("/login");
   };
 
-  if (!isClient || !token) {
+  if (!hydrated) {
     return (
       <div className="flex items-center justify-center min-h-screen text-gray-500">
         Verificando sesión...
       </div>
     );
+  }
+
+  if (!token) {
+    return null;
   }
 
   return (
@@ -61,7 +71,7 @@ export default function DashboardLayout({
 
           {/* --- ICONOS DERECHA --- */}
           <div className="flex items-center gap-2">
-            {/* 🔹 Botón Home */}
+            {/* Home */}
             <button
               onClick={() => router.push("/businesses")}
               className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium hover:bg-gray-100 transition"
@@ -78,14 +88,13 @@ export default function DashboardLayout({
                 strokeLinejoin="round"
                 className="w-4 h-4"
               >
-                <path d="M3 9l9-6 9 6"></path>
-                <path d="M9 22V12h6v10"></path>
+                <path d="M3 9l9-6 9 6" />
+                <path d="M9 22V12h6v10" />
               </svg>
             </button>
 
-            {/* Icono usuario */}
+            {/* Usuario */}
             <button
-              data-slot="button"
               className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium hover:bg-gray-100 transition"
             >
               <svg
@@ -100,15 +109,14 @@ export default function DashboardLayout({
                 strokeLinejoin="round"
                 className="w-4 h-4"
               >
-                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
               </svg>
             </button>
 
             {/* Logout */}
             <button
               onClick={handleLogout}
-              data-slot="button"
               className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium hover:bg-gray-100 transition"
             >
               <svg
@@ -123,16 +131,16 @@ export default function DashboardLayout({
                 strokeLinejoin="round"
                 className="w-4 h-4"
               >
-                <path d="m16 17 5-5-5-5"></path>
-                <path d="M21 12H9"></path>
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <path d="m16 17 5-5-5-5" />
+                <path d="M21 12H9" />
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
               </svg>
             </button>
           </div>
         </div>
       </nav>
 
-      <main className="container mx-auto px-4 p-6 flex-1 overflow-auto ">
+      <main className="container mx-auto px-4 p-6 flex-1 overflow-auto">
         {children}
       </main>
     </div>
