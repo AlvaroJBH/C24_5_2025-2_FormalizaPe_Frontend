@@ -10,11 +10,12 @@ import {
   FormalizationStepDTO,
   FormalizationProcedureDTO,
 } from "@/services/formalization-service";
-
+import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Check } from "lucide-react";
+import { Business, getBusinessById } from "@/services/business-service";
 
 export default function ProcedureDetailsPage() {
   const params = useParams();
@@ -22,10 +23,8 @@ export default function ProcedureDetailsPage() {
   const procedureId = Number(params.procedureId);
 
   const { token } = useAuthStore();
-
-  const [procedure, setProcedure] = useState<FormalizationProcedureDTO | null>(
-    null
-  );
+  const [business, setBusiness] = useState<Business | null>(null)
+  const [procedure, setProcedure] = useState<FormalizationProcedureDTO | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [savingStep, setSavingStep] = useState<number | null>(null);
@@ -41,6 +40,8 @@ export default function ProcedureDetailsPage() {
 
       if (!found) throw new Error("Procedimiento no encontrado");
       setProcedure(found);
+      const business_data = await getBusinessById(businessId);
+      setBusiness(business_data)
     } catch (err) {
       console.error(err);
       setError("Error al cargar el procedimiento");
@@ -100,6 +101,15 @@ export default function ProcedureDetailsPage() {
   };
 
   return (
+    <div className="flex flex-col flex-1 p-6 overflow-auto">
+      <AppBreadcrumb
+        items={[
+          { label: "Inicio", href: "/businesses" },
+          { label: business?.name ?? "Business", href: `/businesses/${businessId}` },
+          { label: "Progreso", href: `/businesses/${businessId}/procedure-management` },
+          { label: procedure?.name ?? "Procedure", href: `/businesses/${businessId}/procedure-management/${procedureId}` },
+        ]}
+      />
     <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-10">
       {/* LEFT COLUMN – card */}
       <div className="md:col-span-1">
@@ -201,6 +211,7 @@ export default function ProcedureDetailsPage() {
           ))}
         </div>
       </div>
+    </div>
     </div>
   );
 }
