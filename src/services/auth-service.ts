@@ -1,5 +1,12 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+export interface UserProfile {
+  id: number;
+  username: string;
+  email: string;
+  roles: string[];
+}
+
 interface RegisterData {
   username: string;
   email: string;
@@ -38,7 +45,7 @@ export async function register(data: RegisterData) {
   return response.token as string;
 }
 
-export async function getCurrentUser(token: string) {
+export async function getCurrentUser(token: string): Promise<UserProfile> {
   const res = await fetch(`${API_BASE_URL}/api/auth/me`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -49,5 +56,5 @@ export async function getCurrentUser(token: string) {
     throw new Error("Error al obtener usuario");
   }
 
-  return await res.json();
+  return await res.json() as UserProfile;
 }

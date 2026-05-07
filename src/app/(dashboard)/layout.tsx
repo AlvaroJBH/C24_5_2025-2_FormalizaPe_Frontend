@@ -2,7 +2,7 @@
 
 import { useAuthStore } from "@/store/auth-store";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
 
 export default function DashboardLayout({
@@ -12,14 +12,9 @@ export default function DashboardLayout({
 }) {
   const router = useRouter();
   const token = useAuthStore((s) => s.token);
-  const clearToken = useAuthStore((s) => s.clearToken);
-
-  // 🔑 estado local de hidratación (el que ya sabes que funciona)
-  const [hydrated, setHydrated] = useState(false);
-
-  useEffect(() => {
-    setHydrated(true);
-  }, []);
+  const user = useAuthStore((s) => s.user);
+  const hydrated = useAuthStore((s) => s.hydrated);
+  const clearAuth = useAuthStore((s) => s.clearAuth);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -29,7 +24,7 @@ export default function DashboardLayout({
   }, [hydrated, token, router]);
 
   const handleLogout = () => {
-    clearToken();
+    clearAuth();
     router.replace("/login");
   };
 
@@ -49,7 +44,6 @@ export default function DashboardLayout({
     <div className="min-h-screen app-background flex flex-col">
       <nav className="bg-white shadow">
         <div className="container mx-auto px-4 flex justify-between items-center h-16">
-          {/* Logo + título */}
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-sm flex items-center justify-center bg-linear-to-br from-blue-800 to-blue-600">
               <Image
@@ -64,14 +58,12 @@ export default function DashboardLayout({
             <div className="flex flex-col">
               <span className="text-blue-700 font-semibold">Formaliza.pe</span>
               <span className="text-gray-500 text-sm">
-                Bienvenido, Emprendedor
+                Bienvenido, {user?.username ?? "Emprendedor"}
               </span>
             </div>
           </div>
 
-          {/* --- ICONOS DERECHA --- */}
           <div className="flex items-center gap-2">
-            {/* Home */}
             <button
               onClick={() => router.push("/businesses")}
               className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium hover:bg-gray-100 transition"
@@ -93,7 +85,6 @@ export default function DashboardLayout({
               </svg>
             </button>
 
-            {/* Usuario */}
             <button
               className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium hover:bg-gray-100 transition"
             >
@@ -114,7 +105,6 @@ export default function DashboardLayout({
               </svg>
             </button>
 
-            {/* Logout */}
             <button
               onClick={handleLogout}
               className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium hover:bg-gray-100 transition"

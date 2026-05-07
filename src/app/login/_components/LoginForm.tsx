@@ -4,13 +4,14 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { GradientButton } from "@/components/common/gradient-button";
-import { login } from "@/services/auth-service";
+import { login, getCurrentUser } from "@/services/auth-service";
 import { useAuthStore } from "@/store/auth-store";
 import { useRouter } from "next/navigation";
 
 export function LoginForm() {
   const router = useRouter();
   const setToken = useAuthStore((state) => state.setToken);
+  const setUser = useAuthStore((state) => state.setUser);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,6 +26,10 @@ export function LoginForm() {
     try {
       const token = await login(email, password);
       setToken(token);
+
+      const user = await getCurrentUser(token);
+      setUser(user);
+
       router.push("/businesses");
     } catch (err) {
       console.error(err);
