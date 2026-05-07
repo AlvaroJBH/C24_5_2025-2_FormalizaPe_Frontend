@@ -10,14 +10,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { BusinessForm } from "./BusinessForm";
+import { CreateBusinessData } from "@/services/business-service";
 
 interface CreateBusinessDialogProps {
-  onSubmit: (data: {
-    name: string;
-    description: string;
-    sector: string;
-    status: string;
-  }) => Promise<void>;
+  onSubmit: (data: CreateBusinessData) => Promise<void>;
 }
 
 export function CreateBusinessDialog({ onSubmit }: CreateBusinessDialogProps) {
@@ -29,7 +25,7 @@ export function CreateBusinessDialog({ onSubmit }: CreateBusinessDialogProps) {
           Crear Empresa
         </Button>
       </DialogTrigger>
-      <DialogContent className="rounded-none">
+      <DialogContent className="rounded-none max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Crear nueva empresa</DialogTitle>
         </DialogHeader>

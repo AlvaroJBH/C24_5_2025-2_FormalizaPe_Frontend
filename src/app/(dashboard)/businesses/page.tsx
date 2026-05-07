@@ -8,6 +8,7 @@ import {
   updateBusiness,
   deleteBusiness,
   Business,
+  CreateBusinessData,
 } from "@/services/business-service";
 
 import { BusinessesHeader } from "./_components/BusinessesHeader";
@@ -38,12 +39,7 @@ export default function BusinessesPage() {
     loadBusinesses();
   }, [token]);
 
-  const handleCreateBusiness = async (data: {
-    name: string;
-    description: string;
-    sector: string;
-    status: string;
-  }) => {
+  const handleCreateBusiness = async (data: CreateBusinessData) => {
     if (!token) return;
     await createBusiness(data);
     const updated = await getBusinesses();
@@ -58,7 +54,7 @@ export default function BusinessesPage() {
     setDeletingBusinessId(open ? id : null);
   };
 
-  const handleUpdate = async (id: number, data: { name: string; description: string; sector: string; status: string }) => {
+  const handleUpdate = async (id: number, data: CreateBusinessData) => {
     if (!token) return;
     await updateBusiness(id, data);
     const updated = await getBusinesses();

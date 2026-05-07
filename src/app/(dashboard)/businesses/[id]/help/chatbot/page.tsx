@@ -116,7 +116,7 @@ export default function ChatbotPage() {
     <AppBreadcrumb
         items={[
           { label: "Inicio", href: "/businesses" },
-          { label: business?.name ?? "Business", href: `/businesses/${businessId}` },
+          { label: business?.tradeName ?? "Business", href: `/businesses/${businessId}` },
           { label: "QAs", href: `/businesses/${businessId}/help/faqs` },
           { label: "Chatbot", href: `/businesses/${businessId}/chatbot` },
         ]}

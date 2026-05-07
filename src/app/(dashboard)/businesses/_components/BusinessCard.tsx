@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { Business } from "@/services/business-service";
+import { Business, CreateBusinessData } from "@/services/business-service";
 import { BusinessStatusBadge } from "./BusinessStatusBadge";
 import { BusinessActions } from "./BusinessActions";
 
@@ -9,7 +9,7 @@ interface BusinessCardProps {
   deletingBusinessId: number | null;
   onEditOpenChange: (open: boolean, id: number) => void;
   onDeleteOpenChange: (open: boolean, id: number) => void;
-  onUpdate: (id: number, data: { name: string; description: string; sector: string; status: string }) => Promise<void>;
+  onUpdate: (id: number, data: CreateBusinessData) => Promise<void>;
   onDeleteConfirm: () => Promise<void>;
 }
 
@@ -33,18 +33,28 @@ export function BusinessCard({
       <div className="space-y-4">
         <div className="pr-24">
           <h2 className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
-            {business.name}
+            {business.tradeName}
           </h2>
           <div className="flex items-center gap-2 mt-2">
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-none text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
               {business.sector}
             </span>
+            {business.businessType && (
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-none text-xs font-medium bg-purple-50 text-purple-700 border border-purple-200">
+                {business.businessType}
+              </span>
+            )}
           </div>
         </div>
 
         <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
-          {business.description}
+          {business.economicActivity || business.address || "Sin descripción"}
         </p>
+
+        <div className="text-xs text-gray-500 space-y-1">
+          <p><b>RUC:</b> {business.ruc}</p>
+          <p><b>Ubicación:</b> {business.district}, {business.province}, {business.department}</p>
+        </div>
       </div>
 
       <div className="h-px bg-linear-to-r from-transparent via-gray-200 to-transparent my-5" />

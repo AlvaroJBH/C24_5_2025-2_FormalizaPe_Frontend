@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { Business } from "@/services/business-service";
+import { Business, CreateBusinessData } from "@/services/business-service";
 import { BusinessForm } from "./BusinessForm";
 
 interface BusinessActionsProps {
@@ -18,7 +18,7 @@ interface BusinessActionsProps {
   deletingBusinessId: number | null;
   onEditOpenChange: (open: boolean, id: number) => void;
   onDeleteOpenChange: (open: boolean, id: number) => void;
-  onUpdate: (id: number, data: { name: string; description: string; sector: string; status: string }) => Promise<void>;
+  onUpdate: (id: number, data: CreateBusinessData) => Promise<void>;
   onDeleteConfirm: () => Promise<void>;
 }
 
@@ -58,7 +58,7 @@ export function BusinessActions({
             Editar
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[500px] rounded-none">
+        <DialogContent className="sm:max-w-[500px] rounded-none max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-xl font-semibold">
               Editar Empresa
@@ -98,7 +98,7 @@ export function BusinessActions({
           <div className="py-4">
             <p className="text-gray-700">
               ¿Estás seguro que quieres eliminar la empresa{" "}
-              <strong className="text-gray-900">{business.name}</strong>?
+              <strong className="text-gray-900">{business.tradeName}</strong>?
             </p>
             <p className="text-sm text-gray-500 mt-2">
               Esta acción no se puede deshacer.

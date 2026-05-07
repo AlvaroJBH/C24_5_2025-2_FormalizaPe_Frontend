@@ -1,5 +1,5 @@
-import { Card } from "@/components/ui/card";
 import { Business } from "@/services/business-service";
+import { CreateBusinessData } from "@/services/business-service";
 import { BusinessCard } from "./BusinessCard";
 
 interface BusinessesGridProps {
@@ -8,7 +8,7 @@ interface BusinessesGridProps {
   deletingBusinessId: number | null;
   onEditOpenChange: (open: boolean, id: number) => void;
   onDeleteOpenChange: (open: boolean, id: number) => void;
-  onUpdate: (id: number, data: { name: string; description: string; sector: string; status: string }) => Promise<void>;
+  onUpdate: (id: number, data: CreateBusinessData) => Promise<void>;
   onDeleteConfirm: () => Promise<void>;
 }
 

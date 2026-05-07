@@ -2,14 +2,10 @@
 
 import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
 import { CreateBusinessDialog } from "./CreateBusinessDialog";
+import { CreateBusinessData } from "@/services/business-service";
 
 interface BusinessesHeaderProps {
-  onCreateBusiness: (data: {
-    name: string;
-    description: string;
-    sector: string;
-    status: string;
-  }) => Promise<void>;
+  onCreateBusiness: (data: CreateBusinessData) => Promise<void>;
 }
 
 export function BusinessesHeader({ onCreateBusiness }: BusinessesHeaderProps) {

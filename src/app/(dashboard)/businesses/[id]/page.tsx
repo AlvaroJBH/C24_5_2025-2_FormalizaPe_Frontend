@@ -95,7 +95,7 @@ export default function BusinessDashboardPage() {
       <AppBreadcrumb
         items={[
           { label: "Inicio", href: "/businesses" },
-          { label: business.name, href: `/businesses/${businessId}` },
+          { label: business.tradeName, href: `/businesses/${businessId}` },
         ]}
       />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -225,9 +225,14 @@ export default function BusinessDashboardPage() {
             </div>
 
             <div className="space-y-2">
-              <p className="text-sm text-gray-700"><b>Nombre:</b> {business.name}</p>
+              <p className="text-sm text-gray-700"><b>Nombre Comercial:</b> {business.tradeName}</p>
+              <p className="text-sm text-gray-700"><b>Razón Social:</b> {business.legalName}</p>
               <p className="text-sm text-gray-700"><b>Sector:</b> {business.sector}</p>
-              {/*<p className="text-sm text-gray-700"><b>RUC:</b> [data estatica]</p>*/}
+              <p className="text-sm text-gray-700"><b>Tipo:</b> {business.businessType || "N/A"}</p>
+              <p className="text-sm text-gray-700"><b>RUC:</b> {business.ruc}</p>
+              <p className="text-sm text-gray-700"><b>Régimen:</b> {business.taxRegime || "N/A"}</p>
+              <p className="text-sm text-gray-700"><b>Ubicación:</b> {business.address}, {business.district}, {business.province}, {business.department}</p>
+              {business.startDate && <p className="text-sm text-gray-700"><b>Fecha Inicio:</b> {business.startDate}</p>}
             </div>
           </div>
 

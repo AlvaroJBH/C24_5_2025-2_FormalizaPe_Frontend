@@ -2,27 +2,51 @@ import { useAuthStore } from "@/store/auth-store";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export interface BusinessSummary {
+export interface BusinessProcedureSummary {
   id: number;
   name: string;
+  status: string;
+}
+
+export interface BusinessSummary {
+  id: number;
+  tradeName: string;
   status: string;
 }
 
 export interface Business {
   id: number;
-  name: string;
-  description: string;
+  tradeName: string;
+  legalName: string;
+  businessType: string;
   sector: string;
+  economicActivity: string;
+  startDate: string;
+  department: string;
+  province: string;
+  district: string;
+  address: string;
+  taxRegime: string;
+  ruc: string;
   status: string;
   ownerId: number;
   ownerUsername: string;
-  procedures: BusinessSummary[];
+  procedures: BusinessProcedureSummary[];
 }
 
 export interface CreateBusinessData {
-  name: string;
-  description: string;
+  tradeName: string;
+  legalName: string;
+  businessType: string;
   sector: string;
+  economicActivity: string;
+  startDate: string;
+  department: string;
+  province: string;
+  district: string;
+  address: string;
+  taxRegime: string;
+  ruc: string;
   status: string;
 }
 

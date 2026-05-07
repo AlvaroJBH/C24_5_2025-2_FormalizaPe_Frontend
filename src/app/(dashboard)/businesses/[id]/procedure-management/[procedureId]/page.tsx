@@ -105,7 +105,7 @@ export default function ProcedureDetailsPage() {
       <AppBreadcrumb
         items={[
           { label: "Inicio", href: "/businesses" },
-          { label: business?.name ?? "Business", href: `/businesses/${businessId}` },
+          { label: business?.tradeName ?? "Business", href: `/businesses/${businessId}` },
           { label: "Progreso", href: `/businesses/${businessId}/procedure-management` },
           { label: procedure?.name ?? "Procedure", href: `/businesses/${businessId}/procedure-management/${procedureId}` },
         ]}
