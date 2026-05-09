@@ -51,24 +51,34 @@ export default function AdminDashboardLayout({
           </div>
 
           <div className="flex items-center gap-2">
-            <button
-              onClick={() => router.push("/")}
-              className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition"
-            >
-              Inicio
+            <button className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition">
+              Usuarios
+            </button>
+            <button className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition">
+              Empresas
+            </button>
+            <button className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition">
+              Procedimientos
             </button>
             <button
-              onClick={() => router.push("/businesses")}
-              className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition"
+              onClick={() => router.push("/admin/system")}
+              className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition"
             >
-              Empresas
+              Sistema
+            </button>
+            <div className="w-px h-6 bg-gray-600 mx-1" />
+            <button
+              onClick={() => router.push("/")}
+              className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition"
+            >
+              Inicio
             </button>
             <button
               onClick={() => {
                 useAuthStore.getState().clearAuth();
                 router.replace("/admin/login");
               }}
-              className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-800 hover:text-white transition"
+              className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition"
             >
               Cerrar sesión
             </button>
