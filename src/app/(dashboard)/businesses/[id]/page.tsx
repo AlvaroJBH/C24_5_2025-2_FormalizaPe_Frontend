@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { getBusinessById, Business } from "@/services/business-service";
+import { getBusinessById, Business, CreateBusinessData } from "@/services/business-service";
 import {
   getFormalizationStatus,
   FormalizationProcedureDTO,
@@ -12,6 +12,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
+import { BusinessInfoCard } from "./_components/BusinessInfoCard";
 
 export default function BusinessDashboardPage() {
   const params = useParams();
@@ -20,6 +21,10 @@ export default function BusinessDashboardPage() {
   const [business, setBusiness] = useState<Business | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const handleBusinessUpdate = async (data: CreateBusinessData) => {
+    setBusiness(data as Business);
+  };
 
   const [procedures, setProcedures] = useState<FormalizationProcedureDTO[]>([]);
   const [loadingProcedures, setLoadingProcedures] = useState(true);
@@ -215,26 +220,7 @@ export default function BusinessDashboardPage() {
         {/* Columna derecha */}
         <div className="flex flex-col gap-6">
 
-          {/* Datos del negocio */}
-          <div className="bg-white rounded-none shadow-md p-6 border border-gray-100 transition-shadow hover:shadow-lg">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-1 h-6 bg-blue-600 rounded-none"></div>
-              <h2 className="text-blue-700 font-semibold text-lg">
-                Datos del negocio
-              </h2>
-            </div>
-
-            <div className="space-y-2">
-              <p className="text-sm text-gray-700"><b>Nombre Comercial:</b> {business.tradeName}</p>
-              <p className="text-sm text-gray-700"><b>Razón Social:</b> {business.legalName}</p>
-              <p className="text-sm text-gray-700"><b>Sector:</b> {business.sector}</p>
-              <p className="text-sm text-gray-700"><b>Tipo:</b> {business.businessType || "N/A"}</p>
-              <p className="text-sm text-gray-700"><b>RUC:</b> {business.ruc}</p>
-              <p className="text-sm text-gray-700"><b>Régimen:</b> {business.taxRegime || "N/A"}</p>
-              <p className="text-sm text-gray-700"><b>Ubicación:</b> {business.address}, {business.district}, {business.province}, {business.department}</p>
-              {business.startDate && <p className="text-sm text-gray-700"><b>Fecha Inicio:</b> {business.startDate}</p>}
-            </div>
-          </div>
+          <BusinessInfoCard business={business} onBusinessUpdate={handleBusinessUpdate} />
 
           {/* Botón de documentos 
           <div className="bg-white rounded-none shadow-md p-6 border border-gray-100 flex items-center justify-center transition-shadow hover:shadow-lg">
