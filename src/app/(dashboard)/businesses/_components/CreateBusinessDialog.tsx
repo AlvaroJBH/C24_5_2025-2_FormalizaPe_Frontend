@@ -8,15 +8,14 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
+  DialogFooter,
 } from "@/components/ui/dialog";
-import { BusinessForm } from "./BusinessForm";
-import { CreateBusinessData } from "@/services/business-service";
+import { useRouter } from "next/navigation";
 
-interface CreateBusinessDialogProps {
-  onSubmit: (data: CreateBusinessData) => Promise<void>;
-}
+export function CreateBusinessDialog() {
+  const router = useRouter();
 
-export function CreateBusinessDialog({ onSubmit }: CreateBusinessDialogProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -25,14 +24,31 @@ export function CreateBusinessDialog({ onSubmit }: CreateBusinessDialogProps) {
           Crear Empresa
         </Button>
       </DialogTrigger>
-      <DialogContent className="rounded-none max-h-[90vh] overflow-y-auto">
+      <DialogContent className="rounded-none max-w-md">
         <DialogHeader>
-          <DialogTitle>Crear nueva empresa</DialogTitle>
+          <DialogTitle>¿Deseas crear una nueva empresa?</DialogTitle>
+          <DialogDescription>
+            El asistente te guiará paso a paso para registrar los datos de tu empresa.
+          </DialogDescription>
         </DialogHeader>
-        <BusinessForm
-          submitLabel="Crear"
-          onSubmit={onSubmit}
-        />
+        <DialogFooter className="gap-2">
+          <Button
+            variant="outline"
+            className="rounded-none"
+            onClick={() => {
+              const closeBtn = document.querySelector('[data-state="open"] button[class*="close"]') as HTMLButtonElement;
+              closeBtn?.click();
+            }}
+          >
+            Cancelar
+          </Button>
+          <Button
+            className="rounded-none"
+            onClick={() => router.push("/businesses/new")}
+          >
+            Sí, crear empresa
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

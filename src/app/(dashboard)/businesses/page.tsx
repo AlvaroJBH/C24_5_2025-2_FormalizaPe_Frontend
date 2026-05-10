@@ -85,7 +85,7 @@ export default function BusinessesPage() {
 
   return (
     <div className="flex flex-col flex-1 p-6 overflow-auto">
-      <BusinessesHeader onCreateBusiness={handleCreateBusiness} />
+      <BusinessesHeader />
       <BusinessesGrid
         businesses={businesses}
         editingBusinessId={editingBusinessId}
