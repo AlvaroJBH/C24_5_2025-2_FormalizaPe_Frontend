@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useAuthStore } from "@/store/auth-store";
+import { useBusinessStore } from "@/store/business-store";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import {
@@ -16,13 +17,12 @@ import {
   SimulationResultItem,
   SimulationResults,
 } from "@/services/simulations-service";
-import { Business, getBusinessById } from "@/services/business-service";
 import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
 
 export default function ReportPage() {
   const params = useParams();
   const businessId = Number(params.id);
-  const [business, setBusiness] = useState<Business | null>(null)
+  const business = useBusinessStore((s) => s.business);
   const { token } = useAuthStore();
 
   /** TRÁMITES */
@@ -52,8 +52,6 @@ export default function ReportPage() {
         setLoadingProcedures(true);
         const data = await getFormalizationStatus(businessId);
         setProcedures(data.procedures);
-        const business_data = await getBusinessById(businessId);
-        setBusiness(business_data)
       } catch (err) {
         console.error(err);
         setErrorProcedures("Error al cargar los trámites");

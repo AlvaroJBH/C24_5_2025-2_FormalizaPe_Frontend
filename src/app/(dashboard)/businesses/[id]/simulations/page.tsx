@@ -34,13 +34,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Business, getBusinessById } from "@/services/business-service";
+import { useBusinessStore } from "@/store/business-store";
 import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
 
 export default function SimulationsPage() {
   const params = useParams();
   const businessId = Number(params.id);
-  const [business, setBusiness] = useState<Business | null>(null)
+  const business = useBusinessStore((s) => s.business);
 
   // ------------------------
   // ESTADOS
@@ -110,8 +110,6 @@ export default function SimulationsPage() {
         const data = await getTaxRegimes();
         setTaxRegimes(data);
         setRegimesError(null);
-        const business_data = await getBusinessById(businessId);
-        setBusiness(business_data)
       } catch {
         setRegimesError("Error al cargar regímenes tributarios");
       } finally {

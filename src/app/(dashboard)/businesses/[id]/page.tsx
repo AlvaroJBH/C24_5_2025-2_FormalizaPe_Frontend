@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { getBusinessById, Business, CreateBusinessData } from "@/services/business-service";
+import { useBusinessStore } from "@/store/business-store";
 import {
   getFormalizationStatus,
   FormalizationProcedureDTO,
@@ -13,38 +13,30 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
 import { BusinessInfoCard } from "./_components/BusinessInfoCard";
+import { Business, CreateBusinessData } from "@/services/business-service";
 
 export default function BusinessDashboardPage() {
   const params = useParams();
   const businessId = params?.id ? Number(params.id) : null;
-
-  const [business, setBusiness] = useState<Business | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleBusinessUpdate = async (data: CreateBusinessData) => {
-    setBusiness(data as Business);
-  };
+  const business = useBusinessStore((s) => s.business);
+  const setBusiness = useBusinessStore((s) => s.setBusiness);
 
   const [procedures, setProcedures] = useState<FormalizationProcedureDTO[]>([]);
   const [loadingProcedures, setLoadingProcedures] = useState(true);
+
+  const handleBusinessUpdate = async (data: CreateBusinessData) => {
+    if (!business) return;
+    const updated: Business = {
+      ...business,
+      ...data,
+    };
+    setBusiness(updated);
+  };
 
   useEffect(() => {
     if (!businessId) return;
 
     let isMounted = true;
-
-    const fetchBusiness = async () => {
-      try {
-        setLoading(true);
-        const data = await getBusinessById(businessId);
-        if (isMounted) setBusiness(data);
-      } catch {
-        if (isMounted) setError("Error al cargar el negocio");
-      } finally {
-        if (isMounted) setLoading(false);
-      }
-    };
 
     const fetchProcedures = async () => {
       try {
@@ -58,7 +50,6 @@ export default function BusinessDashboardPage() {
       }
     };
 
-    fetchBusiness();
     fetchProcedures();
 
     return () => {
@@ -66,7 +57,7 @@ export default function BusinessDashboardPage() {
     };
   }, [businessId]);
 
-  if (loading || loadingProcedures) {
+  if (!business) {
     return (
       <div className="min-h-screen flex items-center justify-center text-gray-500">
         Cargando información...
@@ -74,15 +65,14 @@ export default function BusinessDashboardPage() {
     );
   }
 
-  if (error || !business) {
+  if (loadingProcedures) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-red-500">
-        {error || "Negocio no encontrado"}
+      <div className="min-h-screen flex items-center justify-center text-gray-500">
+        Cargando información...
       </div>
     );
   }
 
-  // Badge colors
   const badgeColors: Record<string, string> = {
     COMPLETED: "bg-green-500",
     IN_PROGRESS: "bg-blue-500",
@@ -104,10 +94,7 @@ export default function BusinessDashboardPage() {
         ]}
       />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Columna izquierda (2/3) */}
         <div className="lg:col-span-2 flex flex-col gap-6">
-
-          {/* Progreso de trámites */}
           <div className="bg-white rounded-none shadow-md transition-shadow hover:shadow-lg p-6 border  border-gray-100">
             <div className="flex items-center gap-2 mb-1">
               <div className="w-1 h-6 bg-blue-600 rounded-full"></div>
@@ -152,7 +139,6 @@ export default function BusinessDashboardPage() {
             </div>
           </div>
 
-          {/* Accesos rápidos */}
           <div className="bg-white rounded-none shadow p-6 border border-gray-100 transition-shadow hover:shadow-lg">
             <div className="flex items-center gap-2 mb-1">
               <div className="w-1 h-6 bg-blue-600 rounded-none"></div>
@@ -217,36 +203,8 @@ export default function BusinessDashboardPage() {
           </div>
         </div>
 
-        {/* Columna derecha */}
         <div className="flex flex-col gap-6">
-
           <BusinessInfoCard business={business} onBusinessUpdate={handleBusinessUpdate} />
-
-          {/* Botón de documentos 
-          <div className="bg-white rounded-none shadow-md p-6 border border-gray-100 flex items-center justify-center transition-shadow hover:shadow-lg">
-            <button className="bg-blue-600 text-white px-5 py-3 rounded-sm transition hover:bg-blue-700 shadow-sm hover:shadow">
-              Generar documentos
-            </button>
-          </div>
-            */}
-          {/* Recomendaciones IA 
-          <div className="bg-white rounded-none shadow-md p-6 border border-gray-100 transition-shadow hover:shadow-lg flex flex-col gap-4">
-            <div className="flex items-center gap-2">
-              <div className="w-1 h-6 bg-blue-600 rounded-none"></div>
-              <h2 className="text-blue-700 font-semibold text-lg">
-                Recomendaciones IA
-              </h2>
-            </div>
-
-            <div className="h-32 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 border border-gray-200/50 shadow-inner">
-              [Container vacío]
-            </div>
-
-            <button className="bg-blue-600 text-white px-5 py-3 rounded-sm transition hover:bg-blue-700 shadow-sm hover:shadow">
-              Chatear con IA
-            </button>
-          </div>
-            */}
         </div>
       </div>
     </div>

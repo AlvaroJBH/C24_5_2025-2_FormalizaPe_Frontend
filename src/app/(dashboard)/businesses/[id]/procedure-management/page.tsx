@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/auth-store";
+import { useBusinessStore } from "@/store/business-store";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
@@ -11,13 +12,12 @@ import {
   getFormalizationStatus,
 } from "@/services/formalization-service";
 import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
-import { Business, getBusinessById } from "@/services/business-service";
 
 export default function ProcedureManagementPage() {
   const params = useParams();
   const router = useRouter();
   const businessId = Number(params.id);
-  const [business, setBusiness] = useState<Business | null>(null)
+  const business = useBusinessStore((s) => s.business);
 
   const { token } = useAuthStore();
 
@@ -33,8 +33,6 @@ export default function ProcedureManagementPage() {
         setLoading(true);
         const data = await getFormalizationStatus(businessId);
         setProcedures(data.procedures);
-        const business_data = await getBusinessById(businessId);
-        setBusiness(business_data)
       } catch (err) {
         console.error(err);
         setError("Error al cargar los procedimientos");
