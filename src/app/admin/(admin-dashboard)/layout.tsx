@@ -51,13 +51,28 @@ export default function AdminDashboardLayout({
           </div>
 
           <div className="flex items-center gap-2">
-            <button className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition">
+            <button
+              onClick={() => router.push("/admin/home")}
+              className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition"
+            >
+              Inicio
+            </button>
+            <button
+              onClick={() => router.push("/admin/users")}
+              className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition"
+            >
               Usuarios
             </button>
-            <button className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition">
+            <button
+              onClick={() => router.push("/admin/businesses")}
+              className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition"
+            >
               Empresas
             </button>
-            <button className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition">
+            <button
+              onClick={() => router.push("/admin/procedures")}
+              className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition"
+            >
               Procedimientos
             </button>
             <button
@@ -68,17 +83,11 @@ export default function AdminDashboardLayout({
             </button>
             <div className="w-px h-6 bg-gray-600 mx-1" />
             <button
-              onClick={() => router.push("/")}
-              className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition"
-            >
-              Inicio
-            </button>
-            <button
               onClick={() => {
                 useAuthStore.getState().clearAuth();
                 router.replace("/admin/login");
               }}
-              className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition"
+              className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-semibold text-white bg-red-600 hover:bg-red-700 transition"
             >
               Cerrar sesión
             </button>
