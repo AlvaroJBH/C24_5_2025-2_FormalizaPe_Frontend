@@ -83,6 +83,27 @@ export default function BusinessesPage() {
       </div>
     );
 
+  if (businesses.length === 0)
+    return (
+      <div className="flex flex-col flex-1 p-6 overflow-auto">
+        <BusinessesHeader />
+        <div className="flex flex-col items-center justify-center flex-1 min-h-[400px] text-gray-500">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mb-4 opacity-50">
+            <path d="M3 21h18" />
+            <path d="M9 8h1" />
+            <path d="M9 12h1" />
+            <path d="M9 16h1" />
+            <path d="M14 8h1" />
+            <path d="M14 12h1" />
+            <path d="M14 16h1" />
+            <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16" />
+          </svg>
+          <p className="text-lg font-medium">No tienes empresas registradas</p>
+          <p className="text-sm mt-1">Crea tu primera empresa para comenzar</p>
+        </div>
+      </div>
+    );
+
   return (
     <div className="flex flex-col flex-1 p-6 overflow-auto">
       <BusinessesHeader />

@@ -21,6 +21,7 @@ export function RegisterForm() {
     setRuc,
     loading,
     error,
+    success,
     handleSubmit,
   } = useRegisterForm();
 
@@ -37,6 +38,7 @@ export function RegisterForm() {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           className="rounded-none border-gray-400 focus-visible:ring-blue-700"
+          disabled={success}
           required
         />
       </div>
@@ -52,6 +54,7 @@ export function RegisterForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="rounded-none border-gray-400 focus-visible:ring-blue-700"
+          disabled={success}
           required
         />
       </div>
@@ -67,6 +70,7 @@ export function RegisterForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="rounded-none border-gray-400 focus-visible:ring-blue-700"
+          disabled={success}
           required
         />
       </div>
@@ -82,6 +86,7 @@ export function RegisterForm() {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           className="rounded-none border-gray-400 focus-visible:ring-blue-700"
+          disabled={success}
           required
         />
       </div>
@@ -97,6 +102,7 @@ export function RegisterForm() {
           value={dni}
           onChange={(e) => setDni(e.target.value)}
           className="rounded-none border-gray-400 focus-visible:ring-blue-700"
+          disabled={success}
           required
         />
       </div>
@@ -112,6 +118,7 @@ export function RegisterForm() {
           value={ruc}
           onChange={(e) => setRuc(e.target.value)}
           className="rounded-none border-gray-400 focus-visible:ring-blue-700"
+          disabled={success}
           required
         />
       </div>
@@ -122,12 +129,18 @@ export function RegisterForm() {
         </p>
       )}
 
+      {success && (
+        <p className="text-green-600 text-sm font-medium">
+          ¡Cuenta creada! Redirigiendo al login...
+        </p>
+      )}
+
       <GradientButton
         type="submit"
         className="w-full mt-4 rounded-none"
-        disabled={loading}
+        disabled={loading || success}
       >
-        {loading ? "Cargando..." : "Crear cuenta"}
+        {loading ? "Creando..." : success ? "Cuenta creada" : "Crear cuenta"}
       </GradientButton>
     </form>
   );

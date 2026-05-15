@@ -3,11 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { register } from "@/services/auth-service";
-import { useAuthStore } from "@/store/auth-store";
 
 export function useRegisterForm() {
   const router = useRouter();
-  const setToken = useAuthStore((s) => s.setToken);
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -17,6 +15,7 @@ export function useRegisterForm() {
   const [ruc, setRuc] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,9 +28,11 @@ export function useRegisterForm() {
 
     setLoading(true);
     try {
-      const token = await register({ username, email, password, dni, ruc });
-      setToken(token);
-      router.push("/businesses");
+      await register({ username, email, password, dni, ruc });
+      setSuccess(true);
+      setTimeout(() => {
+        router.push("/login");
+      }, 1500);
     } catch (err) {
       console.error(err);
       setError("Error al crear la cuenta");
@@ -55,6 +56,7 @@ export function useRegisterForm() {
     setRuc,
     loading,
     error,
+    success,
     handleSubmit,
   };
 }

@@ -27,7 +27,6 @@ export function BusinessForm({
   const [address, setAddress] = useState(initial.address || "");
   const [taxRegime, setTaxRegime] = useState(initial.taxRegime || "");
   const [ruc, setRuc] = useState(initial.ruc || "");
-  const [status, setStatus] = useState(initial.status || "ACTIVO");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,7 +43,7 @@ export function BusinessForm({
       address,
       taxRegime,
       ruc,
-      status,
+      status: "ACTIVO",
     });
   };
 
@@ -186,16 +185,6 @@ export function BusinessForm({
             className="rounded-none"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <Label htmlFor="status">Estado</Label>
-          <Input
-            id="status"
-            className="rounded-none"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
           />
         </div>
       </div>
