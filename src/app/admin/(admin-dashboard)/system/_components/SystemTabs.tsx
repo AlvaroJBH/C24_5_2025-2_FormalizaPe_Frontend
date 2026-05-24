@@ -1,7 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FaqPanel } from "./FaqPanel";
 import { ChatbotPanel } from "./ChatbotPanel";
-import { MetricsPanel } from "./MetricsPanel";
 
 export function SystemTabs({ className = "" }: { className?: string }) {
   return (
@@ -13,9 +12,6 @@ export function SystemTabs({ className = "" }: { className?: string }) {
         <TabsTrigger value="chatbot" className="data-[state=active]:bg-gray-200">
           Chatbot
         </TabsTrigger>
-        <TabsTrigger value="metrics" className="data-[state=active]:bg-gray-200">
-          Métricas
-        </TabsTrigger>
       </TabsList>
 
       <TabsContent value="faq" className="overflow-auto">
@@ -24,10 +20,6 @@ export function SystemTabs({ className = "" }: { className?: string }) {
 
       <TabsContent value="chatbot" className="overflow-auto">
         <ChatbotPanel />
-      </TabsContent>
-
-      <TabsContent value="metrics" className="overflow-auto">
-        <MetricsPanel />
       </TabsContent>
     </Tabs>
   );
