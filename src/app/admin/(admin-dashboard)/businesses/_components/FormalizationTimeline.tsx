@@ -94,9 +94,6 @@ function ProcedureAccordion({ procedure }: { procedure: FormalizationProcedure }
                     </span>
                   </div>
                   <p className="text-sm text-gray-600 mt-0.5">{step.description}</p>
-                  {step.notes && (
-                    <p className="text-sm text-gray-500 mt-1 italic">Nota: {step.notes}</p>
-                  )}
                 </div>
               </div>
             ))}

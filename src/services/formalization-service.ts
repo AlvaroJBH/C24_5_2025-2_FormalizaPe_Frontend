@@ -14,7 +14,6 @@ export interface FormalizationStepDTO {
   description: string;
   stepOrder: number;
   status: string; // "PENDING" | "COMPLETED"
-  notes: string | null;
 }
 
 export interface FormalizationProcedureDTO {
@@ -40,7 +39,6 @@ export interface FormalizationToggleStepRequest {
   procedureId: number;
   stepId: number;
   completed: boolean;
-  notes?: string | null;
 }
 
 // -----------------------------------------

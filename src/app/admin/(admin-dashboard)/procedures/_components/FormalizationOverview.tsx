@@ -153,9 +153,6 @@ export function FormalizationOverview({ businessId, businessName }: Formalizatio
                             <span className="text-sm font-medium text-gray-700">{step.title}</span>
                           </div>
                           <p className="text-sm text-gray-500">{step.description}</p>
-                          {step.notes && (
-                            <p className="text-sm text-gray-400 mt-1 italic">Nota: {step.notes}</p>
-                          )}
                         </div>
                       </div>
                     ))}

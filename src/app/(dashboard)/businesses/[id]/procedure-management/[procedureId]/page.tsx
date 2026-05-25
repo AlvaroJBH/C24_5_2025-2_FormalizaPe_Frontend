@@ -13,7 +13,6 @@ import {
 import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Textarea } from "@/components/ui/textarea";
 import { Check } from "lucide-react";
 import { Business, getBusinessById } from "@/services/business-service";
 
@@ -63,7 +62,6 @@ export default function ProcedureDetailsPage() {
         procedureId,
         stepId: step.stepId,
         completed: step.status !== "COMPLETED",
-        notes: step.notes || "",
       });
 
       await fetchProcedureData();
@@ -176,20 +174,6 @@ export default function ProcedureDetailsPage() {
               <div className="flex-1 pr-6">
                 <p className="font-medium">{step.title}</p>
                 <p className="text-sm text-gray-600">{step.description}</p>
-
-                <Textarea
-                  className="mt-2 rounded-none"
-                  defaultValue={step.notes || ""}
-                  onBlur={(e) =>
-                    toggleStep({
-                      businessId,
-                      procedureId,
-                      stepId: step.stepId,
-                      completed: step.status === "COMPLETED",
-                      notes: e.target.value,
-                    })
-                  }
-                />
               </div>
 
               {/* small square toggle */}

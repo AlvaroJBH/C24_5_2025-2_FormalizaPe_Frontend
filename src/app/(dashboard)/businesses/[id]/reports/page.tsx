@@ -390,12 +390,6 @@ export default function ReportPage() {
                               <span className="font-medium mr-2">Estado:</span>
                               <span>{step.status}</span>
                             </div>
-
-                            {step.notes && (
-                              <p className="text-xs text-gray-400 mt-1 italic">
-                                Nota: {step.notes}
-                              </p>
-                            )}
                           </div>
                         </div>
                       );

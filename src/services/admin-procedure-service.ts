@@ -39,7 +39,6 @@ export interface FormalizationStep {
   description: string;
   stepOrder: number;
   status: string;
-  notes: string | null;
 }
 
 export interface FormalizationProcedure {
