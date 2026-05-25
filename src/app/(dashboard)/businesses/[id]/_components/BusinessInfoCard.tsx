@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Business, UpdateBusinessData, createFormalIdentity } from "@/services/business-service";
+import { Business, UpdateBusinessData } from "@/services/business-service";
+import { createFormalIdentity } from "@/services/formalization-service";
 import { GeneralInfoSection } from "./GeneralInfoSection";
 import { LocationSection } from "./LocationSection";
 import { TaxInfoSection } from "./TaxInfoSection";
@@ -25,7 +26,7 @@ export function BusinessInfoCard({ business, onBusinessUpdate, onFormalizationCo
     legalName: "",
     ruc: "",
     taxRegime: "",
-    ciiuCode: "",
+    ciiCode: "",
   });
   const [formalizationError, setFormalizationError] = useState<string | null>(null);
   const [isSubmittingFormalization, setIsSubmittingFormalization] = useState(false);
@@ -37,7 +38,7 @@ export function BusinessInfoCard({ business, onBusinessUpdate, onFormalizationCo
         legalName: business.formalIdentity.legalName,
         ruc: business.formalIdentity.ruc,
         taxRegime: business.formalIdentity.taxRegime,
-        ciiuCode: business.formalIdentity.ciiuCode,
+        ciiCode: business.formalIdentity.ciiCode,
       });
     }
     setShowFormalizationForm(true);
@@ -56,7 +57,11 @@ export function BusinessInfoCard({ business, onBusinessUpdate, onFormalizationCo
     try {
       await createFormalIdentity({
         businessId: business.id,
-        ...formalizationData,
+        tradeName: formalizationData.tradeName || undefined,
+        legalName: formalizationData.legalName || undefined,
+        ruc: formalizationData.ruc || undefined,
+        taxRegime: formalizationData.taxRegime || undefined,
+        ciiCode: formalizationData.ciiCode || undefined,
       });
       setShowFormalizationForm(false);
       onFormalizationComplete?.();
@@ -84,7 +89,7 @@ export function BusinessInfoCard({ business, onBusinessUpdate, onFormalizationCo
             <Label className="text-xs text-gray-600">Nombre Comercial</Label>
             <Input
               className="rounded-none h-8 text-sm"
-              value={formalizationData.tradeName}
+              value={formalizationData.tradeName ?? ""}
               onChange={(e) => handleFormalizationChange("tradeName", e.target.value)}
             />
           </div>
@@ -93,7 +98,7 @@ export function BusinessInfoCard({ business, onBusinessUpdate, onFormalizationCo
             <Label className="text-xs text-gray-600">Razón Social</Label>
             <Input
               className="rounded-none h-8 text-sm"
-              value={formalizationData.legalName}
+              value={formalizationData.legalName ?? ""}
               onChange={(e) => handleFormalizationChange("legalName", e.target.value)}
             />
           </div>
@@ -102,7 +107,7 @@ export function BusinessInfoCard({ business, onBusinessUpdate, onFormalizationCo
             <Label className="text-xs text-gray-600">RUC</Label>
             <Input
               className="rounded-none h-8 text-sm"
-              value={formalizationData.ruc}
+              value={formalizationData.ruc ?? ""}
               onChange={(e) => handleFormalizationChange("ruc", e.target.value)}
               maxLength={11}
             />
@@ -112,7 +117,7 @@ export function BusinessInfoCard({ business, onBusinessUpdate, onFormalizationCo
             <Label className="text-xs text-gray-600">Régimen Tributario</Label>
             <Input
               className="rounded-none h-8 text-sm"
-              value={formalizationData.taxRegime}
+              value={formalizationData.taxRegime ?? ""}
               onChange={(e) => handleFormalizationChange("taxRegime", e.target.value)}
             />
           </div>
@@ -121,8 +126,8 @@ export function BusinessInfoCard({ business, onBusinessUpdate, onFormalizationCo
             <Label className="text-xs text-gray-600">Código CIIU</Label>
             <Input
               className="rounded-none h-8 text-sm"
-              value={formalizationData.ciiuCode}
-              onChange={(e) => handleFormalizationChange("ciiuCode", e.target.value)}
+              value={formalizationData.ciiCode ?? ""}
+              onChange={(e) => handleFormalizationChange("ciiCode", e.target.value)}
             />
           </div>
 

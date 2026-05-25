@@ -44,6 +44,32 @@ export interface FormalizationToggleStepRequest {
 }
 
 // -----------------------------------------
+// FormalIdentity DTOs
+// -----------------------------------------
+
+export interface FormalIdentityResponse {
+  id: number;
+  businessId: number;
+  businessDisplayName: string;
+  tradeName: string;
+  legalName: string;
+  ruc: string;
+  taxRegime: string;
+  ciiCode: string;
+  sunatStatus: string;
+}
+
+export interface CreateFormalIdentityRequest {
+  businessId: number;
+  tradeName?: string;
+  legalName?: string;
+  ruc?: string;
+  taxRegime?: string;
+  ciiCode?: string;
+  sunatStatus?: string;
+}
+
+// -----------------------------------------
 // Helpers de autenticación
 // -----------------------------------------
 
@@ -68,14 +94,14 @@ async function fetchWithAuth(input: RequestInfo, init?: RequestInit) {
     throw new Error(`Error ${res.status}: ${text}`);
   }
 
+  if (res.status === 204) return null;
   return res.json();
 }
 
 // -----------------------------------------
-// ENDPOINTS reales del controller
+// ENDPOINTS de Formalization
 // -----------------------------------------
 
-// ✔ Obtener estado completo de la formalización
 export function getFormalizationStatus(
   businessId: number
 ): Promise<FormalizationStatusDTO> {
@@ -84,7 +110,6 @@ export function getFormalizationStatus(
   );
 }
 
-// ✔ Marcar/desmarcar paso
 export function toggleStep(
   request: FormalizationToggleStepRequest
 ): Promise<FormalizationStepDTO> {
@@ -92,4 +117,32 @@ export function toggleStep(
     method: "POST",
     body: JSON.stringify(request),
   });
+}
+
+// -----------------------------------------
+// ENDPOINTS de FormalIdentity
+// -----------------------------------------
+
+export function createFormalIdentity(
+  data: CreateFormalIdentityRequest
+): Promise<FormalIdentityResponse> {
+  return fetchWithAuth(`${API_BASE_URL}/api/formalization/identity`, {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
+
+export function getFormalIdentity(
+  businessId: number
+): Promise<FormalIdentityResponse | null> {
+  return fetchWithAuth(
+    `${API_BASE_URL}/api/formalization/identity/${businessId}`
+  );
+}
+
+export function deleteFormalIdentity(businessId: number): Promise<void> {
+  return fetchWithAuth(
+    `${API_BASE_URL}/api/formalization/identity/${businessId}`,
+    { method: "DELETE" }
+  );
 }

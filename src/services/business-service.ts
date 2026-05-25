@@ -6,11 +6,13 @@ export type BusinessStatus = "INFORMAL" | "EN_FORMALIZACION" | "FORMALIZADO";
 
 export interface FormalIdentity {
   id: number;
+  businessId: number;
+  businessDisplayName: string;
   tradeName: string;
   legalName: string;
   ruc: string;
   taxRegime: string;
-  ciiuCode: string;
+  ciiCode: string;
   sunatStatus: string;
 }
 
@@ -45,15 +47,6 @@ export interface CreateBusinessData {
 }
 
 export interface UpdateBusinessData extends CreateBusinessData {}
-
-export interface CreateFormalIdentityData {
-  businessId: number;
-  tradeName: string;
-  legalName: string;
-  ruc: string;
-  taxRegime: string;
-  ciiuCode: string;
-}
 
 function getToken(): string {
   const token = useAuthStore.getState().token;
@@ -104,12 +97,5 @@ export async function updateBusiness(id: number, data: UpdateBusinessData): Prom
 export async function deleteBusiness(id: number): Promise<void> {
   return fetchWithAuth(`${API_BASE_URL}/api/businesses/${id}`, {
     method: "DELETE",
-  });
-}
-
-export async function createFormalIdentity(data: CreateFormalIdentityData): Promise<FormalIdentity> {
-  return fetchWithAuth(`${API_BASE_URL}/api/formalization/identity`, {
-    method: "POST",
-    body: JSON.stringify(data),
   });
 }

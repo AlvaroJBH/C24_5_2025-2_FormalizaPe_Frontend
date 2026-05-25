@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
 import { BusinessInfoCard } from "./_components/BusinessInfoCard";
-import { Business, UpdateBusinessData } from "@/services/business-service";
+import { Business, UpdateBusinessData, getBusinessById } from "@/services/business-service";
 
 export default function BusinessDashboardPage() {
   const params = useParams();
@@ -31,6 +31,16 @@ export default function BusinessDashboardPage() {
       ...data,
     };
     setBusiness(updated);
+  };
+
+  const refreshBusiness = async () => {
+    if (!businessId) return;
+    try {
+      const updated = await getBusinessById(businessId);
+      setBusiness(updated);
+    } catch (err) {
+      console.error("Error refreshing business", err);
+    }
   };
 
   useEffect(() => {
@@ -204,7 +214,7 @@ export default function BusinessDashboardPage() {
         </div>
 
         <div className="flex flex-col gap-6">
-          <BusinessInfoCard business={business} onBusinessUpdate={handleBusinessUpdate} />
+          <BusinessInfoCard business={business} onBusinessUpdate={handleBusinessUpdate} onFormalizationComplete={refreshBusiness} />
         </div>
       </div>
     </div>
