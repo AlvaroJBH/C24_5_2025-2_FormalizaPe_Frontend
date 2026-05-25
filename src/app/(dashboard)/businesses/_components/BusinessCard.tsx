@@ -22,6 +22,10 @@ export function BusinessCard({
   onUpdate,
   onDeleteConfirm,
 }: BusinessCardProps) {
+  const displayLocation = [business.address, business.district, business.province, business.department]
+    .filter(Boolean)
+    .join(", ");
+
   return (
     <Card
       className="group relative overflow-hidden p-6 shadow-lg border border-gray-200 rounded-none hover:shadow-2xl hover:border-blue-300 transition-all duration-300 bg-linear-to-br from-white to-gray-50"
@@ -33,27 +37,30 @@ export function BusinessCard({
       <div className="space-y-4">
         <div className="pr-24">
           <h2 className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-200">
-            {business.tradeName}
+            {business.displayName}
           </h2>
           <div className="flex items-center gap-2 mt-2">
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-none text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
-              {business.sector}
-            </span>
-            {business.businessType && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-none text-xs font-medium bg-purple-50 text-purple-700 border border-purple-200">
-                {business.businessType}
+            {business.formalIdentity ? (
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-none text-xs font-medium bg-green-50 text-green-700 border border-green-200">
+                {business.formalIdentity.tradeName}
+              </span>
+            ) : (
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-none text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-200">
+                Sin formalizar
               </span>
             )}
           </div>
         </div>
 
         <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
-          {business.economicActivity || business.address || "Sin descripción"}
+          {business.address || "Sin dirección registrada"}
         </p>
 
         <div className="text-xs text-gray-500 space-y-1">
-          <p><b>RUC:</b> {business.ruc}</p>
-          <p><b>Ubicación:</b> {business.district}, {business.province}, {business.department}</p>
+          <p><b>Ubicación:</b> {displayLocation || "No especificada"}</p>
+          {business.formalIdentity && (
+            <p><b>RUC:</b> {business.formalIdentity.ruc}</p>
+          )}
         </div>
       </div>
 

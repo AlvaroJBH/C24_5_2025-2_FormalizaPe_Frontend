@@ -1,108 +1,65 @@
 "use client";
 
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Business, CreateBusinessData } from "@/services/business-service";
+import { Button } from "@/components/ui/button";
+import { Business } from "@/services/business-service";
 import { SectionHeader } from "./SectionHeader";
-import { useEditableSection } from "../_hooks/useEditableSection";
-import { useState } from "react";
-import { updateBusiness } from "@/services/business-service";
 
 interface TaxInfoSectionProps {
   business: Business;
-  onUpdate: (data: CreateBusinessData) => Promise<void>;
+  onStartFormalization: () => void;
 }
 
-type TaxData = Pick<Business, "businessType" | "taxRegime" | "ruc">;
-
-export function TaxInfoSection({ business, onUpdate }: TaxInfoSectionProps) {
-  const { isEditing, isSaving, startEditing, cancelEditing, save } = useEditableSection();
-
-  const [formData, setFormData] = useState<TaxData>({
-    businessType: business.businessType || "",
-    taxRegime: business.taxRegime || "",
-    ruc: business.ruc,
-  });
-
-  const handleChange = (field: keyof TaxData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleSave = async () => {
-    await save(async () => {
-      const fullData: CreateBusinessData = {
-        ...business,
-        ...formData,
-      };
-      await updateBusiness(business.id, fullData);
-      await onUpdate(fullData);
-    });
-  };
-
-  const handleCancel = () => {
-    setFormData({
-      businessType: business.businessType || "",
-      taxRegime: business.taxRegime || "",
-      ruc: business.ruc,
-    });
-    cancelEditing();
-  };
+export function TaxInfoSection({ business, onStartFormalization }: TaxInfoSectionProps) {
+  const hasFormalIdentity = business.formalIdentity !== null;
 
   return (
     <div className="p-4 bg-gray-50 rounded-md">
       <SectionHeader
-        title="Datos Tributarios"
-        isEditing={isEditing}
-        isSaving={isSaving}
-        onEdit={startEditing}
-        onCancel={handleCancel}
-        onSave={handleSave}
+        title="Datos Legales"
+        isEditing={false}
+        isSaving={false}
+        onEdit={() => {}}
+        onCancel={() => {}}
+        onSave={() => {}}
       />
 
-      {isEditing ? (
-        <div className="space-y-3">
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <Label className="text-xs text-gray-600">Tipo de Empresa</Label>
-              <Input
-                className="rounded-none h-8 text-sm"
-                value={formData.businessType}
-                onChange={(e) => handleChange("businessType", e.target.value)}
-              />
-            </div>
-            <div>
-              <Label className="text-xs text-gray-600">Régimen Tributario</Label>
-              <Input
-                className="rounded-none h-8 text-sm"
-                value={formData.taxRegime}
-                onChange={(e) => handleChange("taxRegime", e.target.value)}
-              />
-            </div>
-          </div>
-          <div>
-            <Label className="text-xs text-gray-600">RUC</Label>
-            <Input
-              className="rounded-none h-8 text-sm"
-              value={formData.ruc}
-              onChange={(e) => handleChange("ruc", e.target.value)}
-              maxLength={11}
-              minLength={11}
-            />
-          </div>
+      {!hasFormalIdentity ? (
+        <div className="text-center py-6">
+          <p className="text-gray-500 text-sm mb-4">
+            Tu negocio aún no tiene datos legales registrados.
+          </p>
+          <Button
+            className="rounded-none"
+            onClick={onStartFormalization}
+          >
+            Iniciar Formalización
+          </Button>
         </div>
       ) : (
         <div className="space-y-1.5">
           <div className="flex justify-between text-sm">
-            <span className="text-gray-500">Tipo de Empresa</span>
-            <span className="text-gray-800 font-medium">{business.businessType || "N/A"}</span>
+            <span className="text-gray-500">Nombre Comercial</span>
+            <span className="text-gray-800 font-medium">{business.formalIdentity!.tradeName}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-gray-500">Régimen Tributario</span>
-            <span className="text-gray-800 font-medium">{business.taxRegime || "N/A"}</span>
+            <span className="text-gray-500">Razón Social</span>
+            <span className="text-gray-800 font-medium">{business.formalIdentity!.legalName}</span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-gray-500">RUC</span>
-            <span className="text-gray-800 font-medium">{business.ruc}</span>
+            <span className="text-gray-800 font-medium">{business.formalIdentity!.ruc}</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-500">Régimen Tributario</span>
+            <span className="text-gray-800 font-medium">{business.formalIdentity!.taxRegime}</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-500">Código CIIU</span>
+            <span className="text-gray-800 font-medium">{business.formalIdentity!.ciiuCode}</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-500">Estado SUNAT</span>
+            <span className="text-gray-800 font-medium">{business.formalIdentity!.sunatStatus}</span>
           </div>
         </div>
       )}

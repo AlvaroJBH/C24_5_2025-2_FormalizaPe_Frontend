@@ -36,7 +36,7 @@ export default function BusinessProceduresPage() {
       {business && (
         <p className="text-gray-500 mb-4">
           Procedimientos de{" "}
-          <span className="font-medium text-gray-700">{business.tradeName}</span>
+          <span className="font-medium text-gray-700">{business.displayName}</span>
         </p>
       )}
 

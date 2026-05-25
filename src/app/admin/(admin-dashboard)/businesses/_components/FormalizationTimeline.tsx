@@ -133,7 +133,7 @@ export function FormalizationTimeline({ formalization, loading }: FormalizationT
       <div className="bg-white rounded-none shadow-md border border-gray-300 p-4">
         <div className="flex items-center justify-between mb-2">
           <h2 className="text-lg font-semibold text-gray-800">
-            {formalization.businessTradeName}
+            {formalization.businessDisplayName}
           </h2>
           <span className="text-lg font-bold text-gray-800">
             {overallProgress.toFixed(0)}% global

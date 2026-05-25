@@ -25,10 +25,12 @@ export function BusinessHeader({ business }: BusinessHeaderProps) {
         </Button>
         <div>
           <h1 className="text-2xl font-bold text-gray-900">
-            {business.tradeName}
+            {business.displayName}
           </h1>
           <p className="text-gray-500 text-sm mt-1">
-            {business.legalName} · RUC {business.ruc}
+            {business.formalIdentity
+              ? `${business.formalIdentity.legalName} · RUC ${business.formalIdentity.ruc}`
+              : "Sin formalizar"}
           </p>
         </div>
       </div>

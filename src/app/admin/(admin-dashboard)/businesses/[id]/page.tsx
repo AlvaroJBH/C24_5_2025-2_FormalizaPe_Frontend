@@ -31,7 +31,7 @@ export default function BusinessDetailPage() {
     return (
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-none shadow-md border border-gray-300 p-6">
-          <p className="text-gray-500 text-center py-8">Cargando empresa...</p>
+          <p className="text-gray-500 text-center py-8">Cargando negocio...</p>
         </div>
       </div>
     );
@@ -42,7 +42,7 @@ export default function BusinessDetailPage() {
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-none shadow-md border border-gray-300 p-6">
           <p className="text-red-600 text-center py-8">
-            {error || "Empresa no encontrada"}
+            {error || "Negocio no encontrado"}
           </p>
           <div className="flex justify-center mt-4">
             <Button
@@ -69,43 +69,37 @@ export default function BusinessDetailPage() {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <BusinessSummaryCard title="Información General">
+        <BusinessSummaryCard title="Información del Negocio">
           <div>
-            <p className="text-xs font-medium text-gray-500 uppercase">Nombre comercial</p>
-            <p className="text-gray-800 mt-1">{business.tradeName}</p>
-          </div>
-          <div>
-            <p className="text-xs font-medium text-gray-500 uppercase">Razón social</p>
-            <p className="text-gray-800 mt-1">{business.legalName}</p>
-          </div>
-          <div>
-            <p className="text-xs font-medium text-gray-500 uppercase">RUC</p>
-            <p className="text-gray-800 mt-1 font-mono">{business.ruc}</p>
-          </div>
-          <div>
-            <p className="text-xs font-medium text-gray-500 uppercase">Tipo de empresa</p>
-            <p className="text-gray-800 mt-1">{business.businessType}</p>
-          </div>
-        </BusinessSummaryCard>
-
-        <BusinessSummaryCard title="Sector y Actividad">
-          <div>
-            <p className="text-xs font-medium text-gray-500 uppercase">Sector</p>
-            <p className="text-gray-800 mt-1">{business.sector}</p>
-          </div>
-          <div>
-            <p className="text-xs font-medium text-gray-500 uppercase">Actividad económica</p>
-            <p className="text-gray-800 mt-1">{business.economicActivity}</p>
+            <p className="text-xs font-medium text-gray-500 uppercase">Nombre</p>
+            <p className="text-gray-800 mt-1">{business.displayName}</p>
           </div>
           <div>
             <p className="text-xs font-medium text-gray-500 uppercase">Fecha de inicio</p>
             <p className="text-gray-800 mt-1">{formatDate(business.startDate)}</p>
           </div>
-          <div>
-            <p className="text-xs font-medium text-gray-500 uppercase">Régimen tributario</p>
-            <p className="text-gray-800 mt-1">{business.taxRegime}</p>
-          </div>
         </BusinessSummaryCard>
+
+        {business.formalIdentity && (
+          <BusinessSummaryCard title="Datos Legales">
+            <div>
+              <p className="text-xs font-medium text-gray-500 uppercase">Nombre comercial</p>
+              <p className="text-gray-800 mt-1">{business.formalIdentity.tradeName}</p>
+            </div>
+            <div>
+              <p className="text-xs font-medium text-gray-500 uppercase">Razón social</p>
+              <p className="text-gray-800 mt-1">{business.formalIdentity.legalName}</p>
+            </div>
+            <div>
+              <p className="text-xs font-medium text-gray-500 uppercase">RUC</p>
+              <p className="text-gray-800 mt-1 font-mono">{business.formalIdentity.ruc}</p>
+            </div>
+            <div>
+              <p className="text-xs font-medium text-gray-500 uppercase">Régimen tributario</p>
+              <p className="text-gray-800 mt-1">{business.formalIdentity.taxRegime}</p>
+            </div>
+          </BusinessSummaryCard>
+        )}
 
         <BusinessSummaryCard title="Ubicación">
           <div>

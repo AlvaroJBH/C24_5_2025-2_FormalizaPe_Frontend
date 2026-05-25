@@ -61,7 +61,7 @@ export function BusinessActions({
         <DialogContent className="sm:max-w-[500px] rounded-none max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-xl font-semibold">
-              Editar Empresa
+              Editar Negocio
             </DialogTitle>
           </DialogHeader>
           <BusinessForm
@@ -92,13 +92,13 @@ export function BusinessActions({
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle className="text-xl font-semibold text-red-600">
-              Eliminar Empresa
+              Eliminar Negocio
             </DialogTitle>
           </DialogHeader>
           <div className="py-4">
             <p className="text-gray-700">
-              ¿Estás seguro que quieres eliminar la empresa{" "}
-              <strong className="text-gray-900">{business.tradeName}</strong>?
+              ¿Estás seguro que quieres eliminar el negocio{" "}
+              <strong className="text-gray-900">{business.displayName}</strong>?
             </p>
             <p className="text-sm text-gray-500 mt-2">
               Esta acción no se puede deshacer.

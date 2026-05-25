@@ -25,7 +25,7 @@ export function BusinessesTable({ businesses, loading }: BusinessesTableProps) {
   if (loading) {
     return (
       <div className="py-8 text-center text-gray-500">
-        <p>Cargando empresas...</p>
+        <p>Cargando negocios...</p>
       </div>
     );
   }
@@ -33,7 +33,7 @@ export function BusinessesTable({ businesses, loading }: BusinessesTableProps) {
   if (businesses.length === 0) {
     return (
       <div className="py-8 text-center text-gray-500">
-        <p>No hay empresas registradas.</p>
+        <p>No hay negocios registrados.</p>
       </div>
     );
   }
@@ -44,13 +44,7 @@ export function BusinessesTable({ businesses, loading }: BusinessesTableProps) {
         <thead>
           <tr className="border-b border-gray-300 bg-gray-50">
             <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">
-              Nombre comercial
-            </th>
-            <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">
-              Razón social
-            </th>
-            <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">
-              RUC
+              Nombre
             </th>
             <th className="text-left py-3 px-4 font-semibold text-gray-700 text-sm">
               Estado
@@ -73,11 +67,7 @@ export function BusinessesTable({ businesses, loading }: BusinessesTableProps) {
               className="border-b border-gray-200 hover:bg-gray-50"
             >
               <td className="py-3 px-4 text-gray-800 font-medium">
-                {business.tradeName}
-              </td>
-              <td className="py-3 px-4 text-gray-600">{business.legalName}</td>
-              <td className="py-3 px-4 text-gray-600 font-mono text-sm">
-                {business.ruc}
+                {business.displayName}
               </td>
               <td className="py-3 px-4">
                 <BusinessStatusBadge status={business.status} />

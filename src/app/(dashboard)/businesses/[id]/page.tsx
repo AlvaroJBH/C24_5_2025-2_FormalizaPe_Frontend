@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
 import { BusinessInfoCard } from "./_components/BusinessInfoCard";
-import { Business, CreateBusinessData } from "@/services/business-service";
+import { Business, UpdateBusinessData } from "@/services/business-service";
 
 export default function BusinessDashboardPage() {
   const params = useParams();
@@ -24,7 +24,7 @@ export default function BusinessDashboardPage() {
   const [procedures, setProcedures] = useState<FormalizationProcedureDTO[]>([]);
   const [loadingProcedures, setLoadingProcedures] = useState(true);
 
-  const handleBusinessUpdate = async (data: CreateBusinessData) => {
+  const handleBusinessUpdate = async (data: UpdateBusinessData) => {
     if (!business) return;
     const updated: Business = {
       ...business,
@@ -90,7 +90,7 @@ export default function BusinessDashboardPage() {
       <AppBreadcrumb
         items={[
           { label: "Inicio", href: "/businesses" },
-          { label: business.tradeName, href: `/businesses/${businessId}` },
+          { label: business.displayName, href: `/businesses/${businessId}` },
         ]}
       />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -186,9 +186,9 @@ export default function BusinessDashboardPage() {
                   key={i}
                   href={card.href}
                   className={`
-                    border rounded-none p-4 flex flex-col items-center text-center 
-                    shadow-md transition-all 
-                    hover:shadow-lg hover:-translate-y-1 
+                    border rounded-none p-4 flex flex-col items-center text-center
+                    shadow-md transition-all
+                    hover:shadow-lg hover:-translate-y-1
                     border-[${card.border}]
                     ${card.hover}
                   `}

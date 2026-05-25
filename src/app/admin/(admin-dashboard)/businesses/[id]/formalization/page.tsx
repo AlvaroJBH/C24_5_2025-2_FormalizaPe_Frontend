@@ -36,7 +36,7 @@ export default function BusinessFormalizationPage() {
       {business && (
         <p className="text-gray-500 mb-4">
           Seguimiento de formalización de{" "}
-          <span className="font-medium text-gray-700">{business.tradeName}</span>
+          <span className="font-medium text-gray-700">{business.displayName}</span>
         </p>
       )}
 

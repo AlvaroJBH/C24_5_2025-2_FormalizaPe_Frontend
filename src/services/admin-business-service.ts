@@ -2,29 +2,36 @@ import { useAuthStore } from "@/store/auth-store";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export interface AdminBusiness {
+export type BusinessStatus = "INFORMAL" | "EN_FORMALIZACION" | "FORMALIZADO";
+
+export interface FormalIdentity {
   id: number;
   tradeName: string;
   legalName: string;
   ruc: string;
-  status: string;
+  taxRegime: string;
+  ciiuCode: string;
+  sunatStatus: string;
+}
+
+export interface AdminBusiness {
+  id: number;
+  displayName: string;
+  status: BusinessStatus;
   ownerUsername: string;
   createdAt: string;
 }
 
 export interface AdminBusinessDetail extends AdminBusiness {
-  businessType: string;
-  sector: string;
-  economicActivity: string;
   startDate: string;
   department: string;
   province: string;
   district: string;
   address: string;
-  taxRegime: string;
   ownerId: number;
   ownerEmail: string;
   updatedAt?: string;
+  formalIdentity: FormalIdentity | null;
 }
 
 export interface AdminBusinessProcedure {
@@ -58,7 +65,7 @@ export interface FormalizationProcedure {
 
 export interface AdminBusinessFormalization {
   businessId: number;
-  businessTradeName: string;
+  businessDisplayName: string;
   procedures: FormalizationProcedure[];
 }
 

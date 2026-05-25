@@ -1,9 +1,8 @@
 "use client";
 
 import { CreateBusinessData } from "@/services/business-service";
-import { Badge } from "@/components/ui/badge";
 
-interface Step4SummaryProps {
+interface Step3SummaryProps {
   data: Partial<CreateBusinessData>;
 }
 
@@ -37,14 +36,11 @@ function SummaryItem({ label, value }: SummaryItemProps) {
   );
 }
 
-export function Step4Summary({ data }: Step4SummaryProps) {
+export function Step3Summary({ data }: Step3SummaryProps) {
   return (
     <div className="space-y-4">
-      <SummarySection title="Datos Generales">
-        <SummaryItem label="Nombre Comercial" value={data.tradeName} />
-        <SummaryItem label="Razón Social" value={data.legalName} />
-        <SummaryItem label="Sector" value={data.sector} />
-        <SummaryItem label="Actividad Económica" value={data.economicActivity} />
+      <SummarySection title="Datos del Negocio">
+        <SummaryItem label="Nombre del Negocio" value={data.displayName} />
         <SummaryItem label="Fecha de Inicio" value={data.startDate} />
       </SummarySection>
 
@@ -55,11 +51,12 @@ export function Step4Summary({ data }: Step4SummaryProps) {
         <SummaryItem label="Dirección" value={data.address} />
       </SummarySection>
 
-      <SummarySection title="Datos Tributarios">
-        <SummaryItem label="Tipo de Empresa" value={data.businessType} />
-        <SummaryItem label="Régimen Tributario" value={data.taxRegime} />
-        <SummaryItem label="RUC" value={data.ruc} />
-      </SummarySection>
+      <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
+        <p className="text-sm text-blue-700">
+          Al crear tu negocio, podrás iniciar el proceso de formalización cuando lo desees.
+          Los datos legales (RUC, Razón Social, Régimen Tributario) se solicitarán durante la formalización.
+        </p>
+      </div>
     </div>
   );
 }

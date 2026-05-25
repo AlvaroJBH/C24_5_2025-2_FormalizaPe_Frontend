@@ -8,39 +8,29 @@ import { CreateBusinessData } from "@/services/business-service";
 import { createBusiness } from "@/services/business-service";
 import { useAuthStore } from "@/store/auth-store";
 import { BusinessWizardStepper } from "./_components/BusinessWizardStepper";
-import { Step1GeneralData } from "./_components/Step1GeneralData";
+import { Step1BusinessData } from "./_components/Step1BusinessData";
 import { Step2Location } from "./_components/Step2Location";
-import { Step3TaxData } from "./_components/Step3TaxData";
-import { Step4Summary } from "./_components/Step4Summary";
+import { Step3Summary } from "./_components/Step3Summary";
 
 const STEPS = [
-  { id: 1, label: "Datos\nGenerales" },
+  { id: 1, label: "Datos del\nNegocio" },
   { id: 2, label: "Ubicación" },
-  { id: 3, label: "Datos\nTributarios" },
-  { id: 4, label: "Resumen" },
+  { id: 3, label: "Resumen" },
 ];
 
 const STEP_FIELDS: Record<number, (keyof CreateBusinessData)[]> = {
-  1: ["tradeName", "legalName", "sector", "economicActivity", "startDate"],
+  1: ["displayName", "startDate"],
   2: ["department", "province", "district", "address"],
-  3: ["businessType", "taxRegime", "ruc"],
-  4: [],
+  3: [],
 };
 
 const INITIAL_DATA: Partial<CreateBusinessData> = {
-  tradeName: "",
-  legalName: "",
-  businessType: "",
-  sector: "",
-  economicActivity: "",
+  displayName: "",
   startDate: "",
   department: "",
   province: "",
   district: "",
   address: "",
-  taxRegime: "",
-  ruc: "",
-  status: "ACTIVO",
 };
 
 export default function NewBusinessPage() {
@@ -71,27 +61,16 @@ export default function NewBusinessPage() {
       const value = formData[field];
       if (!value || value.trim() === "") {
         const fieldLabels: Record<keyof CreateBusinessData, string> = {
-          tradeName: "Nombre Comercial",
-          legalName: "Razón Social",
-          sector: "Sector",
-          economicActivity: "Actividad Económica",
+          displayName: "Nombre del Negocio",
           startDate: "Fecha de Inicio",
           department: "Departamento",
           province: "Provincia",
           district: "Distrito",
           address: "Dirección",
-          businessType: "Tipo de Empresa",
-          taxRegime: "Régimen Tributario",
-          ruc: "RUC",
-          status: "Estado",
         };
         newErrors[field] = `${fieldLabels[field]} es requerido`;
       }
     });
-
-    if (step === 3 && formData.ruc && formData.ruc.length !== 11) {
-      newErrors.ruc = "El RUC debe tener exactamente 11 dígitos";
-    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -122,13 +101,11 @@ export default function NewBusinessPage() {
   const renderStep = () => {
     switch (currentStep) {
       case 1:
-        return <Step1GeneralData data={formData} onChange={handleFieldChange} errors={errors} />;
+        return <Step1BusinessData data={formData} onChange={handleFieldChange} errors={errors} />;
       case 2:
         return <Step2Location data={formData} onChange={handleFieldChange} errors={errors} />;
       case 3:
-        return <Step3TaxData data={formData} onChange={handleFieldChange} errors={errors} />;
-      case 4:
-        return <Step4Summary data={formData} />;
+        return <Step3Summary data={formData} />;
       default:
         return null;
     }
@@ -149,7 +126,7 @@ export default function NewBusinessPage() {
 
       <div className="bg-white rounded-none shadow-md border border-gray-300 p-6">
         <h1 className="text-xl font-bold text-gray-900 mb-6">
-          Crear Nueva Empresa
+          Crear Nuevo Negocio
         </h1>
 
         <BusinessWizardStepper steps={STEPS} currentStep={currentStep} />
@@ -182,7 +159,7 @@ export default function NewBusinessPage() {
               disabled={isSubmitting}
             >
               <Check className="w-4 h-4 mr-2" />
-              Confirmar y crear empresa
+              Confirmar y crear negocio
             </Button>
           )}
         </div>

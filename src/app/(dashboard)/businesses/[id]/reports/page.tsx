@@ -124,7 +124,7 @@ export default function ReportPage() {
       <AppBreadcrumb
         items={[
           { label: "Inicio", href: "/businesses" },
-          { label: business?.tradeName ?? "Business", href: `/businesses/${businessId}` },
+          { label: business?.displayName ?? "Business", href: `/businesses/${businessId}` },
           { label: "Simulador", href: `/businesses/${businessId}/reports` },
         ]}
       />

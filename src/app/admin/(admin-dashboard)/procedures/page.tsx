@@ -107,7 +107,7 @@ export default function AdminProceduresPage() {
                       className="cursor-pointer hover:bg-gray-50 rounded-none px-3 py-1"
                       onClick={() => handleBusinessSelect(business.id)}
                     >
-                      {business.tradeName}
+                      {business.displayName}
                     </Badge>
                   ))}
                 </div>
