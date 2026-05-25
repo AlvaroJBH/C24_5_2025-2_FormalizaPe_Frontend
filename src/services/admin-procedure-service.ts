@@ -12,6 +12,7 @@ export interface ProcedureTemplate {
 
 export interface ProcedureStep {
   id: number;
+  identifier: string;
   title: string;
   description: string;
   stepOrder: number;
