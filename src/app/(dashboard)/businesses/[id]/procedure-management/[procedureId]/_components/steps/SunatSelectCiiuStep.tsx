@@ -12,7 +12,11 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { StepComponentProps } from "../StepFallbackModal";
 import ciiuData from "@/data/ciiu_revision4.json";
-import { createFormalIdentity } from "@/services/formalization-service";
+import {
+  createFormalIdentity,
+  getFormalIdentity,
+  FormalIdentityResponse,
+} from "@/services/formalization-service";
 import { useBusinessStore } from "@/store/business-store";
 
 type SelectedCiiu = {
@@ -30,6 +34,28 @@ interface Section {
     }>;
     actividades?: Record<string, string>;
   }>;
+}
+
+interface CreateFormalIdentityDto {
+  businessId: number;
+  businessDisplayName: string;
+  tradeName: string;
+  legalName: string;
+  ruc: string;
+  sunatStatus: string;
+  taxpayerType: string;
+  ciiuCode: string;
+  taxRegime: string;
+  taxRegimeSource: string;
+  projectedAnnualIncome?: number;
+  companyType: string;
+  isRegisteredCompany?: boolean;
+  voucherType: string;
+  electronicInvoicingEnabled?: boolean;
+  hasEmployees?: boolean;
+  payrollEnabled?: boolean;
+  accountingObligation: string;
+  electronicBooksEnabled?: boolean;
 }
 
 function findCiiuInHierarchy(code: string, sections: Record<string, Section>) {
@@ -58,6 +84,34 @@ function findCiiuInHierarchy(code: string, sections: Record<string, Section>) {
     }
   }
   return null;
+}
+
+function buildFormalIdentityDto(
+  existing: FormalIdentityResponse | null,
+  businessId: number,
+  ciiuCode: string
+): CreateFormalIdentityDto {
+  return {
+    businessId,
+    businessDisplayName: existing?.businessDisplayName || "",
+    tradeName: existing?.tradeName || "",
+    legalName: existing?.legalName || "",
+    ruc: existing?.ruc || "",
+    sunatStatus: existing?.sunatStatus || "",
+    taxpayerType: existing?.taxpayerType || "",
+    ciiuCode,
+    taxRegime: existing?.taxRegime || "",
+    taxRegimeSource: existing?.taxRegimeSource || "",
+    projectedAnnualIncome: existing?.projectedAnnualIncome ?? undefined,
+    companyType: existing?.companyType || "",
+    isRegisteredCompany: existing?.isRegisteredCompany ?? undefined,
+    voucherType: existing?.voucherType || "",
+    electronicInvoicingEnabled: existing?.electronicInvoicingEnabled ?? undefined,
+    hasEmployees: existing?.hasEmployees ?? undefined,
+    payrollEnabled: existing?.payrollEnabled ?? undefined,
+    accountingObligation: existing?.accountingObligation || "",
+    electronicBooksEnabled: existing?.electronicBooksEnabled ?? undefined,
+  };
 }
 
 export function SunatSelectCiiuStep({
@@ -128,10 +182,15 @@ export function SunatSelectCiiuStep({
 
     setSaving(true);
     try {
-      await createFormalIdentity({
-        businessId,
-        ciiuCode: selectedActivity.code,
-      });
+      let existing: FormalIdentityResponse | null = null;
+      try {
+        existing = await getFormalIdentity(businessId);
+      } catch {
+        // 404 means no formal identity exists yet
+      }
+
+      const dto = buildFormalIdentityDto(existing, businessId, selectedActivity.code);
+      await createFormalIdentity(dto);
       onComplete();
     } catch (err) {
       console.error("Error saving CIIU:", err);
@@ -226,7 +285,7 @@ export function SunatSelectCiiuStep({
                 <SelectContent className="w-full max-h-60 overflow-y-auto">
                   {Object.entries(subdivisions).map(([key, subdivision]) => (
                     <SelectItem key={key} value={key}>
-                      {key} - {subdivision.titulo}
+                      {key} - {(subdivision as { titulo: string }).titulo}
                     </SelectItem>
                   ))}
                 </SelectContent>
