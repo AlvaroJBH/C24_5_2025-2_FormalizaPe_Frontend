@@ -19,7 +19,7 @@ type AppBreadcrumbProps = {
 
 export function AppBreadcrumb({ items }: AppBreadcrumbProps) {
   return (
-    <Breadcrumb className="mb-2">
+    <Breadcrumb className="mb-2 text-base">
       <BreadcrumbList>
         {items.map((item, index) => {
           const isLast = index === items.length - 1
