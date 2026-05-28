@@ -43,7 +43,7 @@ export function SunatVerifyRucStatusStep({
   if (!ruc) {
     return (
       <Dialog open onOpenChange={(open) => !open && onClose()}>
-        <DialogContent size="md" className="rounded-none">
+        <DialogContent size="lg" className="rounded-none">
           <DialogHeader>
             <DialogTitle className="text-lg font-semibold text-gray-800">
               {stepTitle}

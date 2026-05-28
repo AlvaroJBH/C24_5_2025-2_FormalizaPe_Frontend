@@ -105,7 +105,77 @@ export default function BusinessDashboardPage() {
       />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 flex flex-col gap-6">
-          <div className="bg-white rounded-none shadow-md transition-shadow hover:shadow-lg p-6 border  border-gray-100">
+          <div className="bg-white rounded-none shadow-md transition-shadow hover:shadow-lg p-6 border border-gray-100">
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-1 h-6 bg-blue-600 rounded-full"></div>
+              <h2 className="text-blue-700 font-semibold text-lg">
+                Accesos rápidos
+              </h2>
+            </div>
+
+            <p className="text-gray-500 text-sm mb-4">
+              Herramientas principales para gestionar tu negocio
+            </p>
+
+            <div className="grid h-[340px] grid-rows-[3fr_2fr] gap-4">
+              <Link
+                href={`/businesses/${businessId}/procedure-management`}
+                className="border-2 border-[#8B5CF6] rounded-none p-5 flex flex-col items-center justify-center text-center shadow-md transition-all hover:shadow-lg hover:bg-[#F3E8FF]"
+              >
+                <FileText size={36} color="#8B5CF6" className="mb-2" />
+                <span className="text-sm font-semibold text-gray-800">
+                  Gestionar trámites
+                </span>
+                <span className="text-xs text-gray-500 mt-1 text-center">
+                  Ver y gestionar el progreso de formalización
+                </span>
+              </Link>
+
+              <div className="grid grid-cols-3 gap-4">
+                {[
+                  {
+                    label: "Simulador tributario",
+                    href: `/businesses/${businessId}/simulations`,
+                    icon: <Calculator size={20} color="#4CAEFF" />,
+                    border: "border-[#4CAEFF]",
+                    hover: "hover:bg-[#E8F4FF]",
+                  },
+                  {
+                    label: "Preguntas Frecuentes",
+                    href: `/businesses/${businessId}/help/faqs`,
+                    icon: <MessageSquare size={20} color="#3B82F6" />,
+                    border: "border-[#3B82F6]",
+                    hover: "hover:bg-[#E6EEFF]",
+                  },
+                  {
+                    label: "Reportes",
+                    href: `/businesses/${businessId}/reports`,
+                    icon: <LineChart size={20} color="#F97316" />,
+                    border: "border-[#F97316]",
+                    hover: "hover:bg-[#FFF0E6]",
+                  },
+                ].map((card, i) => (
+                  <Link
+                    key={i}
+                    href={card.href}
+                    className={`
+                      border-2 ${card.border} rounded-none p-4 flex flex-col items-center justify-center text-center
+                      shadow-md transition-all
+                      hover:shadow-lg
+                      ${card.hover}
+                    `}
+                  >
+                    <div className="mb-2">{card.icon}</div>
+                    <span className="text-sm font-medium text-gray-800 text-center">
+                      {card.label}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-none shadow-md transition-shadow hover:shadow-lg p-6 border border-gray-100">
             <div className="flex items-center gap-2 mb-1">
               <div className="w-1 h-6 bg-blue-600 rounded-full"></div>
               <h2 className="text-blue-700 font-semibold text-lg">
@@ -146,69 +216,6 @@ export default function BusinessDashboardPage() {
                   </div>
                 ))
               )}
-            </div>
-          </div>
-
-          <div className="bg-white rounded-none shadow p-6 border border-gray-100 transition-shadow hover:shadow-lg">
-            <div className="flex items-center gap-2 mb-1">
-              <div className="w-1 h-6 bg-blue-600 rounded-none"></div>
-              <h2 className="text-blue-700 font-semibold text-lg">
-                Accesos rápidos
-              </h2>
-            </div>
-
-            <p className="text-gray-500 text-sm mb-4">
-              Herramientas principales para gestionar tu negocio
-            </p>
-
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                {
-                  label: "Simulador tributario",
-                  href: `/businesses/${businessId}/simulations`,
-                  icon: <Calculator size={22} color="#4CAEFF" />,
-                  border: "#4CAEFF",
-                  hover: "hover:bg-[#E8F4FF]",
-                },
-                {
-                  label: "Preguntas Frecuentes",
-                  href: `/businesses/${businessId}/help/faqs`,
-                  icon: <MessageSquare size={22} color="#3B82F6" />,
-                  border: "#3B82F6",
-                  hover: "hover:bg-[#E6EEFF]",
-                },
-                {
-                  label: "Gestionar trámites",
-                  href: `/businesses/${businessId}/procedure-management`,
-                  icon: <FileText size={22} color="#8B5CF6" />,
-                  border: "#8B5CF6",
-                  hover: "hover:bg-[#F3E8FF]",
-                },
-                {
-                  label: "Reportes",
-                  href: `/businesses/${businessId}/reports`,
-                  icon: <LineChart size={22} color="#F97316" />,
-                  border: "#F97316",
-                  hover: "hover:bg-[#FFF0E6]",
-                },
-              ].map((card, i) => (
-                <Link
-                  key={i}
-                  href={card.href}
-                  className={`
-                    border rounded-none p-4 flex flex-col items-center text-center
-                    shadow-md transition-all
-                    hover:shadow-lg hover:-translate-y-1
-                    border-[${card.border}]
-                    ${card.hover}
-                  `}
-                >
-                  <div className="mb-2">{card.icon}</div>
-                  <span className="text-sm font-medium text-gray-800">
-                    {card.label}
-                  </span>
-                </Link>
-              ))}
             </div>
           </div>
         </div>
