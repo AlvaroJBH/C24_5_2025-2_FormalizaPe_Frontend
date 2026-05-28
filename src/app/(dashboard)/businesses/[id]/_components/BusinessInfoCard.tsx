@@ -25,8 +25,12 @@ export function BusinessInfoCard({ business, onBusinessUpdate, onFormalizationCo
     tradeName: "",
     legalName: "",
     ruc: "",
+    taxpayerType: "",
     taxRegime: "",
     ciiuCode: "",
+    companyType: "",
+    voucherType: "",
+    accountingObligation: "",
   });
   const [formalizationError, setFormalizationError] = useState<string | null>(null);
   const [isSubmittingFormalization, setIsSubmittingFormalization] = useState(false);
@@ -37,8 +41,12 @@ export function BusinessInfoCard({ business, onBusinessUpdate, onFormalizationCo
         tradeName: business.formalIdentity.tradeName,
         legalName: business.formalIdentity.legalName,
         ruc: business.formalIdentity.ruc,
+        taxpayerType: business.formalIdentity.taxpayerType,
         taxRegime: business.formalIdentity.taxRegime,
         ciiuCode: business.formalIdentity.ciiuCode,
+        companyType: business.formalIdentity.companyType,
+        voucherType: business.formalIdentity.voucherType,
+        accountingObligation: business.formalIdentity.accountingObligation,
       });
     }
     setShowFormalizationForm(true);
@@ -60,8 +68,12 @@ export function BusinessInfoCard({ business, onBusinessUpdate, onFormalizationCo
         tradeName: formalizationData.tradeName || undefined,
         legalName: formalizationData.legalName || undefined,
         ruc: formalizationData.ruc || undefined,
+        taxpayerType: formalizationData.taxpayerType || undefined,
         taxRegime: formalizationData.taxRegime || undefined,
         ciiuCode: formalizationData.ciiuCode || undefined,
+        companyType: formalizationData.companyType || undefined,
+        voucherType: formalizationData.voucherType || undefined,
+        accountingObligation: formalizationData.accountingObligation || undefined,
       });
       setShowFormalizationForm(false);
       onFormalizationComplete?.();
@@ -114,6 +126,15 @@ export function BusinessInfoCard({ business, onBusinessUpdate, onFormalizationCo
           </div>
 
           <div>
+            <Label className="text-xs text-gray-600">Tipo de Contribuyente</Label>
+            <Input
+              className="rounded-none h-8 text-sm"
+              value={formalizationData.taxpayerType ?? ""}
+              onChange={(e) => handleFormalizationChange("taxpayerType", e.target.value)}
+            />
+          </div>
+
+          <div>
             <Label className="text-xs text-gray-600">Régimen Tributario</Label>
             <Input
               className="rounded-none h-8 text-sm"
@@ -128,6 +149,33 @@ export function BusinessInfoCard({ business, onBusinessUpdate, onFormalizationCo
               className="rounded-none h-8 text-sm"
               value={formalizationData.ciiuCode ?? ""}
               onChange={(e) => handleFormalizationChange("ciiuCode", e.target.value)}
+            />
+          </div>
+
+          <div>
+            <Label className="text-xs text-gray-600">Tipo de Empresa</Label>
+            <Input
+              className="rounded-none h-8 text-sm"
+              value={formalizationData.companyType ?? ""}
+              onChange={(e) => handleFormalizationChange("companyType", e.target.value)}
+            />
+          </div>
+
+          <div>
+            <Label className="text-xs text-gray-600">Tipo de Comprobante</Label>
+            <Input
+              className="rounded-none h-8 text-sm"
+              value={formalizationData.voucherType ?? ""}
+              onChange={(e) => handleFormalizationChange("voucherType", e.target.value)}
+            />
+          </div>
+
+          <div>
+            <Label className="text-xs text-gray-600">Obligación Contable</Label>
+            <Input
+              className="rounded-none h-8 text-sm"
+              value={formalizationData.accountingObligation ?? ""}
+              onChange={(e) => handleFormalizationChange("accountingObligation", e.target.value)}
             />
           </div>
 

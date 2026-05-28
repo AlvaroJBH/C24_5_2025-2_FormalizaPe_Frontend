@@ -53,9 +53,20 @@ export interface FormalIdentityResponse {
   tradeName: string;
   legalName: string;
   ruc: string;
-  taxRegime: string;
-  ciiuCode: string;
   sunatStatus: string;
+  taxpayerType: string;
+  ciiuCode: string;
+  taxRegime: string;
+  taxRegimeSource: string;
+  projectedAnnualIncome: number | null;
+  companyType: string;
+  isRegisteredCompany: boolean | null;
+  voucherType: string;
+  electronicInvoicingEnabled: boolean | null;
+  hasEmployees: boolean | null;
+  payrollEnabled: boolean | null;
+  accountingObligation: string;
+  electronicBooksEnabled: boolean | null;
 }
 
 export interface CreateFormalIdentityRequest {
@@ -63,9 +74,20 @@ export interface CreateFormalIdentityRequest {
   tradeName?: string;
   legalName?: string;
   ruc?: string;
-  taxRegime?: string;
-  ciiuCode?: string;
   sunatStatus?: string;
+  taxpayerType?: string;
+  ciiuCode?: string;
+  taxRegime?: string;
+  taxRegimeSource?: string;
+  projectedAnnualIncome?: number;
+  companyType?: string;
+  isRegisteredCompany?: boolean;
+  voucherType?: string;
+  electronicInvoicingEnabled?: boolean;
+  hasEmployees?: boolean;
+  payrollEnabled?: boolean;
+  accountingObligation?: string;
+  electronicBooksEnabled?: boolean;
 }
 
 // -----------------------------------------

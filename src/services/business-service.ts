@@ -11,9 +11,20 @@ export interface FormalIdentity {
   tradeName: string;
   legalName: string;
   ruc: string;
-  taxRegime: string;
-  ciiuCode: string;
   sunatStatus: string;
+  taxpayerType: string;
+  ciiuCode: string;
+  taxRegime: string;
+  taxRegimeSource: string;
+  projectedAnnualIncome: number | null;
+  companyType: string;
+  isRegisteredCompany: boolean | null;
+  voucherType: string;
+  electronicInvoicingEnabled: boolean | null;
+  hasEmployees: boolean | null;
+  payrollEnabled: boolean | null;
+  accountingObligation: string;
+  electronicBooksEnabled: boolean | null;
 }
 
 export interface BusinessProcedureSummary {

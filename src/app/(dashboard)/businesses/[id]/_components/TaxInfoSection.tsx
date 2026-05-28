@@ -70,12 +70,28 @@ export function TaxInfoSection({ business, onStartFormalization }: TaxInfoSectio
               <span className="text-gray-800 font-medium">{business.formalIdentity!.ruc}</span>
             </div>
             <div className="flex justify-between text-sm">
+              <span className="text-gray-500">Tipo de Contribuyente</span>
+              <span className="text-gray-800 font-medium">{business.formalIdentity!.taxpayerType}</span>
+            </div>
+            <div className="flex justify-between text-sm">
               <span className="text-gray-500">Régimen Tributario</span>
               <span className="text-gray-800 font-medium">{business.formalIdentity!.taxRegime}</span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">Código CIIU</span>
               <span className="text-gray-800 font-medium">{business.formalIdentity!.ciiuCode}</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-gray-500">Tipo de Empresa</span>
+              <span className="text-gray-800 font-medium">{business.formalIdentity!.companyType}</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-gray-500">Comprobantes</span>
+              <span className="text-gray-800 font-medium">{business.formalIdentity!.voucherType}</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-gray-500">Obligación Contable</span>
+              <span className="text-gray-800 font-medium">{business.formalIdentity!.accountingObligation}</span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">Estado SUNAT</span>
