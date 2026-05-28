@@ -54,7 +54,7 @@ export interface FormalIdentityResponse {
   legalName: string;
   ruc: string;
   taxRegime: string;
-  ciiCode: string;
+  ciiuCode: string;
   sunatStatus: string;
 }
 
@@ -64,7 +64,7 @@ export interface CreateFormalIdentityRequest {
   legalName?: string;
   ruc?: string;
   taxRegime?: string;
-  ciiCode?: string;
+  ciiuCode?: string;
   sunatStatus?: string;
 }
 

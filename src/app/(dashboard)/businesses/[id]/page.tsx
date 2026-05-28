@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
 import { BusinessInfoCard } from "./_components/BusinessInfoCard";
-import { Business, UpdateBusinessData, getBusinessById } from "@/services/business-service";
+import { UpdateBusinessData, Business, getBusinessById } from "@/services/business-service";
 
 export default function BusinessDashboardPage() {
   const params = useParams();

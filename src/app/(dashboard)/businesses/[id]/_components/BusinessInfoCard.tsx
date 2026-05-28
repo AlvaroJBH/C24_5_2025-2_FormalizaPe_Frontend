@@ -26,7 +26,7 @@ export function BusinessInfoCard({ business, onBusinessUpdate, onFormalizationCo
     legalName: "",
     ruc: "",
     taxRegime: "",
-    ciiCode: "",
+    ciiuCode: "",
   });
   const [formalizationError, setFormalizationError] = useState<string | null>(null);
   const [isSubmittingFormalization, setIsSubmittingFormalization] = useState(false);
@@ -38,7 +38,7 @@ export function BusinessInfoCard({ business, onBusinessUpdate, onFormalizationCo
         legalName: business.formalIdentity.legalName,
         ruc: business.formalIdentity.ruc,
         taxRegime: business.formalIdentity.taxRegime,
-        ciiCode: business.formalIdentity.ciiCode,
+        ciiuCode: business.formalIdentity.ciiuCode,
       });
     }
     setShowFormalizationForm(true);
@@ -61,7 +61,7 @@ export function BusinessInfoCard({ business, onBusinessUpdate, onFormalizationCo
         legalName: formalizationData.legalName || undefined,
         ruc: formalizationData.ruc || undefined,
         taxRegime: formalizationData.taxRegime || undefined,
-        ciiCode: formalizationData.ciiCode || undefined,
+        ciiuCode: formalizationData.ciiuCode || undefined,
       });
       setShowFormalizationForm(false);
       onFormalizationComplete?.();
@@ -126,8 +126,8 @@ export function BusinessInfoCard({ business, onBusinessUpdate, onFormalizationCo
             <Label className="text-xs text-gray-600">Código CIIU</Label>
             <Input
               className="rounded-none h-8 text-sm"
-              value={formalizationData.ciiCode ?? ""}
-              onChange={(e) => handleFormalizationChange("ciiCode", e.target.value)}
+              value={formalizationData.ciiuCode ?? ""}
+              onChange={(e) => handleFormalizationChange("ciiuCode", e.target.value)}
             />
           </div>
 

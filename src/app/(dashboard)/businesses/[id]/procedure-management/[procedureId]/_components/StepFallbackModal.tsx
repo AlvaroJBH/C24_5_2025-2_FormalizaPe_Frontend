@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Check, X } from "lucide-react";
 
 export interface StepComponentProps {
+  businessId: number;
   stepId: number;
   stepIdentifier: string;
   stepTitle: string;
@@ -16,6 +17,7 @@ export interface StepComponentProps {
 }
 
 export function StepFallbackModal({
+  businessId,
   stepId,
   stepIdentifier,
   stepTitle,

@@ -12,7 +12,7 @@ export interface FormalIdentity {
   legalName: string;
   ruc: string;
   taxRegime: string;
-  ciiCode: string;
+  ciiuCode: string;
   sunatStatus: string;
 }
 

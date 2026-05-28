@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useAuthStore } from "@/store/auth-store";
+import { useBusinessStore } from "@/store/business-store";
 
 import {
   getFormalizationStatus,
@@ -13,7 +14,6 @@ import {
 import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Business, getBusinessById } from "@/services/business-service";
 import { getStepComponent } from "./_components/stepComponentMap";
 
 export default function ProcedureDetailsPage() {
@@ -22,7 +22,8 @@ export default function ProcedureDetailsPage() {
   const procedureId = Number(params.procedureId);
 
   const { token } = useAuthStore();
-  const [business, setBusiness] = useState<Business | null>(null);
+  const business = useBusinessStore((s) => s.business);
+  const refreshBusiness = useBusinessStore((s) => s.refreshBusiness);
   const [procedure, setProcedure] = useState<FormalizationProcedureDTO | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -41,8 +42,6 @@ export default function ProcedureDetailsPage() {
 
       if (!found) throw new Error("Procedimiento no encontrado");
       setProcedure(found);
-      const business_data = await getBusinessById(businessId);
-      setBusiness(business_data);
     } catch (err) {
       console.error(err);
       setError("Error al cargar el procedimiento");
@@ -66,6 +65,12 @@ export default function ProcedureDetailsPage() {
   };
 
   const handleToggleStep = async (step: FormalizationStepDTO) => {
+    if (step.status === "COMPLETED") {
+      await refreshBusiness(businessId);
+      handleCloseModal();
+      return;
+    }
+
     try {
       setSavingStep(step.stepId);
 
@@ -73,10 +78,11 @@ export default function ProcedureDetailsPage() {
         businessId,
         procedureId,
         stepId: step.stepId,
-        completed: step.status !== "COMPLETED",
+        completed: true,
       });
 
       await fetchProcedureData();
+      await refreshBusiness(businessId);
       handleCloseModal();
     } catch (err) {
       console.error(err);
@@ -208,6 +214,7 @@ export default function ProcedureDetailsPage() {
 
       {StepModalComponent && selectedStep && (
         <StepModalComponent
+          businessId={businessId}
           stepId={selectedStep.stepId}
           stepIdentifier={selectedStep.identifier}
           stepTitle={selectedStep.title}

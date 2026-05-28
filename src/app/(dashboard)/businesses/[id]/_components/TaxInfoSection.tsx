@@ -75,7 +75,7 @@ export function TaxInfoSection({ business, onStartFormalization }: TaxInfoSectio
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">Código CIIU</span>
-              <span className="text-gray-800 font-medium">{business.formalIdentity!.ciiCode}</span>
+              <span className="text-gray-800 font-medium">{business.formalIdentity!.ciiuCode}</span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">Estado SUNAT</span>
