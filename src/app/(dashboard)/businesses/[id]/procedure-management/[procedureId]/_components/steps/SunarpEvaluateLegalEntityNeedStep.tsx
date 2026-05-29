@@ -16,6 +16,7 @@ import {
   FormalIdentityResponse,
 } from "@/services/formalization-service";
 import type { StepComponentProps } from "../StepFallbackModal";
+import { CheckCircle2, Circle } from "lucide-react";
 
 type TaxpayerType = "PERSONA_NATURAL" | "PERSONA_JURIDICA";
 type CompanyType = "EIRL" | "SAC" | "SRL" | "PERSONA_NATURAL";
@@ -56,37 +57,11 @@ const TAXPAYER_TYPE_LABELS: Record<string, string> = {
   PERSONA_JURIDICA: "Persona Jurídica",
 };
 
-const EVALUATION_QUESTIONS = [
-  {
-    id: "partners",
-    question: "¿Planeas tener socios o inversionistas?",
-    yesHint: "Considera una empresa para compartir propiedad",
-    noHint: "Puedes operar como persona natural",
-  },
-  {
-    id: "contracts",
-    question: "¿Firmarás contratos con empresas grandes o el Estado?",
-    yesHint: "Una empresa da más credibilidad y estructura",
-    noHint: "Persona natural puede ser suficiente",
-  },
-  {
-    id: "patrimony",
-    question: "¿Quieres separar tu patrimonio personal del negocio?",
-    yesHint: "La empresa limita tu responsabilidad legal",
-    noHint: "No necesitas estructura empresarial formal",
-  },
-  {
-    id: "growth",
-    question: "¿Esperas crecer rápidamente o necesitarás capital externo?",
-    yesHint: "Una empresa facilita la incorporación de inversionistas",
-    noHint: "Puedes empezar como persona natural",
-  },
-  {
-    id: "risks",
-    question: "¿Tu actividad tiene riesgos legales relevantes?",
-    yesHint: "Una empresa protege mejor tu patrimonio personal",
-    noHint: "El riesgo es bajo, persona natural basta",
-  },
+const LEGAL_ENTITY_CRITERIA = [
+  "Tendrás socios o inversionistas",
+  "Firmarás contratos con empresas grandes o el Estado",
+  "Buscarás crecer formalmente o necesitarás capital externo",
+  "Necesitas separar tu patrimonio personal del negocio",
 ];
 
 interface CreateFormalIdentityDto {
@@ -140,30 +115,9 @@ function buildFormalIdentityDto(
   };
 }
 
-function getRecommendation(
-  answers: Record<string, boolean>
-): { recommendationType: TaxpayerType; message: string } {
-  const yesCount = Object.values(answers).filter(Boolean).length;
-
-  if (yesCount >= 3) {
-    return {
-      recommendationType: "PERSONA_JURIDICA",
-      message:
-        "Según tus respuestas, te recomendamos operar como empresa para reducir riesgos y facilitar crecimiento.",
-    };
-  } else {
-    return {
-      recommendationType: "PERSONA_NATURAL",
-      message:
-        "Según tus respuestas, una persona natural podría ser suficiente para tu negocio.",
-    };
-  }
-}
-
 export function SunarpEvaluateLegalEntityNeedStep({
   businessId,
   stepTitle,
-  stepDescription,
   onClose,
   onComplete,
 }: StepComponentProps) {
@@ -176,7 +130,6 @@ export function SunarpEvaluateLegalEntityNeedStep({
   const [selectedCompanyType, setSelectedCompanyType] = useState<CompanyType | "">(
     ""
   );
-  const [answers, setAnswers] = useState<Record<string, boolean>>({});
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -190,15 +143,6 @@ export function SunarpEvaluateLegalEntityNeedStep({
       setSelectedCompanyType("PERSONA_NATURAL");
     }
   }, [selectedTaxpayerType]);
-
-  const recommendation =
-    Object.keys(answers).length === EVALUATION_QUESTIONS.length
-      ? getRecommendation(answers)
-      : null;
-
-  const handleAnswer = (questionId: string, answer: boolean) => {
-    setAnswers((prev) => ({ ...prev, [questionId]: answer }));
-  };
 
   const handleTaxpayerTypeSelect = (value: TaxpayerType) => {
     setSelectedTaxpayerType(value);
@@ -271,66 +215,29 @@ export function SunarpEvaluateLegalEntityNeedStep({
               <span className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs">
                 1
               </span>
-              Evaluación orientativa
+              ¿Necesitas constituir una empresa?
             </h3>
 
-            <p className="text-xs text-gray-500">
-              Responde para reflexionar. Estas respuestas no se guardan.
-            </p>
-
-            <div className="space-y-4">
-              {EVALUATION_QUESTIONS.map((q) => {
-                const answer = answers[q.id];
-                return (
-                  <div key={q.id} className="space-y-2">
-                    <p className="text-sm font-medium text-gray-700">
-                      {q.question}
-                    </p>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => handleAnswer(q.id, true)}
-                        className={`
-                          flex-1 py-1.5 text-xs rounded-none border-2 transition-all
-                          ${
-                            answer === true
-                              ? "border-green-500 bg-green-50 text-green-700"
-                              : "border-gray-200 bg-white hover:border-gray-400"
-                          }
-                        `}
-                      >
-                        Sí
-                      </button>
-                      <button
-                        onClick={() => handleAnswer(q.id, false)}
-                        className={`
-                          flex-1 py-1.5 text-xs rounded-none border-2 transition-all
-                          ${
-                            answer === false
-                              ? "border-red-500 bg-red-50 text-red-700"
-                              : "border-gray-200 bg-white hover:border-gray-400"
-                          }
-                        `}
-                      >
-                        No
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
+            <div className="bg-gray-50 p-3 rounded border border-gray-200 space-y-1.5">
+              <p className="text-xs text-gray-600">
+                Te conviene ser Persona Jurídica si:
+              </p>
+              <ul className="space-y-1">
+                {LEGAL_ENTITY_CRITERIA.map((criteria, i) => (
+                  <li key={i} className="flex items-start gap-1.5 text-xs text-gray-700">
+                    <Circle className="w-3 h-3 mt-0.5 text-gray-400 shrink-0" />
+                    {criteria}
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            {recommendation && (
-              <div
-                className={`p-3 rounded border ${
-                  recommendation.recommendationType === "PERSONA_JURIDICA"
-                    ? "bg-blue-50 border-blue-200"
-                    : "bg-gray-50 border-gray-200"
-                }`}
-              >
-                <p className="text-xs text-gray-700">{recommendation.message}</p>
-              </div>
-            )}
-          </div>
+            <div className="bg-blue-50 p-2.5 rounded border border-blue-200">
+              <p className="text-xs text-blue-700">
+                Si te identificas con uno o más puntos, te conviene ser Persona Jurídica.
+              </p>
+            </div>
+          </div>
 
           <div className="space-y-3">
             <h3 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
@@ -387,7 +294,7 @@ export function SunarpEvaluateLegalEntityNeedStep({
                   className="w-full flex items-center justify-between p-3 rounded-none border-2 border-green-500 bg-green-50"
                 >
                   <div className="flex items-center gap-2">
-                    <span className="text-green-600">✓</span>
+                    <CheckCircle2 className="w-4 h-4 text-green-600" />
                     <span className="text-sm font-medium text-gray-800">
                       Mantenerme como Persona Natural
                     </span>
@@ -402,7 +309,7 @@ export function SunarpEvaluateLegalEntityNeedStep({
                   className="w-full flex items-center justify-between p-3 rounded-none border-2 border-green-500 bg-green-50"
                 >
                   <div className="flex items-center gap-2">
-                    <span className="text-green-600">✓</span>
+                    <CheckCircle2 className="w-4 h-4 text-green-600" />
                     <span className="text-sm font-medium text-gray-800">
                       Mantenerme como Persona Jurídica
                     </span>
