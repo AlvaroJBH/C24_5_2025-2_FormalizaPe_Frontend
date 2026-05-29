@@ -1,6 +1,524 @@
-import { StepFallbackModal } from "../StepFallbackModal";
+"use client";
+
+import { useState, useEffect } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { useBusinessStore } from "@/store/business-store";
+import {
+  createFormalIdentity,
+  getFormalIdentity,
+  FormalIdentityResponse,
+} from "@/services/formalization-service";
 import type { StepComponentProps } from "../StepFallbackModal";
 
-export function SunarpEvaluateLegalEntityNeedStep(props: StepComponentProps) {
-  return <StepFallbackModal {...props} />;
+type TaxpayerType = "PERSONA_NATURAL" | "PERSONA_JURIDICA";
+type CompanyType = "EIRL" | "SAC" | "SRL" | "PERSONA_NATURAL";
+
+interface CompanyTypeOption {
+  value: CompanyType;
+  title: string;
+  description: string;
+  whenToUse: string;
+}
+
+const COMPANY_TYPE_OPTIONS: CompanyTypeOption[] = [
+  {
+    value: "EIRL",
+    title: "EIRL",
+    description: "Empresa Individual de Responsabilidad Limitada",
+    whenToUse:
+      "Para un solo titular, sin socios. Separa tu patrimonio personal del negocio.",
+  },
+  {
+    value: "SAC",
+    title: "SAC",
+    description: "Sociedad Anónima Cerrada",
+    whenToUse:
+      "Para negocios con pocos socios (hasta 20). Estructura formal y flexible.",
+  },
+  {
+    value: "SRL",
+    title: "SRL",
+    description: "Sociedad de Responsabilidad Limitada",
+    whenToUse:
+      "Similar a la SAC, con estructura más cerrada. Ideal para familias o grupos reducidos.",
+  },
+];
+
+const TAXPAYER_TYPE_LABELS: Record<string, string> = {
+  PERSONA_NATURAL: "Persona Natural",
+  PERSONA_JURIDICA: "Persona Jurídica",
+};
+
+const EVALUATION_QUESTIONS = [
+  {
+    id: "partners",
+    question: "¿Planeas tener socios o inversionistas?",
+    yesHint: "Considera una empresa para compartir propiedad",
+    noHint: "Puedes operar como persona natural",
+  },
+  {
+    id: "contracts",
+    question: "¿Firmarás contratos con empresas grandes o el Estado?",
+    yesHint: "Una empresa da más credibilidad y estructura",
+    noHint: "Persona natural puede ser suficiente",
+  },
+  {
+    id: "patrimony",
+    question: "¿Quieres separar tu patrimonio personal del negocio?",
+    yesHint: "La empresa limita tu responsabilidad legal",
+    noHint: "No necesitas estructura empresarial formal",
+  },
+  {
+    id: "growth",
+    question: "¿Esperas crecer rápidamente o necesitarás capital externo?",
+    yesHint: "Una empresa facilita la incorporación de inversionistas",
+    noHint: "Puedes empezar como persona natural",
+  },
+  {
+    id: "risks",
+    question: "¿Tu actividad tiene riesgos legales relevantes?",
+    yesHint: "Una empresa protege mejor tu patrimonio personal",
+    noHint: "El riesgo es bajo, persona natural basta",
+  },
+];
+
+interface CreateFormalIdentityDto {
+  businessId: number;
+  businessDisplayName: string;
+  tradeName: string;
+  legalName: string;
+  ruc: string;
+  sunatStatus: string;
+  taxpayerType: string;
+  ciiuCode: string;
+  taxRegime: string;
+  taxRegimeSource: string;
+  projectedAnnualIncome?: number;
+  companyType: string;
+  isRegisteredCompany?: boolean;
+  voucherType: string;
+  electronicInvoicingEnabled?: boolean;
+  hasEmployees?: boolean;
+  payrollEnabled?: boolean;
+  accountingObligation: string;
+  electronicBooksEnabled?: boolean;
+}
+
+function buildFormalIdentityDto(
+  existing: FormalIdentityResponse | null,
+  businessId: number,
+  taxpayerType: TaxpayerType,
+  companyType: CompanyType
+): CreateFormalIdentityDto {
+  return {
+    businessId,
+    businessDisplayName: existing?.businessDisplayName || "",
+    tradeName: existing?.tradeName || "",
+    legalName: existing?.legalName || "",
+    ruc: existing?.ruc || "",
+    sunatStatus: existing?.sunatStatus || "",
+    taxpayerType,
+    ciiuCode: existing?.ciiuCode || "",
+    taxRegime: existing?.taxRegime || "",
+    taxRegimeSource: existing?.taxRegimeSource || "",
+    projectedAnnualIncome: existing?.projectedAnnualIncome ?? undefined,
+    companyType,
+    isRegisteredCompany: false,
+    voucherType: existing?.voucherType || "",
+    electronicInvoicingEnabled: existing?.electronicInvoicingEnabled ?? undefined,
+    hasEmployees: existing?.hasEmployees ?? undefined,
+    payrollEnabled: existing?.payrollEnabled ?? undefined,
+    accountingObligation: existing?.accountingObligation || "",
+    electronicBooksEnabled: existing?.electronicBooksEnabled ?? undefined,
+  };
+}
+
+function getRecommendation(
+  answers: Record<string, boolean>
+): { recommendationType: TaxpayerType; message: string } {
+  const yesCount = Object.values(answers).filter(Boolean).length;
+
+  if (yesCount >= 3) {
+    return {
+      recommendationType: "PERSONA_JURIDICA",
+      message:
+        "Según tus respuestas, te recomendamos operar como empresa para reducir riesgos y facilitar crecimiento.",
+    };
+  } else {
+    return {
+      recommendationType: "PERSONA_NATURAL",
+      message:
+        "Según tus respuestas, una persona natural podría ser suficiente para tu negocio.",
+    };
+  }
+}
+
+export function SunarpEvaluateLegalEntityNeedStep({
+  businessId,
+  stepTitle,
+  stepDescription,
+  onClose,
+  onComplete,
+}: StepComponentProps) {
+  const business = useBusinessStore((s) => s.business);
+  const currentTaxpayerType = business?.formalIdentity?.taxpayerType || null;
+
+  const [selectedTaxpayerType, setSelectedTaxpayerType] = useState<
+    TaxpayerType | ""
+  >("");
+  const [selectedCompanyType, setSelectedCompanyType] = useState<CompanyType | "">(
+    ""
+  );
+  const [answers, setAnswers] = useState<Record<string, boolean>>({});
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (currentTaxpayerType) {
+      setSelectedTaxpayerType(currentTaxpayerType as TaxpayerType);
+    }
+  }, [currentTaxpayerType]);
+
+  useEffect(() => {
+    if (selectedTaxpayerType === "PERSONA_NATURAL") {
+      setSelectedCompanyType("PERSONA_NATURAL");
+    }
+  }, [selectedTaxpayerType]);
+
+  const recommendation =
+    Object.keys(answers).length === EVALUATION_QUESTIONS.length
+      ? getRecommendation(answers)
+      : null;
+
+  const handleAnswer = (questionId: string, answer: boolean) => {
+    setAnswers((prev) => ({ ...prev, [questionId]: answer }));
+  };
+
+  const handleTaxpayerTypeSelect = (value: TaxpayerType) => {
+    setSelectedTaxpayerType(value);
+    if (value === "PERSONA_NATURAL") {
+      setSelectedCompanyType("PERSONA_NATURAL");
+    } else {
+      setSelectedCompanyType("");
+    }
+  };
+
+  const handleCompanyTypeSelect = (value: CompanyType) => {
+    setSelectedCompanyType(value);
+  };
+
+  const canSave =
+    selectedTaxpayerType !== "" &&
+    (selectedTaxpayerType === "PERSONA_NATURAL" ||
+      (selectedTaxpayerType === "PERSONA_JURIDICA" && selectedCompanyType !== ""));
+
+  const handleSave = async () => {
+    if (!canSave) return;
+
+    setSaving(true);
+    try {
+      let existing: FormalIdentityResponse | null = null;
+      try {
+        existing = await getFormalIdentity(businessId);
+      } catch {
+        // 404 means no formal identity exists yet
+      }
+
+      const finalCompanyType =
+        selectedTaxpayerType === "PERSONA_NATURAL"
+          ? "PERSONA_NATURAL"
+          : selectedCompanyType;
+
+      const dto = buildFormalIdentityDto(
+        existing,
+        businessId,
+        selectedTaxpayerType,
+        finalCompanyType as CompanyType
+      );
+      await createFormalIdentity(dto);
+      onComplete();
+    } catch (err) {
+      console.error("Error saving legal entity type:", err);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <Dialog open onOpenChange={(open) => !open && onClose()}>
+      <DialogContent
+        size="xl"
+        className="rounded-none max-h-[90vh] overflow-y-auto"
+      >
+        <DialogHeader>
+          <DialogTitle className="text-lg font-semibold text-gray-800">
+            {stepTitle}
+          </DialogTitle>
+          <DialogDescription className="text-sm text-gray-500">
+            Evalúa si tu negocio debe operar como persona natural o jurídica
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-4">
+          <div className="space-y-3">
+            <h3 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+              <span className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs">
+                1
+              </span>
+              Evaluación orientativa
+            </h3>
+
+            <p className="text-xs text-gray-500">
+              Responde para reflexionar. Estas respuestas no se guardan.
+            </p>
+
+            <div className="space-y-4">
+              {EVALUATION_QUESTIONS.map((q) => {
+                const answer = answers[q.id];
+                return (
+                  <div key={q.id} className="space-y-2">
+                    <p className="text-sm font-medium text-gray-700">
+                      {q.question}
+                    </p>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleAnswer(q.id, true)}
+                        className={`
+                          flex-1 py-1.5 text-xs rounded-none border-2 transition-all
+                          ${
+                            answer === true
+                              ? "border-green-500 bg-green-50 text-green-700"
+                              : "border-gray-200 bg-white hover:border-gray-400"
+                          }
+                        `}
+                      >
+                        Sí
+                      </button>
+                      <button
+                        onClick={() => handleAnswer(q.id, false)}
+                        className={`
+                          flex-1 py-1.5 text-xs rounded-none border-2 transition-all
+                          ${
+                            answer === false
+                              ? "border-red-500 bg-red-50 text-red-700"
+                              : "border-gray-200 bg-white hover:border-gray-400"
+                          }
+                        `}
+                      >
+                        No
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {recommendation && (
+              <div
+                className={`p-3 rounded border ${
+                  recommendation.recommendationType === "PERSONA_JURIDICA"
+                    ? "bg-blue-50 border-blue-200"
+                    : "bg-gray-50 border-gray-200"
+                }`}
+              >
+                <p className="text-xs text-gray-700">{recommendation.message}</p>
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+              <span className="w-6 h-6 bg-yellow-500 text-white rounded-full flex items-center justify-center text-xs">
+                2
+              </span>
+              Decisión de tipo de contribuyente
+            </h3>
+
+            <div className="bg-gray-50 p-3 rounded border border-gray-200">
+              <p className="text-xs text-gray-500 mb-1">Actualmente configurado como:</p>
+              <p className="text-sm font-medium text-gray-800">
+                {currentTaxpayerType
+                  ? TAXPAYER_TYPE_LABELS[currentTaxpayerType] || currentTaxpayerType
+                  : "No definido"}
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              {selectedTaxpayerType !== "PERSONA_JURIDICA" && (
+                <button
+                  onClick={() => handleTaxpayerTypeSelect("PERSONA_JURIDICA")}
+                  disabled={saving}
+                  className="w-full flex items-center justify-between p-3 rounded-none border-2 border-gray-200 bg-white hover:border-yellow-400 transition-all disabled:opacity-50"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span className="text-sm font-medium text-gray-800">
+                      Cambiar a Persona Jurídica
+                    </span>
+                  </div>
+                </button>
+              )}
+
+              {selectedTaxpayerType !== "PERSONA_NATURAL" && (
+                <button
+                  onClick={() => handleTaxpayerTypeSelect("PERSONA_NATURAL")}
+                  disabled={saving}
+                  className="w-full flex items-center justify-between p-3 rounded-none border-2 border-gray-200 bg-white hover:border-yellow-400 transition-all disabled:opacity-50"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-yellow-600">↺</span>
+                    <span className="text-sm font-medium text-gray-800">
+                      Volver a Persona Natural
+                    </span>
+                  </div>
+                </button>
+              )}
+
+              {selectedTaxpayerType === "PERSONA_NATURAL" && (
+                <button
+                  onClick={() => handleTaxpayerTypeSelect("PERSONA_NATURAL")}
+                  disabled={saving}
+                  className="w-full flex items-center justify-between p-3 rounded-none border-2 border-green-500 bg-green-50"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span className="text-sm font-medium text-gray-800">
+                      Mantenerme como Persona Natural
+                    </span>
+                  </div>
+                </button>
+              )}
+
+              {selectedTaxpayerType === "PERSONA_JURIDICA" && (
+                <button
+                  onClick={() => handleTaxpayerTypeSelect("PERSONA_JURIDICA")}
+                  disabled={saving}
+                  className="w-full flex items-center justify-between p-3 rounded-none border-2 border-green-500 bg-green-50"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span className="text-sm font-medium text-gray-800">
+                      Mantenerme como Persona Jurídica
+                    </span>
+                  </div>
+                </button>
+              )}
+            </div>
+
+            <div className="bg-amber-50 p-3 rounded border border-amber-200">
+              <p className="text-xs text-amber-700">
+                Esta decisión define si necesitarás constituir una empresa en SUNARP.
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+              <span className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-xs">
+                3
+              </span>
+              Selección de tipo de empresa
+            </h3>
+
+            {selectedTaxpayerType === "PERSONA_NATURAL" ? (
+              <div className="space-y-3">
+                <div className="bg-gray-100 p-4 rounded border border-gray-200">
+                  <p className="text-sm text-gray-700">
+                    Como persona natural, no necesitas constituir una empresa.
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="p-3 rounded-none border-2 border-green-500 bg-green-50">
+                    <p className="text-sm font-medium text-gray-800">
+                      Persona Natural
+                    </p>
+                    <p className="text-xs text-gray-600 mt-1">
+                      Operas con tu DNI. El negocio está a tu nombre.
+                    </p>
+
+                    <span className="mt-2 text-xs text-green-600 font-medium block">
+                      ✓ Seleccionado
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ) : selectedTaxpayerType === "PERSONA_JURIDICA" ? (
+              <div className="space-y-2">
+                <p className="text-xs text-gray-500">
+                  Selecciona el tipo de empresa:
+                </p>
+                {COMPANY_TYPE_OPTIONS.map((option) => {
+                  const isSelected = selectedCompanyType === option.value;
+                  return (
+                    <button
+                      key={option.value}
+                      onClick={() => handleCompanyTypeSelect(option.value)}
+                      disabled={saving}
+                      className={`
+                        w-full flex flex-col items-start text-left p-3 rounded-none border-2 transition-all
+                        ${
+                          isSelected
+                            ? "border-green-500 bg-green-50"
+                            : "border-gray-200 bg-white hover:border-gray-400"
+                        }
+                        disabled:opacity-50 disabled:cursor-not-allowed
+                      `}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="font-semibold text-gray-800">
+                          {option.title}
+                        </span>
+                        <span className="text-xs text-gray-500">
+                          {option.description}
+                        </span>
+                      </div>
+                      <p className="text-xs text-gray-600 mt-1">
+                        {option.whenToUse}
+                      </p>
+                      {isSelected && (
+                        <span className="mt-2 text-xs text-green-600 font-medium">
+                          ✓ Seleccionado
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="bg-gray-100 p-4 rounded border border-gray-200">
+                <p className="text-sm text-gray-500">
+                  Primero selecciona el tipo de contribuyente en la columna 2.
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="flex justify-end gap-3 pt-4 border-t">
+          <Button
+            onClick={onClose}
+            variant="outline"
+            className="rounded-none"
+            disabled={saving}
+          >
+            Cancelar
+          </Button>
+          <Button
+            onClick={handleSave}
+            className="rounded-none bg-green-600 hover:bg-green-700 text-white"
+            disabled={!canSave || saving}
+          >
+            {saving ? "Guardando..." : "Guardar y continuar"}
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
 }
