@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -9,20 +9,87 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  createFormalIdentity,
+  getFormalIdentity,
+  FormalIdentityResponse,
+} from "@/services/formalization-service";
+import { useBusinessStore } from "@/store/business-store";
 import type { StepComponentProps } from "../StepFallbackModal";
 
+function validateRuc(value: string): boolean {
+  return /^\d{11}$/.test(value);
+}
+
 export function SunarpRegisterCompanyStep({
+  businessId,
   stepTitle,
   onClose,
   onComplete,
 }: StepComponentProps) {
-  const [confirmed, setConfirmed] = useState(false);
+  const business = useBusinessStore((s) => s.business);
+  const refreshBusiness = useBusinessStore((s) => s.refreshBusiness);
+  const formalIdentity = business?.formalIdentity ?? null;
 
-  const canComplete = confirmed;
+  const [ruc, setRuc] = useState("");
+  const [saving, setSaving] = useState(false);
 
-  const handleComplete = () => {
-    if (!canComplete) return;
-    onComplete();
+  useEffect(() => {
+    if (formalIdentity?.ruc) {
+      setRuc(formalIdentity.ruc);
+    }
+  }, [formalIdentity?.ruc]);
+
+  const handleRucChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, "").slice(0, 11);
+    setRuc(value);
+  };
+
+  const isValidRuc = validateRuc(ruc);
+  const canSave = isValidRuc && !saving;
+
+  const handleSave = async () => {
+    if (!canSave) return;
+
+    setSaving(true);
+    try {
+      let existing: FormalIdentityResponse | null = null;
+      try {
+        existing = await getFormalIdentity(businessId);
+      } catch {
+      }
+
+      const dto = {
+        businessId,
+        businessDisplayName: existing?.businessDisplayName || "",
+        tradeName: existing?.tradeName || "",
+        legalName: existing?.legalName || "",
+        ruc,
+        sunatStatus: existing?.sunatStatus || "",
+        taxpayerType: existing?.taxpayerType || "",
+        ciiuCode: existing?.ciiuCode || "",
+        taxRegime: existing?.taxRegime || "",
+        taxRegimeSource: existing?.taxRegimeSource || "",
+        projectedAnnualIncome: existing?.projectedAnnualIncome ?? undefined,
+        companyType: existing?.companyType || "",
+        isRegisteredCompany: existing?.isRegisteredCompany ?? undefined,
+        voucherType: existing?.voucherType || "",
+        electronicInvoicingEnabled: existing?.electronicInvoicingEnabled ?? undefined,
+        hasEmployees: existing?.hasEmployees ?? undefined,
+        payrollEnabled: existing?.payrollEnabled ?? undefined,
+        accountingObligation: existing?.accountingObligation || "",
+        electronicBooksEnabled: existing?.electronicBooksEnabled ?? undefined,
+      };
+
+      await createFormalIdentity(dto);
+      await refreshBusiness(businessId);
+      onComplete();
+    } catch (err) {
+      console.error("Error saving RUC:", err);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -33,7 +100,7 @@ export function SunarpRegisterCompanyStep({
             {stepTitle}
           </DialogTitle>
           <DialogDescription className="text-sm text-gray-500">
-            Confirmación de inscripción de la empresa en SUNARP
+            Registra el RUC asignado por SUNARP a tu empresa
           </DialogDescription>
         </DialogHeader>
 
@@ -111,48 +178,41 @@ export function SunarpRegisterCompanyStep({
               <span className="w-6 h-6 bg-yellow-500 text-white rounded-full flex items-center justify-center text-xs">
                 2
               </span>
-              Confirmaciones
+              Ingresa el RUC de tu empresa
             </h3>
 
-            <div className="bg-yellow-50 p-4 rounded border border-yellow-200 space-y-3">
-              <p className="text-sm text-gray-700 font-medium">
-                Verifica que se cumplan estas condiciones:
+            <div className="bg-yellow-50 p-4 rounded border border-yellow-200 space-y-4">
+              <p className="text-sm text-gray-700">
+                Ingresa el RUC que SUNARP generó automáticamente para tu empresa.
               </p>
-              <ul className="space-y-2 text-sm text-gray-700">
-                <li className="flex items-start gap-2">
-                  <span className="text-green-600 mt-0.5">✓</span>
-                  <span>El notario ya envió el parte notarial a SUNARP</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-green-600 mt-0.5">✓</span>
-                  <span>SUNARP ya inscribió la empresa</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-green-600 mt-0.5">✓</span>
-                  <span>He recibido la confirmación de inscripción</span>
-                </li>
-              </ul>
-            </div>
 
-            <div className="bg-green-50 p-4 rounded border border-green-200 space-y-3">
-              <label className="flex items-start gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={confirmed}
-                  onChange={(e) => setConfirmed(e.target.checked)}
-                  className="mt-1 w-4 h-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
+              <div className="space-y-2">
+                <label className="text-xs text-gray-600 font-medium block">
+                  RUC de la empresa (11 dígitos)
+                </label>
+                <Input
+                  type="text"
+                  inputMode="numeric"
+                  placeholder="Ej: 20601234567"
+                  value={ruc}
+                  onChange={handleRucChange}
+                  maxLength={11}
+                  className="rounded-none text-center text-lg tracking-widest font-mono"
                 />
-                <span className="text-sm text-gray-700">
-                  Confirmo que mi empresa ya está inscrita en SUNARP y cuenta con
-                  personería jurídica.
-                </span>
-              </label>
+                {ruc.length > 0 && !isValidRuc && (
+                  <p className="text-xs text-red-500">
+                    El RUC debe tener exactamente 11 dígitos numéricos
+                  </p>
+                )}
+                {ruc.length === 11 && isValidRuc && (
+                  <p className="text-xs text-green-600">✓ RUC válido</p>
+                )}
+              </div>
             </div>
 
             <div className="bg-gray-50 p-3 rounded border border-gray-200">
               <p className="text-xs text-gray-600">
-                Este paso es declarativo. El sistema no valida la inscripción
-                directamente con SUNARP.
+                Este RUC fue generado automáticamente por SUNARP al momentode la inscripción de tu empresa.
               </p>
             </div>
           </div>
@@ -163,15 +223,16 @@ export function SunarpRegisterCompanyStep({
             onClick={onClose}
             variant="outline"
             className="rounded-none"
+            disabled={saving}
           >
             Cancelar
           </Button>
           <Button
-            onClick={handleComplete}
+            onClick={handleSave}
             className="rounded-none bg-green-600 hover:bg-green-700 text-white"
-            disabled={!canComplete}
+            disabled={!canSave}
           >
-            Completar y continuar
+            {saving ? "Guardando..." : "Guardar y continuar"}
           </Button>
         </div>
       </DialogContent>
