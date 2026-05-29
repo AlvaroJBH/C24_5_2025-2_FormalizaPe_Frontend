@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -124,43 +124,14 @@ export function SunarpEvaluateLegalEntityNeedStep({
   const business = useBusinessStore((s) => s.business);
   const currentTaxpayerType = business?.formalIdentity?.taxpayerType || null;
 
-  const [selectedTaxpayerType, setSelectedTaxpayerType] = useState<
-    TaxpayerType | ""
-  >("");
-  const [selectedCompanyType, setSelectedCompanyType] = useState<CompanyType | "">(
-    ""
-  );
+  const [selectedTaxpayerType, setSelectedTaxpayerType] = useState<TaxpayerType | null>(null);
+  const [selectedCompanyType, setSelectedCompanyType] = useState<CompanyType | null>(null);
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    if (currentTaxpayerType) {
-      setSelectedTaxpayerType(currentTaxpayerType as TaxpayerType);
-    }
-  }, [currentTaxpayerType]);
-
-  useEffect(() => {
-    if (selectedTaxpayerType === "PERSONA_NATURAL") {
-      setSelectedCompanyType("PERSONA_NATURAL");
-    }
-  }, [selectedTaxpayerType]);
-
-  const handleTaxpayerTypeSelect = (value: TaxpayerType) => {
-    setSelectedTaxpayerType(value);
-    if (value === "PERSONA_NATURAL") {
-      setSelectedCompanyType("PERSONA_NATURAL");
-    } else {
-      setSelectedCompanyType("");
-    }
-  };
-
-  const handleCompanyTypeSelect = (value: CompanyType) => {
-    setSelectedCompanyType(value);
-  };
-
   const canSave =
-    selectedTaxpayerType !== "" &&
+    selectedTaxpayerType !== null &&
     (selectedTaxpayerType === "PERSONA_NATURAL" ||
-      (selectedTaxpayerType === "PERSONA_JURIDICA" && selectedCompanyType !== ""));
+      selectedCompanyType !== null);
 
   const handleSave = async () => {
     if (!canSave) return;
@@ -171,13 +142,12 @@ export function SunarpEvaluateLegalEntityNeedStep({
       try {
         existing = await getFormalIdentity(businessId);
       } catch {
-        // 404 means no formal identity exists yet
       }
 
       const finalCompanyType =
         selectedTaxpayerType === "PERSONA_NATURAL"
           ? "PERSONA_NATURAL"
-          : selectedCompanyType;
+          : selectedCompanyType!;
 
       const dto = buildFormalIdentityDto(
         existing,
@@ -236,8 +206,8 @@ export function SunarpEvaluateLegalEntityNeedStep({
               <p className="text-xs text-blue-700">
                 Si te identificas con uno o más puntos, te conviene ser Persona Jurídica.
               </p>
-            </div>
-          </div>
+            </div>
+          </div>
 
           <div className="space-y-3">
             <h3 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
@@ -251,70 +221,126 @@ export function SunarpEvaluateLegalEntityNeedStep({
               <p className="text-xs text-gray-500 mb-1">Actualmente configurado como:</p>
               <p className="text-sm font-medium text-gray-800">
                 {currentTaxpayerType
-                  ? TAXPAYER_TYPE_LABELS[currentTaxpayerType] || currentTaxpayerType
+                  ? TAXPAYER_TYPE_LABELS[currentTaxpayerType]
                   : "No definido"}
               </p>
             </div>
 
             <div className="space-y-2">
-              {selectedTaxpayerType !== "PERSONA_JURIDICA" && (
-                <button
-                  onClick={() => handleTaxpayerTypeSelect("PERSONA_JURIDICA")}
-                  disabled={saving}
-                  className="w-full flex items-center justify-between p-3 rounded-none border-2 border-gray-200 bg-white hover:border-yellow-400 transition-all disabled:opacity-50"
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="text-green-600">✓</span>
-                    <span className="text-sm font-medium text-gray-800">
-                      Cambiar a Persona Jurídica
-                    </span>
-                  </div>
-                </button>
+              {currentTaxpayerType === "PERSONA_NATURAL" && (
+                <>
+                  <button
+                    onClick={() => {
+                      setSelectedTaxpayerType("PERSONA_NATURAL");
+                      setSelectedCompanyType(null);
+                    }}
+                    disabled={saving}
+                    className={`w-full flex items-center justify-between p-3 rounded-none border-2 transition-all disabled:opacity-50 ${
+                      selectedTaxpayerType === "PERSONA_NATURAL"
+                        ? "border-green-500 bg-green-50"
+                        : "border-gray-200 bg-white hover:border-yellow-400"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      {selectedTaxpayerType === "PERSONA_NATURAL" && (
+                        <CheckCircle2 className="w-4 h-4 text-green-600" />
+                      )}
+                      {selectedTaxpayerType !== "PERSONA_NATURAL" && (
+                        <span className="text-gray-400">○</span>
+                      )}
+                      <span className="text-sm font-medium text-gray-800">
+                        Mantenerme como Persona Natural
+                      </span>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setSelectedTaxpayerType("PERSONA_JURIDICA");
+                      setSelectedCompanyType(null);
+                    }}
+                    disabled={saving}
+                    className={`w-full flex items-center justify-between p-3 rounded-none border-2 transition-all disabled:opacity-50 ${
+                      selectedTaxpayerType === "PERSONA_JURIDICA"
+                        ? "border-green-500 bg-green-50"
+                        : "border-gray-200 bg-white hover:border-yellow-400"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      {selectedTaxpayerType === "PERSONA_JURIDICA" && (
+                        <CheckCircle2 className="w-4 h-4 text-green-600" />
+                      )}
+                      {selectedTaxpayerType !== "PERSONA_JURIDICA" && (
+                        <span className="text-gray-400">○</span>
+                      )}
+                      <span className="text-sm font-medium text-gray-800">
+                        Cambiar a Persona Jurídica
+                      </span>
+                    </div>
+                  </button>
+                </>
               )}
 
-              {selectedTaxpayerType !== "PERSONA_NATURAL" && (
-                <button
-                  onClick={() => handleTaxpayerTypeSelect("PERSONA_NATURAL")}
-                  disabled={saving}
-                  className="w-full flex items-center justify-between p-3 rounded-none border-2 border-gray-200 bg-white hover:border-yellow-400 transition-all disabled:opacity-50"
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="text-yellow-600">↺</span>
-                    <span className="text-sm font-medium text-gray-800">
-                      Volver a Persona Natural
-                    </span>
-                  </div>
-                </button>
+              {currentTaxpayerType === "PERSONA_JURIDICA" && (
+                <>
+                  <button
+                    onClick={() => {
+                      setSelectedTaxpayerType("PERSONA_JURIDICA");
+                      setSelectedCompanyType(null);
+                    }}
+                    disabled={saving}
+                    className={`w-full flex items-center justify-between p-3 rounded-none border-2 transition-all disabled:opacity-50 ${
+                      selectedTaxpayerType === "PERSONA_JURIDICA"
+                        ? "border-green-500 bg-green-50"
+                        : "border-gray-200 bg-white hover:border-yellow-400"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      {selectedTaxpayerType === "PERSONA_JURIDICA" && (
+                        <CheckCircle2 className="w-4 h-4 text-green-600" />
+                      )}
+                      {selectedTaxpayerType !== "PERSONA_JURIDICA" && (
+                        <span className="text-gray-400">○</span>
+                      )}
+                      <span className="text-sm font-medium text-gray-800">
+                        Mantenerme como Persona Jurídica
+                      </span>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setSelectedTaxpayerType("PERSONA_NATURAL");
+                      setSelectedCompanyType(null);
+                    }}
+                    disabled={saving}
+                    className={`w-full flex items-center justify-between p-3 rounded-none border-2 transition-all disabled:opacity-50 ${
+                      selectedTaxpayerType === "PERSONA_NATURAL"
+                        ? "border-green-500 bg-green-50"
+                        : "border-gray-200 bg-white hover:border-yellow-400"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      {selectedTaxpayerType === "PERSONA_NATURAL" && (
+                        <CheckCircle2 className="w-4 h-4 text-green-600" />
+                      )}
+                      {selectedTaxpayerType !== "PERSONA_NATURAL" && (
+                        <span className="text-gray-400">○</span>
+                      )}
+                      <span className="text-sm font-medium text-gray-800">
+                        Cambiar a Persona Natural
+                      </span>
+                    </div>
+                  </button>
+                </>
               )}
 
-              {selectedTaxpayerType === "PERSONA_NATURAL" && (
-                <button
-                  onClick={() => handleTaxpayerTypeSelect("PERSONA_NATURAL")}
-                  disabled={saving}
-                  className="w-full flex items-center justify-between p-3 rounded-none border-2 border-green-500 bg-green-50"
-                >
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-green-600" />
-                    <span className="text-sm font-medium text-gray-800">
-                      Mantenerme como Persona Natural
-                    </span>
-                  </div>
-                </button>
-              )}
-
-              {selectedTaxpayerType === "PERSONA_JURIDICA" && (
-                <button
-                  onClick={() => handleTaxpayerTypeSelect("PERSONA_JURIDICA")}
-                  disabled={saving}
-                  className="w-full flex items-center justify-between p-3 rounded-none border-2 border-green-500 bg-green-50"
-                >
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-green-600" />
-                    <span className="text-sm font-medium text-gray-800">
-                      Mantenerme como Persona Jurídica
-                    </span>
-                  </div>
-                </button>
+              {!currentTaxpayerType && (
+                <div className="bg-gray-100 p-4 rounded border border-gray-200">
+                  <p className="text-sm text-gray-500">
+                    Cargando tipo de contribuyente...
+                  </p>
+                </div>
               )}
             </div>
 
@@ -333,7 +359,15 @@ export function SunarpEvaluateLegalEntityNeedStep({
               Selección de tipo de empresa
             </h3>
 
-            {selectedTaxpayerType === "PERSONA_NATURAL" ? (
+            {!selectedTaxpayerType && (
+              <div className="bg-gray-100 p-4 rounded border border-gray-200">
+                <p className="text-sm text-gray-500">
+                  Selecciona una opción en la columna 2.
+                </p>
+              </div>
+            )}
+
+            {selectedTaxpayerType === "PERSONA_NATURAL" && (
               <div className="space-y-3">
                 <div className="bg-gray-100 p-4 rounded border border-gray-200">
                   <p className="text-sm text-gray-700">
@@ -356,7 +390,9 @@ export function SunarpEvaluateLegalEntityNeedStep({
                   </div>
                 </div>
               </div>
-            ) : selectedTaxpayerType === "PERSONA_JURIDICA" ? (
+            )}
+
+            {selectedTaxpayerType === "PERSONA_JURIDICA" && (
               <div className="space-y-2">
                 <p className="text-xs text-gray-500">
                   Selecciona el tipo de empresa:
@@ -366,7 +402,7 @@ export function SunarpEvaluateLegalEntityNeedStep({
                   return (
                     <button
                       key={option.value}
-                      onClick={() => handleCompanyTypeSelect(option.value)}
+                      onClick={() => setSelectedCompanyType(option.value)}
                       disabled={saving}
                       className={`
                         w-full flex flex-col items-start text-left p-3 rounded-none border-2 transition-all
@@ -397,12 +433,6 @@ export function SunarpEvaluateLegalEntityNeedStep({
                     </button>
                   );
                 })}
-              </div>
-            ) : (
-              <div className="bg-gray-100 p-4 rounded border border-gray-200">
-                <p className="text-sm text-gray-500">
-                  Primero selecciona el tipo de contribuyente en la columna 2.
-                </p>
               </div>
             )}
           </div>
