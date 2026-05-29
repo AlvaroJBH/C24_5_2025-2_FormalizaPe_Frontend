@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { UserProfile } from "@/services/auth-service";
+import { UserProfile, getCurrentUser } from "@/services/auth-service";
 
 interface AuthState {
   token: string | null;
@@ -10,11 +10,12 @@ interface AuthState {
   setUser: (user: UserProfile) => void;
   setHydrated: (hydrated: boolean) => void;
   clearAuth: () => void;
+  refreshUser: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       token: null,
       user: null,
       hydrated: false,
@@ -22,6 +23,12 @@ export const useAuthStore = create<AuthState>()(
       setUser: (user) => set({ user }),
       setHydrated: (hydrated) => set({ hydrated }),
       clearAuth: () => set({ token: null, user: null }),
+      refreshUser: async () => {
+        const token = get().token;
+        if (!token) return;
+        const updated = await getCurrentUser(token);
+        set({ user: updated });
+      },
     }),
     {
       name: "auth-storage",

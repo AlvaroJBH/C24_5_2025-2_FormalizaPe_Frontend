@@ -4,6 +4,8 @@ export interface UserProfile {
   id: number;
   username: string;
   email: string;
+  dni: string;
+  ruc: string | null;
   roles: string[];
 }
 

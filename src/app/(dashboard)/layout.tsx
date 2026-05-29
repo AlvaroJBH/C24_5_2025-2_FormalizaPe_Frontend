@@ -200,6 +200,7 @@ export default function DashboardLayout({
             <div className="w-px h-6 bg-gray-300 mx-2" />
 
             <button
+              onClick={() => router.push("/profile")}
               className="inline-flex items-center justify-center h-8 px-3 rounded-md text-sm font-medium hover:bg-gray-100 transition gap-1.5"
             >
               <UserIcon />
