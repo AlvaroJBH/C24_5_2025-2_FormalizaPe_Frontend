@@ -16,9 +16,7 @@ import {
   FormalIdentityResponse,
 } from "@/services/formalization-service";
 import type { StepComponentProps } from "../StepFallbackModal";
-import { CheckCircle2, Circle } from "lucide-react";
 
-type TaxpayerType = "PERSONA_NATURAL" | "PERSONA_JURIDICA";
 type CompanyType = "EIRL" | "SAC" | "SRL" | "PERSONA_NATURAL";
 
 interface CompanyTypeOption {
@@ -57,62 +55,19 @@ const TAXPAYER_TYPE_LABELS: Record<string, string> = {
   PERSONA_JURIDICA: "Persona Jurídica",
 };
 
-const LEGAL_ENTITY_CRITERIA = [
-  "Tendrás socios o inversionistas",
-  "Firmarás contratos con empresas grandes o el Estado",
-  "Buscarás crecer formalmente o necesitarás capital externo",
-  "Necesitas separar tu patrimonio personal del negocio",
-];
-
-interface CreateFormalIdentityDto {
-  businessId: number;
-  businessDisplayName: string;
-  tradeName: string;
-  legalName: string;
-  ruc: string;
-  sunatStatus: string;
-  taxpayerType: string;
-  ciiuCode: string;
-  taxRegime: string;
-  taxRegimeSource: string;
-  projectedAnnualIncome?: number;
-  companyType: string;
-  isRegisteredCompany?: boolean;
-  voucherType: string;
-  electronicInvoicingEnabled?: boolean;
-  hasEmployees?: boolean;
-  payrollEnabled?: boolean;
-  accountingObligation: string;
-  electronicBooksEnabled?: boolean;
-}
-
-function buildFormalIdentityDto(
-  existing: FormalIdentityResponse | null,
-  businessId: number,
-  taxpayerType: TaxpayerType,
-  companyType: CompanyType
-): CreateFormalIdentityDto {
-  return {
-    businessId,
-    businessDisplayName: existing?.businessDisplayName || "",
-    tradeName: existing?.tradeName || "",
-    legalName: existing?.legalName || "",
-    ruc: existing?.ruc || "",
-    sunatStatus: existing?.sunatStatus || "",
-    taxpayerType,
-    ciiuCode: existing?.ciiuCode || "",
-    taxRegime: existing?.taxRegime || "",
-    taxRegimeSource: existing?.taxRegimeSource || "",
-    projectedAnnualIncome: existing?.projectedAnnualIncome ?? undefined,
-    companyType,
-    isRegisteredCompany: false,
-    voucherType: existing?.voucherType || "",
-    electronicInvoicingEnabled: existing?.electronicInvoicingEnabled ?? undefined,
-    hasEmployees: existing?.hasEmployees ?? undefined,
-    payrollEnabled: existing?.payrollEnabled ?? undefined,
-    accountingObligation: existing?.accountingObligation || "",
-    electronicBooksEnabled: existing?.electronicBooksEnabled ?? undefined,
-  };
+function formatAddress(business: {
+  department?: string;
+  province?: string;
+  district?: string;
+  address?: string;
+}): string {
+  const parts = [
+    business.address,
+    business.district,
+    business.province,
+    business.department,
+  ].filter(Boolean);
+  return parts.length > 0 ? parts.join(", ") : "No disponible";
 }
 
 export function SunarpEvaluateLegalEntityNeedStep({
@@ -124,14 +79,12 @@ export function SunarpEvaluateLegalEntityNeedStep({
   const business = useBusinessStore((s) => s.business);
   const currentTaxpayerType = business?.formalIdentity?.taxpayerType || null;
 
-  const [selectedTaxpayerType, setSelectedTaxpayerType] = useState<TaxpayerType | null>(null);
   const [selectedCompanyType, setSelectedCompanyType] = useState<CompanyType | null>(null);
   const [saving, setSaving] = useState(false);
 
   const canSave =
-    selectedTaxpayerType !== null &&
-    (selectedTaxpayerType === "PERSONA_NATURAL" ||
-      selectedCompanyType !== null);
+    currentTaxpayerType === "PERSONA_NATURAL" ||
+    (currentTaxpayerType === "PERSONA_JURIDICA" && selectedCompanyType !== null);
 
   const handleSave = async () => {
     if (!canSave) return;
@@ -145,16 +98,32 @@ export function SunarpEvaluateLegalEntityNeedStep({
       }
 
       const finalCompanyType =
-        selectedTaxpayerType === "PERSONA_NATURAL"
+        currentTaxpayerType === "PERSONA_NATURAL"
           ? "PERSONA_NATURAL"
           : selectedCompanyType!;
 
-      const dto = buildFormalIdentityDto(
-        existing,
+      const dto = {
         businessId,
-        selectedTaxpayerType,
-        finalCompanyType as CompanyType
-      );
+        businessDisplayName: existing?.businessDisplayName || "",
+        tradeName: existing?.tradeName || "",
+        legalName: existing?.legalName || "",
+        ruc: existing?.ruc || "",
+        sunatStatus: existing?.sunatStatus || "",
+        taxpayerType: existing?.taxpayerType || "",
+        ciiuCode: existing?.ciiuCode || "",
+        taxRegime: existing?.taxRegime || "",
+        taxRegimeSource: existing?.taxRegimeSource || "",
+        projectedAnnualIncome: existing?.projectedAnnualIncome ?? undefined,
+        companyType: finalCompanyType,
+        isRegisteredCompany: existing?.isRegisteredCompany ?? undefined,
+        voucherType: existing?.voucherType || "",
+        electronicInvoicingEnabled: existing?.electronicInvoicingEnabled ?? undefined,
+        hasEmployees: existing?.hasEmployees ?? undefined,
+        payrollEnabled: existing?.payrollEnabled ?? undefined,
+        accountingObligation: existing?.accountingObligation || "",
+        electronicBooksEnabled: existing?.electronicBooksEnabled ?? undefined,
+      };
+
       await createFormalIdentity(dto);
       onComplete();
     } catch (err) {
@@ -179,174 +148,46 @@ export function SunarpEvaluateLegalEntityNeedStep({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-4">
           <div className="space-y-3">
             <h3 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
               <span className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs">
                 1
               </span>
-              ¿Necesitas constituir una empresa?
+              Información del negocio
             </h3>
 
-            <div className="bg-gray-50 p-3 rounded border border-gray-200 space-y-1.5">
-              <p className="text-xs text-gray-600">
-                Te conviene ser Persona Jurídica si:
-              </p>
-              <ul className="space-y-1">
-                {LEGAL_ENTITY_CRITERIA.map((criteria, i) => (
-                  <li key={i} className="flex items-start gap-1.5 text-xs text-gray-700">
-                    <Circle className="w-3 h-3 mt-0.5 text-gray-400 shrink-0" />
-                    {criteria}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="bg-blue-50 p-2.5 rounded border border-blue-200">
-              <p className="text-xs text-blue-700">
-                Si te identificas con uno o más puntos, te conviene ser Persona Jurídica.
-              </p>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-              <span className="w-6 h-6 bg-yellow-500 text-white rounded-full flex items-center justify-center text-xs">
-                2
-              </span>
-              Decisión de tipo de contribuyente
-            </h3>
-
-            <div className="bg-gray-50 p-3 rounded border border-gray-200">
-              <p className="text-xs text-gray-500 mb-1">Actualmente configurado como:</p>
-              <p className="text-sm font-medium text-gray-800">
-                {currentTaxpayerType
-                  ? TAXPAYER_TYPE_LABELS[currentTaxpayerType]
-                  : "No definido"}
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              {currentTaxpayerType === "PERSONA_NATURAL" && (
-                <>
-                  <button
-                    onClick={() => {
-                      setSelectedTaxpayerType("PERSONA_NATURAL");
-                      setSelectedCompanyType(null);
-                    }}
-                    disabled={saving}
-                    className={`w-full flex items-center justify-between p-3 rounded-none border-2 transition-all disabled:opacity-50 ${
-                      selectedTaxpayerType === "PERSONA_NATURAL"
-                        ? "border-green-500 bg-green-50"
-                        : "border-gray-200 bg-white hover:border-yellow-400"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      {selectedTaxpayerType === "PERSONA_NATURAL" && (
-                        <CheckCircle2 className="w-4 h-4 text-green-600" />
-                      )}
-                      {selectedTaxpayerType !== "PERSONA_NATURAL" && (
-                        <span className="text-gray-400">○</span>
-                      )}
-                      <span className="text-sm font-medium text-gray-800">
-                        Mantenerme como Persona Natural
-                      </span>
-                    </div>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setSelectedTaxpayerType("PERSONA_JURIDICA");
-                      setSelectedCompanyType(null);
-                    }}
-                    disabled={saving}
-                    className={`w-full flex items-center justify-between p-3 rounded-none border-2 transition-all disabled:opacity-50 ${
-                      selectedTaxpayerType === "PERSONA_JURIDICA"
-                        ? "border-green-500 bg-green-50"
-                        : "border-gray-200 bg-white hover:border-yellow-400"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      {selectedTaxpayerType === "PERSONA_JURIDICA" && (
-                        <CheckCircle2 className="w-4 h-4 text-green-600" />
-                      )}
-                      {selectedTaxpayerType !== "PERSONA_JURIDICA" && (
-                        <span className="text-gray-400">○</span>
-                      )}
-                      <span className="text-sm font-medium text-gray-800">
-                        Cambiar a Persona Jurídica
-                      </span>
-                    </div>
-                  </button>
-                </>
-              )}
-
-              {currentTaxpayerType === "PERSONA_JURIDICA" && (
-                <>
-                  <button
-                    onClick={() => {
-                      setSelectedTaxpayerType("PERSONA_JURIDICA");
-                      setSelectedCompanyType(null);
-                    }}
-                    disabled={saving}
-                    className={`w-full flex items-center justify-between p-3 rounded-none border-2 transition-all disabled:opacity-50 ${
-                      selectedTaxpayerType === "PERSONA_JURIDICA"
-                        ? "border-green-500 bg-green-50"
-                        : "border-gray-200 bg-white hover:border-yellow-400"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      {selectedTaxpayerType === "PERSONA_JURIDICA" && (
-                        <CheckCircle2 className="w-4 h-4 text-green-600" />
-                      )}
-                      {selectedTaxpayerType !== "PERSONA_JURIDICA" && (
-                        <span className="text-gray-400">○</span>
-                      )}
-                      <span className="text-sm font-medium text-gray-800">
-                        Mantenerme como Persona Jurídica
-                      </span>
-                    </div>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setSelectedTaxpayerType("PERSONA_NATURAL");
-                      setSelectedCompanyType(null);
-                    }}
-                    disabled={saving}
-                    className={`w-full flex items-center justify-between p-3 rounded-none border-2 transition-all disabled:opacity-50 ${
-                      selectedTaxpayerType === "PERSONA_NATURAL"
-                        ? "border-green-500 bg-green-50"
-                        : "border-gray-200 bg-white hover:border-yellow-400"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      {selectedTaxpayerType === "PERSONA_NATURAL" && (
-                        <CheckCircle2 className="w-4 h-4 text-green-600" />
-                      )}
-                      {selectedTaxpayerType !== "PERSONA_NATURAL" && (
-                        <span className="text-gray-400">○</span>
-                      )}
-                      <span className="text-sm font-medium text-gray-800">
-                        Cambiar a Persona Natural
-                      </span>
-                    </div>
-                  </button>
-                </>
-              )}
-
-              {!currentTaxpayerType && (
-                <div className="bg-gray-100 p-4 rounded border border-gray-200">
-                  <p className="text-sm text-gray-500">
-                    Cargando tipo de contribuyente...
-                  </p>
-                </div>
-              )}
+            <div className="bg-gray-50 p-3 rounded border border-gray-200 space-y-2">
+              <div>
+                <p className="text-xs text-gray-500">Tu negocio opera como:</p>
+                <p className="text-sm font-medium text-gray-800">
+                  {currentTaxpayerType
+                    ? TAXPAYER_TYPE_LABELS[currentTaxpayerType]
+                    : "No definido"}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs text-gray-500">Nombre comercial</p>
+                <p className="text-sm font-medium text-gray-800">
+                  {business?.tradeName || "No definido"}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs text-gray-500">Dirección</p>
+                <p className="text-sm font-medium text-gray-800">
+                  {formatAddress({
+                    department: business?.department,
+                    province: business?.province,
+                    district: business?.district,
+                    address: business?.address,
+                  })}
+                </p>
+              </div>
             </div>
 
             <div className="bg-amber-50 p-3 rounded border border-amber-200">
               <p className="text-xs text-amber-700">
-                Esta decisión define si necesitarás constituir una empresa en SUNARP.
+                Esta información se usa para la constitución de tu empresa en SUNARP.
               </p>
             </div>
           </div>
@@ -354,45 +195,31 @@ export function SunarpEvaluateLegalEntityNeedStep({
           <div className="space-y-3">
             <h3 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
               <span className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-xs">
-                3
+                2
               </span>
-              Selección de tipo de empresa
+              Tipo de empresa
             </h3>
 
-            {!selectedTaxpayerType && (
-              <div className="bg-gray-100 p-4 rounded border border-gray-200">
-                <p className="text-sm text-gray-500">
-                  Selecciona una opción en la columna 2.
-                </p>
-              </div>
-            )}
-
-            {selectedTaxpayerType === "PERSONA_NATURAL" && (
+            {currentTaxpayerType === "PERSONA_NATURAL" && (
               <div className="space-y-3">
                 <div className="bg-gray-100 p-4 rounded border border-gray-200">
                   <p className="text-sm text-gray-700">
-                    Como persona natural, no necesitas constituir una empresa.
+                    Como persona natural, no necesitas constituir una empresa en SUNARP.
                   </p>
                 </div>
 
-                <div className="space-y-2">
-                  <div className="p-3 rounded-none border-2 border-green-500 bg-green-50">
-                    <p className="text-sm font-medium text-gray-800">
-                      Persona Natural
-                    </p>
-                    <p className="text-xs text-gray-600 mt-1">
-                      Operas con tu DNI. El negocio está a tu nombre.
-                    </p>
-
-                    <span className="mt-2 text-xs text-green-600 font-medium block">
-                      ✓ Seleccionado
-                    </span>
-                  </div>
+                <div className="p-3 rounded-none border-2 border-green-500 bg-green-50">
+                  <p className="text-sm font-medium text-gray-800">
+                    Persona Natural
+                  </p>
+                  <p className="text-xs text-gray-600 mt-1">
+                    Operas con tu DNI. El negocio está a tu nombre.
+                  </p>
                 </div>
               </div>
             )}
 
-            {selectedTaxpayerType === "PERSONA_JURIDICA" && (
+            {currentTaxpayerType === "PERSONA_JURIDICA" && (
               <div className="space-y-2">
                 <p className="text-xs text-gray-500">
                   Selecciona el tipo de empresa:
@@ -433,6 +260,14 @@ export function SunarpEvaluateLegalEntityNeedStep({
                     </button>
                   );
                 })}
+              </div>
+            )}
+
+            {!currentTaxpayerType && (
+              <div className="bg-gray-100 p-4 rounded border border-gray-200">
+                <p className="text-sm text-gray-500">
+                  Cargando tipo de contribuyente...
+                </p>
               </div>
             )}
           </div>
