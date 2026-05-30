@@ -56,6 +56,7 @@ interface CreateFormalIdentityDto {
   payrollEnabled?: boolean;
   accountingObligation: string;
   electronicBooksEnabled?: boolean;
+  municipalLicenseRequired?: boolean;
 }
 
 function findCiiuInHierarchy(code: string, sections: Record<string, Section>) {

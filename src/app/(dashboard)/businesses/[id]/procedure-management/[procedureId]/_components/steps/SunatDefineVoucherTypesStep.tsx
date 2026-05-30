@@ -75,6 +75,7 @@ interface CreateFormalIdentityDto {
   payrollEnabled?: boolean;
   accountingObligation: string;
   electronicBooksEnabled?: boolean;
+  municipalLicenseRequired?: boolean;
 }
 
 function buildFormalIdentityDto(
