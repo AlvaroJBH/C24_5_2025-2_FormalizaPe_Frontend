@@ -25,6 +25,7 @@ export interface FormalIdentity {
   payrollEnabled: boolean | null;
   accountingObligation: string;
   electronicBooksEnabled: boolean | null;
+  municipalLicenseRequired: boolean | null;
 }
 
 export interface BusinessProcedureSummary {
