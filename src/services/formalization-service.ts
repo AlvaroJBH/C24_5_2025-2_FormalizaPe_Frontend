@@ -67,6 +67,7 @@ export interface FormalIdentityResponse {
   payrollEnabled: boolean | null;
   accountingObligation: string;
   electronicBooksEnabled: boolean | null;
+  municipalLicenseRequired: boolean | null;
 }
 
 export interface CreateFormalIdentityRequest {
@@ -88,6 +89,7 @@ export interface CreateFormalIdentityRequest {
   payrollEnabled?: boolean;
   accountingObligation?: string;
   electronicBooksEnabled?: boolean;
+  municipalLicenseRequired?: boolean;
 }
 
 // -----------------------------------------

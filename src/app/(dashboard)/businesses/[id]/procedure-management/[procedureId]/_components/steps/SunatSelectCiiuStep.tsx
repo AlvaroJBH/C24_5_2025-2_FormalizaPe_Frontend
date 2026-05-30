@@ -111,6 +111,7 @@ function buildFormalIdentityDto(
     payrollEnabled: existing?.payrollEnabled ?? undefined,
     accountingObligation: existing?.accountingObligation || "",
     electronicBooksEnabled: existing?.electronicBooksEnabled ?? undefined,
+    municipalLicenseRequired: existing?.municipalLicenseRequired ?? undefined,
   };
 }
 

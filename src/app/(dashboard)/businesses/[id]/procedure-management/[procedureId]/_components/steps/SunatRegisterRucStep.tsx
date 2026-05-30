@@ -139,6 +139,7 @@ export function SunatRegisterRucStep({
           payrollEnabled: existing?.payrollEnabled ?? undefined,
           accountingObligation: existing?.accountingObligation || "",
           electronicBooksEnabled: existing?.electronicBooksEnabled ?? undefined,
+          municipalLicenseRequired: existing?.municipalLicenseRequired ?? undefined,
         };
 
         await createFormalIdentity(dto);
@@ -178,6 +179,7 @@ export function SunatRegisterRucStep({
           payrollEnabled: existing?.payrollEnabled ?? undefined,
           accountingObligation: existing?.accountingObligation || "",
           electronicBooksEnabled: existing?.electronicBooksEnabled ?? undefined,
+          municipalLicenseRequired: existing?.municipalLicenseRequired ?? undefined,
         };
 
         await createFormalIdentity(dto);
