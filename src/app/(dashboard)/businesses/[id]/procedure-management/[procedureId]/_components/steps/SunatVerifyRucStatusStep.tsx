@@ -12,6 +12,11 @@ import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 import { useBusinessStore } from "@/store/business-store";
 import { useAuthStore } from "@/store/auth-store";
+import {
+  createFormalIdentity,
+  getFormalIdentity,
+  FormalIdentityResponse,
+} from "@/services/formalization-service";
 import type { StepComponentProps } from "../StepFallbackModal";
 
 const TAX_REGIME_LABELS: Record<string, string> = {
@@ -29,6 +34,7 @@ export function SunatVerifyRucStatusStep({
   onComplete,
 }: StepComponentProps) {
   const business = useBusinessStore((s) => s.business);
+  const refreshBusiness = useBusinessStore((s) => s.refreshBusiness);
   const formalIdentity = business?.formalIdentity ?? null;
   const user = useAuthStore((s) => s.user);
 
@@ -39,9 +45,45 @@ export function SunatVerifyRucStatusStep({
 
   const canComplete = confirmed && !!(ruc);
 
-  const handleComplete = () => {
+  const handleComplete = async () => {
     if (!canComplete) return;
-    onComplete();
+
+    try {
+      let existing: FormalIdentityResponse | null = null;
+      try {
+        existing = await getFormalIdentity(businessId);
+      } catch {
+      }
+
+      const dto = {
+        businessId,
+        businessDisplayName: existing?.businessDisplayName || "",
+        tradeName: existing?.tradeName || "",
+        legalName: existing?.legalName || "",
+        ruc: existing?.ruc || "",
+        sunatStatus: "ACTIVE",
+        taxpayerType: existing?.taxpayerType || "",
+        ciiuCode: existing?.ciiuCode || "",
+        taxRegime: existing?.taxRegime || "",
+        taxRegimeSource: existing?.taxRegimeSource || "",
+        projectedAnnualIncome: existing?.projectedAnnualIncome ?? undefined,
+        companyType: existing?.companyType || "",
+        isRegisteredCompany: existing?.isRegisteredCompany ?? undefined,
+        voucherType: existing?.voucherType || "",
+        electronicInvoicingEnabled: existing?.electronicInvoicingEnabled ?? undefined,
+        hasEmployees: existing?.hasEmployees ?? undefined,
+        payrollEnabled: existing?.payrollEnabled ?? undefined,
+        accountingObligation: existing?.accountingObligation || "",
+        electronicBooksEnabled: existing?.electronicBooksEnabled ?? undefined,
+      };
+
+      await createFormalIdentity(dto);
+      await refreshBusiness(businessId);
+    } catch (err) {
+      console.error("Error updating sunatStatus:", err);
+    } finally {
+      onComplete();
+    }
   };
 
   if (!ruc) {
