@@ -14,6 +14,11 @@ import { ExternalLink } from "lucide-react";
 import { useBusinessStore } from "@/store/business-store";
 import { useAuthStore } from "@/store/auth-store";
 import { updateProfile } from "@/services/profile-service";
+import {
+  createFormalIdentity,
+  getFormalIdentity,
+  FormalIdentityResponse,
+} from "@/services/formalization-service";
 import type { StepComponentProps } from "../StepFallbackModal";
 
 const TAXPAYER_TYPE_LABELS: Record<string, string> = {
@@ -74,6 +79,7 @@ export function SunatRegisterRucStep({
   onComplete,
 }: StepComponentProps) {
   const business = useBusinessStore((s) => s.business);
+  const refreshBusiness = useBusinessStore((s) => s.refreshBusiness);
   const formalIdentity = business?.formalIdentity ?? null;
   const user = useAuthStore((s) => s.user);
   const refreshUser = useAuthStore((s) => s.refreshUser);
@@ -107,6 +113,36 @@ export function SunatRegisterRucStep({
     setSaving(true);
     try {
       if (isPersonaJuridica) {
+        let existing: FormalIdentityResponse | null = null;
+        try {
+          existing = await getFormalIdentity(businessId);
+        } catch {
+        }
+
+        const dto = {
+          businessId,
+          businessDisplayName: existing?.businessDisplayName || "",
+          tradeName: existing?.tradeName || "",
+          legalName: existing?.legalName || "",
+          ruc: existing?.ruc || "",
+          sunatStatus: "PENDING",
+          taxpayerType: existing?.taxpayerType || "",
+          ciiuCode: existing?.ciiuCode || "",
+          taxRegime: existing?.taxRegime || "",
+          taxRegimeSource: existing?.taxRegimeSource || "",
+          projectedAnnualIncome: existing?.projectedAnnualIncome ?? undefined,
+          companyType: existing?.companyType || "",
+          isRegisteredCompany: existing?.isRegisteredCompany ?? undefined,
+          voucherType: existing?.voucherType || "",
+          electronicInvoicingEnabled: existing?.electronicInvoicingEnabled ?? undefined,
+          hasEmployees: existing?.hasEmployees ?? undefined,
+          payrollEnabled: existing?.payrollEnabled ?? undefined,
+          accountingObligation: existing?.accountingObligation || "",
+          electronicBooksEnabled: existing?.electronicBooksEnabled ?? undefined,
+        };
+
+        await createFormalIdentity(dto);
+        await refreshBusiness(businessId);
         onComplete();
       } else {
         await updateProfile({
@@ -115,6 +151,37 @@ export function SunatRegisterRucStep({
           ruc,
         });
         await refreshUser();
+
+        let existing: FormalIdentityResponse | null = null;
+        try {
+          existing = await getFormalIdentity(businessId);
+        } catch {
+        }
+
+        const dto = {
+          businessId,
+          businessDisplayName: existing?.businessDisplayName || "",
+          tradeName: existing?.tradeName || "",
+          legalName: existing?.legalName || "",
+          ruc,
+          sunatStatus: "PENDING",
+          taxpayerType: existing?.taxpayerType || "",
+          ciiuCode: existing?.ciiuCode || "",
+          taxRegime: existing?.taxRegime || "",
+          taxRegimeSource: existing?.taxRegimeSource || "",
+          projectedAnnualIncome: existing?.projectedAnnualIncome ?? undefined,
+          companyType: existing?.companyType || "",
+          isRegisteredCompany: existing?.isRegisteredCompany ?? undefined,
+          voucherType: existing?.voucherType || "",
+          electronicInvoicingEnabled: existing?.electronicInvoicingEnabled ?? undefined,
+          hasEmployees: existing?.hasEmployees ?? undefined,
+          payrollEnabled: existing?.payrollEnabled ?? undefined,
+          accountingObligation: existing?.accountingObligation || "",
+          electronicBooksEnabled: existing?.electronicBooksEnabled ?? undefined,
+        };
+
+        await createFormalIdentity(dto);
+        await refreshBusiness(businessId);
         onComplete();
       }
     } catch (err) {
