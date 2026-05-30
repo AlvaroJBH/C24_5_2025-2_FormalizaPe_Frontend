@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import {
   createFormalIdentity,
   getFormalIdentity,
+  buildFormalIdentityDto,
   FormalIdentityResponse,
 } from "@/services/formalization-service";
 import { useBusinessStore } from "@/store/business-store";
@@ -75,28 +76,9 @@ export function MunicipalEvaluateLicenseRequirementStep({
       } catch {
       }
 
-      const dto = {
-        businessId,
-        businessDisplayName: existing?.businessDisplayName || "",
-        tradeName: existing?.tradeName || "",
-        legalName: existing?.legalName || "",
-        ruc: existing?.ruc || "",
-        sunatStatus: existing?.sunatStatus || "",
-        taxpayerType: existing?.taxpayerType || "",
-        ciiuCode: existing?.ciiuCode || "",
-        taxRegime: existing?.taxRegime || "",
-        taxRegimeSource: existing?.taxRegimeSource || "",
-        projectedAnnualIncome: existing?.projectedAnnualIncome ?? undefined,
-        companyType: existing?.companyType || "",
-        isRegisteredCompany: existing?.isRegisteredCompany ?? undefined,
-        voucherType: existing?.voucherType || "",
-        electronicInvoicingEnabled: existing?.electronicInvoicingEnabled ?? undefined,
-        hasEmployees: existing?.hasEmployees ?? undefined,
-        payrollEnabled: existing?.payrollEnabled ?? undefined,
-        accountingObligation: existing?.accountingObligation || "",
-        electronicBooksEnabled: existing?.electronicBooksEnabled ?? undefined,
+      const dto = buildFormalIdentityDto(existing, businessId, {
         municipalLicenseRequired: selected ?? undefined,
-      };
+      });
 
       await createFormalIdentity(dto);
       onComplete();

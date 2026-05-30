@@ -15,6 +15,7 @@ import { useAuthStore } from "@/store/auth-store";
 import {
   createFormalIdentity,
   getFormalIdentity,
+  buildFormalIdentityDto,
   FormalIdentityResponse,
 } from "@/services/formalization-service";
 import type { StepComponentProps } from "../StepFallbackModal";
@@ -55,28 +56,9 @@ export function SunatVerifyRucStatusStep({
       } catch {
       }
 
-      const dto = {
-        businessId,
-        businessDisplayName: existing?.businessDisplayName || "",
-        tradeName: existing?.tradeName || "",
-        legalName: existing?.legalName || "",
-        ruc: existing?.ruc || "",
+      const dto = buildFormalIdentityDto(existing, businessId, {
         sunatStatus: "ACTIVE",
-        taxpayerType: existing?.taxpayerType || "",
-        ciiuCode: existing?.ciiuCode || "",
-        taxRegime: existing?.taxRegime || "",
-        taxRegimeSource: existing?.taxRegimeSource || "",
-        projectedAnnualIncome: existing?.projectedAnnualIncome ?? undefined,
-        companyType: existing?.companyType || "",
-        isRegisteredCompany: existing?.isRegisteredCompany ?? undefined,
-        voucherType: existing?.voucherType || "",
-        electronicInvoicingEnabled: existing?.electronicInvoicingEnabled ?? undefined,
-        hasEmployees: existing?.hasEmployees ?? undefined,
-        payrollEnabled: existing?.payrollEnabled ?? undefined,
-        accountingObligation: existing?.accountingObligation || "",
-        electronicBooksEnabled: existing?.electronicBooksEnabled ?? undefined,
-        municipalLicenseRequired: existing?.municipalLicenseRequired ?? undefined,
-      };
+      });
 
       await createFormalIdentity(dto);
       await refreshBusiness(businessId);

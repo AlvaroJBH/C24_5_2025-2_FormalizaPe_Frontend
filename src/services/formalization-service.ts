@@ -72,6 +72,7 @@ export interface FormalIdentityResponse {
 
 export interface CreateFormalIdentityRequest {
   businessId: number;
+  businessDisplayName?: string;
   tradeName?: string;
   legalName?: string;
   ruc?: string;
@@ -90,6 +91,36 @@ export interface CreateFormalIdentityRequest {
   accountingObligation?: string;
   electronicBooksEnabled?: boolean;
   municipalLicenseRequired?: boolean;
+}
+
+export function buildFormalIdentityDto(
+  existing: FormalIdentityResponse | null,
+  businessId: number,
+  updates: Partial<CreateFormalIdentityRequest>
+): CreateFormalIdentityRequest {
+  return {
+    businessId,
+    businessDisplayName: existing?.businessDisplayName ?? "",
+    tradeName: existing?.tradeName ?? "",
+    legalName: existing?.legalName ?? "",
+    ruc: existing?.ruc ?? "",
+    sunatStatus: existing?.sunatStatus ?? "",
+    taxpayerType: existing?.taxpayerType ?? "",
+    ciiuCode: existing?.ciiuCode ?? "",
+    taxRegime: existing?.taxRegime ?? "",
+    taxRegimeSource: existing?.taxRegimeSource ?? "",
+    projectedAnnualIncome: existing?.projectedAnnualIncome ?? undefined,
+    companyType: existing?.companyType ?? "",
+    isRegisteredCompany: existing?.isRegisteredCompany ?? undefined,
+    voucherType: existing?.voucherType ?? "",
+    electronicInvoicingEnabled: existing?.electronicInvoicingEnabled ?? undefined,
+    hasEmployees: existing?.hasEmployees ?? undefined,
+    payrollEnabled: existing?.payrollEnabled ?? undefined,
+    accountingObligation: existing?.accountingObligation ?? "",
+    electronicBooksEnabled: existing?.electronicBooksEnabled ?? undefined,
+    municipalLicenseRequired: existing?.municipalLicenseRequired ?? undefined,
+    ...updates,
+  };
 }
 
 // -----------------------------------------

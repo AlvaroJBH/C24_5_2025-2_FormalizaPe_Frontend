@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import {
   createFormalIdentity,
   getFormalIdentity,
+  buildFormalIdentityDto,
   FormalIdentityResponse,
 } from "@/services/formalization-service";
 import { useBusinessStore } from "@/store/business-store";
@@ -54,58 +55,6 @@ const TAX_REGIME_LABELS: Record<string, string> = {
   MYPE: "Régimen MYPE Tributario",
   GENERAL: "Régimen General",
 };
-
-interface CreateFormalIdentityDto {
-  businessId: number;
-  businessDisplayName: string;
-  tradeName: string;
-  legalName: string;
-  ruc: string;
-  sunatStatus: string;
-  taxpayerType: string;
-  ciiuCode: string;
-  taxRegime: string;
-  taxRegimeSource: string;
-  projectedAnnualIncome?: number;
-  companyType: string;
-  isRegisteredCompany?: boolean;
-  voucherType: string;
-  electronicInvoicingEnabled?: boolean;
-  hasEmployees?: boolean;
-  payrollEnabled?: boolean;
-  accountingObligation: string;
-  electronicBooksEnabled?: boolean;
-  municipalLicenseRequired?: boolean;
-}
-
-function buildFormalIdentityDto(
-  existing: FormalIdentityResponse | null,
-  businessId: number,
-  voucherType: string
-): CreateFormalIdentityDto {
-  return {
-    businessId,
-    businessDisplayName: existing?.businessDisplayName || "",
-    tradeName: existing?.tradeName || "",
-    legalName: existing?.legalName || "",
-    ruc: existing?.ruc || "",
-    sunatStatus: existing?.sunatStatus || "",
-    taxpayerType: existing?.taxpayerType || "",
-    ciiuCode: existing?.ciiuCode || "",
-    taxRegime: existing?.taxRegime || "",
-    taxRegimeSource: existing?.taxRegimeSource || "",
-    projectedAnnualIncome: existing?.projectedAnnualIncome ?? undefined,
-    companyType: existing?.companyType || "",
-    isRegisteredCompany: existing?.isRegisteredCompany ?? undefined,
-    voucherType,
-    electronicInvoicingEnabled: existing?.electronicInvoicingEnabled ?? undefined,
-    hasEmployees: existing?.hasEmployees ?? undefined,
-    payrollEnabled: existing?.payrollEnabled ?? undefined,
-    accountingObligation: existing?.accountingObligation || "",
-    electronicBooksEnabled: existing?.electronicBooksEnabled ?? undefined,
-    municipalLicenseRequired: existing?.municipalLicenseRequired ?? undefined,
-  };
-}
 
 function getAllowedVoucherTypes(
   taxpayerType: string | null,
@@ -176,7 +125,9 @@ export function SunatDefineVoucherTypesStep({
         // 404 means no formal identity exists yet
       }
 
-      const dto = buildFormalIdentityDto(existing, businessId, selected);
+      const dto = buildFormalIdentityDto(existing, businessId, {
+        voucherType: selected,
+      });
       await createFormalIdentity(dto);
       onComplete();
     } catch (err) {

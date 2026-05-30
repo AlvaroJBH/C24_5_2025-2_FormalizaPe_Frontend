@@ -14,63 +14,11 @@ import { ExternalLink } from "lucide-react";
 import {
   createFormalIdentity,
   getFormalIdentity,
+  buildFormalIdentityDto,
   FormalIdentityResponse,
 } from "@/services/formalization-service";
 import { useBusinessStore } from "@/store/business-store";
 import type { StepComponentProps } from "../StepFallbackModal";
-
-interface CreateFormalIdentityDto {
-  businessId: number;
-  businessDisplayName: string;
-  tradeName: string;
-  legalName: string;
-  ruc: string;
-  sunatStatus: string;
-  taxpayerType: string;
-  ciiuCode: string;
-  taxRegime: string;
-  taxRegimeSource: string;
-  projectedAnnualIncome?: number;
-  companyType: string;
-  isRegisteredCompany?: boolean;
-  voucherType: string;
-  electronicInvoicingEnabled?: boolean;
-  hasEmployees?: boolean;
-  payrollEnabled?: boolean;
-  accountingObligation: string;
-  electronicBooksEnabled?: boolean;
-  municipalLicenseRequired?: boolean;
-}
-
-function buildFormalIdentityDto(
-  existing: FormalIdentityResponse | null,
-  businessId: number,
-  tradeName: string,
-  legalName: string
-): CreateFormalIdentityDto {
-  return {
-    businessId,
-    businessDisplayName: existing?.businessDisplayName || "",
-    tradeName,
-    legalName,
-    ruc: existing?.ruc || "",
-    sunatStatus: existing?.sunatStatus || "",
-    taxpayerType: existing?.taxpayerType || "",
-    ciiuCode: existing?.ciiuCode || "",
-    taxRegime: existing?.taxRegime || "",
-    taxRegimeSource: existing?.taxRegimeSource || "",
-    projectedAnnualIncome: existing?.projectedAnnualIncome ?? undefined,
-    companyType: existing?.companyType || "",
-    isRegisteredCompany: existing?.isRegisteredCompany ?? undefined,
-    voucherType: existing?.voucherType || "",
-    electronicInvoicingEnabled: existing?.electronicInvoicingEnabled ?? undefined,
-    hasEmployees: existing?.hasEmployees ?? undefined,
-    payrollEnabled: existing?.payrollEnabled ?? undefined,
-    accountingObligation: existing?.accountingObligation || "",
-    electronicBooksEnabled: existing?.electronicBooksEnabled ?? undefined,
-    municipalLicenseRequired: existing?.municipalLicenseRequired ?? undefined,
-  };
-}
 
 export function SunarpReserveCompanyNameStep({
   businessId,
@@ -96,12 +44,10 @@ export function SunarpReserveCompanyNameStep({
       } catch {
       }
 
-      const dto = buildFormalIdentityDto(
-        existing,
-        businessId,
-        selectedTradeName,
-        selectedLegalName
-      );
+      const dto = buildFormalIdentityDto(existing, businessId, {
+        tradeName: selectedTradeName,
+        legalName: selectedLegalName,
+      });
       await createFormalIdentity(dto);
       onComplete();
     } catch (err) {

@@ -15,6 +15,7 @@ import ciiuData from "@/data/ciiu_revision4.json";
 import {
   createFormalIdentity,
   getFormalIdentity,
+  buildFormalIdentityDto,
   FormalIdentityResponse,
 } from "@/services/formalization-service";
 import { useBusinessStore } from "@/store/business-store";
@@ -34,29 +35,6 @@ interface Section {
     }>;
     actividades?: Record<string, string>;
   }>;
-}
-
-interface CreateFormalIdentityDto {
-  businessId: number;
-  businessDisplayName: string;
-  tradeName: string;
-  legalName: string;
-  ruc: string;
-  sunatStatus: string;
-  taxpayerType: string;
-  ciiuCode: string;
-  taxRegime: string;
-  taxRegimeSource: string;
-  projectedAnnualIncome?: number;
-  companyType: string;
-  isRegisteredCompany?: boolean;
-  voucherType: string;
-  electronicInvoicingEnabled?: boolean;
-  hasEmployees?: boolean;
-  payrollEnabled?: boolean;
-  accountingObligation: string;
-  electronicBooksEnabled?: boolean;
-  municipalLicenseRequired?: boolean;
 }
 
 function findCiiuInHierarchy(code: string, sections: Record<string, Section>) {
@@ -85,35 +63,6 @@ function findCiiuInHierarchy(code: string, sections: Record<string, Section>) {
     }
   }
   return null;
-}
-
-function buildFormalIdentityDto(
-  existing: FormalIdentityResponse | null,
-  businessId: number,
-  ciiuCode: string
-): CreateFormalIdentityDto {
-  return {
-    businessId,
-    businessDisplayName: existing?.businessDisplayName || "",
-    tradeName: existing?.tradeName || "",
-    legalName: existing?.legalName || "",
-    ruc: existing?.ruc || "",
-    sunatStatus: existing?.sunatStatus || "",
-    taxpayerType: existing?.taxpayerType || "",
-    ciiuCode,
-    taxRegime: existing?.taxRegime || "",
-    taxRegimeSource: existing?.taxRegimeSource || "",
-    projectedAnnualIncome: existing?.projectedAnnualIncome ?? undefined,
-    companyType: existing?.companyType || "",
-    isRegisteredCompany: existing?.isRegisteredCompany ?? undefined,
-    voucherType: existing?.voucherType || "",
-    electronicInvoicingEnabled: existing?.electronicInvoicingEnabled ?? undefined,
-    hasEmployees: existing?.hasEmployees ?? undefined,
-    payrollEnabled: existing?.payrollEnabled ?? undefined,
-    accountingObligation: existing?.accountingObligation || "",
-    electronicBooksEnabled: existing?.electronicBooksEnabled ?? undefined,
-    municipalLicenseRequired: existing?.municipalLicenseRequired ?? undefined,
-  };
 }
 
 export function SunatSelectCiiuStep({
@@ -191,7 +140,9 @@ export function SunatSelectCiiuStep({
         // 404 means no formal identity exists yet
       }
 
-      const dto = buildFormalIdentityDto(existing, businessId, selectedActivity.code);
+      const dto = buildFormalIdentityDto(existing, businessId, {
+        ciiuCode: selectedActivity.code,
+      });
       await createFormalIdentity(dto);
       onComplete();
     } catch (err) {

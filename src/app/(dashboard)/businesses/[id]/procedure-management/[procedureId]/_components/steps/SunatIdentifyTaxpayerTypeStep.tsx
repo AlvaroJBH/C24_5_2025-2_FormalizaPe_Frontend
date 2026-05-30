@@ -13,6 +13,7 @@ import { useBusinessStore } from "@/store/business-store";
 import {
   createFormalIdentity,
   getFormalIdentity,
+  buildFormalIdentityDto,
   FormalIdentityResponse,
 } from "@/services/formalization-service";
 import type { StepComponentProps } from "../StepFallbackModal";
@@ -59,58 +60,6 @@ const PERSONA_NATURAL_INFO = {
     "SUNARP es el punto donde se evalúa la constitución de empresas y la formalización empresarial. Este paso en SUNAT solo define tu tipo de contribuyente actual.",
 };
 
-interface CreateFormalIdentityDto {
-  businessId: number;
-  businessDisplayName: string;
-  tradeName: string;
-  legalName: string;
-  ruc: string;
-  sunatStatus: string;
-  taxpayerType: string;
-  ciiuCode: string;
-  taxRegime: string;
-  taxRegimeSource: string;
-  projectedAnnualIncome?: number;
-  companyType: string;
-  isRegisteredCompany?: boolean;
-  voucherType: string;
-  electronicInvoicingEnabled?: boolean;
-  hasEmployees?: boolean;
-  payrollEnabled?: boolean;
-  accountingObligation: string;
-  electronicBooksEnabled?: boolean;
-  municipalLicenseRequired?: boolean;
-}
-
-function buildFormalIdentityDto(
-  existing: FormalIdentityResponse | null,
-  businessId: number,
-  taxpayerType: TaxpayerType
-): CreateFormalIdentityDto {
-  return {
-    businessId,
-    businessDisplayName: existing?.businessDisplayName || "",
-    tradeName: existing?.tradeName || "",
-    legalName: existing?.legalName || "",
-    ruc: existing?.ruc || "",
-    sunatStatus: existing?.sunatStatus || "",
-    taxpayerType,
-    ciiuCode: existing?.ciiuCode || "",
-    taxRegime: existing?.taxRegime || "",
-    taxRegimeSource: existing?.taxRegimeSource || "",
-    projectedAnnualIncome: existing?.projectedAnnualIncome ?? undefined,
-    companyType: existing?.companyType || "",
-    isRegisteredCompany: existing?.isRegisteredCompany ?? undefined,
-    voucherType: existing?.voucherType || "",
-    electronicInvoicingEnabled: existing?.electronicInvoicingEnabled ?? undefined,
-    hasEmployees: existing?.hasEmployees ?? undefined,
-    payrollEnabled: existing?.payrollEnabled ?? undefined,
-    accountingObligation: existing?.accountingObligation || "",
-    electronicBooksEnabled: existing?.electronicBooksEnabled ?? undefined,
-    municipalLicenseRequired: existing?.municipalLicenseRequired ?? undefined,
-  };
-}
-
 export function SunatIdentifyTaxpayerTypeStep({
   businessId,
   stepTitle,
@@ -145,7 +94,9 @@ export function SunatIdentifyTaxpayerTypeStep({
         // 404 means no formal identity exists yet
       }
 
-      const dto = buildFormalIdentityDto(existing, businessId, selected);
+      const dto = buildFormalIdentityDto(existing, businessId, {
+        taxpayerType: selected,
+      });
       await createFormalIdentity(dto);
       onComplete();
     } catch (err) {
