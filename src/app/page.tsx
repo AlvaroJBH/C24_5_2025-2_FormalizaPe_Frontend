@@ -73,7 +73,7 @@ export default function HomePage() {
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={2}
-              stroke="currentColor"
+              stroke="current"
             >
               <path d="M16 7h6v6" />
               <path d="m22 7-8.5 8.5-5-5L2 17" />
@@ -88,12 +88,21 @@ export default function HomePage() {
         </div>
 
         {/* Botón principal */}
-        <Link
-          href="/login"
-          className="inline-block bg-linear-to-r from-blue-700 to-blue-600 text-white font-semibold py-3 px-8 rounded-none shadow-lg border border-blue-900/30 hover:opacity-90 transition"
-        >
-          Comenzar ahora
-        </Link>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-4">
+          <Link
+            href="/login"
+            className="inline-block bg-linear-to-r from-blue-700 to-blue-600 text-white font-semibold py-3 px-8 rounded-none shadow-lg border border-blue-900/30 hover:opacity-90 transition"
+          >
+            Comenzar ahora
+          </Link>
+
+          <Link
+            href="/admin/login"
+            className="inline-block bg-gray-800 hover:bg-gray-900 text-white font-semibold py-3 px-8 rounded-none shadow-lg border border-gray-900/30 transition"
+          >
+            Admin
+          </Link>
+        </div>
 
         {/* Footer */}
         <p className="text-gray-500 text-sm mt-6">

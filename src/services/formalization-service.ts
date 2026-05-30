@@ -10,11 +10,11 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export interface FormalizationStepDTO {
   stepId: number;
+  identifier: string;
   title: string;
   description: string;
   stepOrder: number;
   status: string; // "PENDING" | "COMPLETED"
-  notes: string | null;
 }
 
 export interface FormalizationProcedureDTO {
@@ -40,7 +40,87 @@ export interface FormalizationToggleStepRequest {
   procedureId: number;
   stepId: number;
   completed: boolean;
-  notes?: string | null;
+}
+
+// -----------------------------------------
+// FormalIdentity DTOs
+// -----------------------------------------
+
+export interface FormalIdentityResponse {
+  id: number;
+  businessId: number;
+  businessDisplayName: string;
+  tradeName: string;
+  legalName: string;
+  ruc: string;
+  sunatStatus: string;
+  taxpayerType: string;
+  ciiuCode: string;
+  taxRegime: string;
+  taxRegimeSource: string;
+  projectedAnnualIncome: number | null;
+  companyType: string;
+  isRegisteredCompany: boolean | null;
+  voucherType: string;
+  electronicInvoicingEnabled: boolean | null;
+  hasEmployees: boolean | null;
+  payrollEnabled: boolean | null;
+  accountingObligation: string;
+  electronicBooksEnabled: boolean | null;
+  municipalLicenseRequired: boolean | null;
+}
+
+export interface CreateFormalIdentityRequest {
+  businessId: number;
+  businessDisplayName?: string;
+  tradeName?: string;
+  legalName?: string;
+  ruc?: string;
+  sunatStatus?: string;
+  taxpayerType?: string;
+  ciiuCode?: string;
+  taxRegime?: string;
+  taxRegimeSource?: string;
+  projectedAnnualIncome?: number;
+  companyType?: string;
+  isRegisteredCompany?: boolean;
+  voucherType?: string;
+  electronicInvoicingEnabled?: boolean;
+  hasEmployees?: boolean;
+  payrollEnabled?: boolean;
+  accountingObligation?: string;
+  electronicBooksEnabled?: boolean;
+  municipalLicenseRequired?: boolean;
+}
+
+export function buildFormalIdentityDto(
+  existing: FormalIdentityResponse | null,
+  businessId: number,
+  updates: Partial<CreateFormalIdentityRequest>
+): CreateFormalIdentityRequest {
+  return {
+    businessId,
+    businessDisplayName: existing?.businessDisplayName ?? "",
+    tradeName: existing?.tradeName ?? "",
+    legalName: existing?.legalName ?? "",
+    ruc: existing?.ruc ?? "",
+    sunatStatus: existing?.sunatStatus ?? "",
+    taxpayerType: existing?.taxpayerType ?? "",
+    ciiuCode: existing?.ciiuCode ?? "",
+    taxRegime: existing?.taxRegime ?? "",
+    taxRegimeSource: existing?.taxRegimeSource ?? "",
+    projectedAnnualIncome: existing?.projectedAnnualIncome ?? undefined,
+    companyType: existing?.companyType ?? "",
+    isRegisteredCompany: existing?.isRegisteredCompany ?? undefined,
+    voucherType: existing?.voucherType ?? "",
+    electronicInvoicingEnabled: existing?.electronicInvoicingEnabled ?? undefined,
+    hasEmployees: existing?.hasEmployees ?? undefined,
+    payrollEnabled: existing?.payrollEnabled ?? undefined,
+    accountingObligation: existing?.accountingObligation ?? "",
+    electronicBooksEnabled: existing?.electronicBooksEnabled ?? undefined,
+    municipalLicenseRequired: existing?.municipalLicenseRequired ?? undefined,
+    ...updates,
+  };
 }
 
 // -----------------------------------------
@@ -68,14 +148,14 @@ async function fetchWithAuth(input: RequestInfo, init?: RequestInit) {
     throw new Error(`Error ${res.status}: ${text}`);
   }
 
+  if (res.status === 204) return null;
   return res.json();
 }
 
 // -----------------------------------------
-// ENDPOINTS reales del controller
+// ENDPOINTS de Formalization
 // -----------------------------------------
 
-// ✔ Obtener estado completo de la formalización
 export function getFormalizationStatus(
   businessId: number
 ): Promise<FormalizationStatusDTO> {
@@ -84,7 +164,6 @@ export function getFormalizationStatus(
   );
 }
 
-// ✔ Marcar/desmarcar paso
 export function toggleStep(
   request: FormalizationToggleStepRequest
 ): Promise<FormalizationStepDTO> {
@@ -92,4 +171,32 @@ export function toggleStep(
     method: "POST",
     body: JSON.stringify(request),
   });
+}
+
+// -----------------------------------------
+// ENDPOINTS de FormalIdentity
+// -----------------------------------------
+
+export function createFormalIdentity(
+  data: CreateFormalIdentityRequest
+): Promise<FormalIdentityResponse> {
+  return fetchWithAuth(`${API_BASE_URL}/api/formalization/identity`, {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+}
+
+export function getFormalIdentity(
+  businessId: number
+): Promise<FormalIdentityResponse | null> {
+  return fetchWithAuth(
+    `${API_BASE_URL}/api/formalization/identity/${businessId}`
+  );
+}
+
+export function deleteFormalIdentity(businessId: number): Promise<void> {
+  return fetchWithAuth(
+    `${API_BASE_URL}/api/formalization/identity/${businessId}`,
+    { method: "DELETE" }
+  );
 }

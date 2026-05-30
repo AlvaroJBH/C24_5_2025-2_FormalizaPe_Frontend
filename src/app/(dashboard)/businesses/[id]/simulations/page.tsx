@@ -34,10 +34,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useBusinessStore } from "@/store/business-store";
+import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
 
 export default function SimulationsPage() {
   const params = useParams();
   const businessId = Number(params.id);
+  const business = useBusinessStore((s) => s.business);
 
   // ------------------------
   // ESTADOS
@@ -248,6 +251,13 @@ export default function SimulationsPage() {
 
   return (
     <div className="flex-1 p-6 flex flex-col min-h-0">
+      <AppBreadcrumb
+        items={[
+          { label: "Inicio", href: "/businesses" },
+          { label: business?.displayName ?? "Business", href: `/businesses/${businessId}` },
+          { label: "Simulador", href: `/businesses/${businessId}/simulations` },
+        ]}
+      />
       {/* HEADER */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-semibold text-slate-700">Simulaciones</h1>

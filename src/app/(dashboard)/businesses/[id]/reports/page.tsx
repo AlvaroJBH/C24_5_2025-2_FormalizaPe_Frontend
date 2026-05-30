@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useAuthStore } from "@/store/auth-store";
+import { useBusinessStore } from "@/store/business-store";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import {
@@ -16,10 +17,12 @@ import {
   SimulationResultItem,
   SimulationResults,
 } from "@/services/simulations-service";
+import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
 
 export default function ReportPage() {
   const params = useParams();
   const businessId = Number(params.id);
+  const business = useBusinessStore((s) => s.business);
   const { token } = useAuthStore();
 
   /** TRÁMITES */
@@ -118,6 +121,13 @@ export default function ReportPage() {
 
   return (
     <div className="flex flex-col flex-1 p-6">
+      <AppBreadcrumb
+        items={[
+          { label: "Inicio", href: "/businesses" },
+          { label: business?.displayName ?? "Business", href: `/businesses/${businessId}` },
+          { label: "Simulador", href: `/businesses/${businessId}/reports` },
+        ]}
+      />
       <Tabs defaultValue="tramites" className="w-full">
         <TabsList className="mb-4 border-b w-full text-lg rounded-none">
           <TabsTrigger
@@ -380,12 +390,6 @@ export default function ReportPage() {
                               <span className="font-medium mr-2">Estado:</span>
                               <span>{step.status}</span>
                             </div>
-
-                            {step.notes && (
-                              <p className="text-xs text-gray-400 mt-1 italic">
-                                Nota: {step.notes}
-                              </p>
-                            )}
                           </div>
                         </div>
                       );

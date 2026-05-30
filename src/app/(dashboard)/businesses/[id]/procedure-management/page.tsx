@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/auth-store";
+import { useBusinessStore } from "@/store/business-store";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
@@ -10,11 +11,13 @@ import {
   FormalizationProcedureDTO,
   getFormalizationStatus,
 } from "@/services/formalization-service";
+import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
 
 export default function ProcedureManagementPage() {
   const params = useParams();
   const router = useRouter();
   const businessId = Number(params.id);
+  const business = useBusinessStore((s) => s.business);
 
   const { token } = useAuthStore();
 
@@ -81,6 +84,13 @@ export default function ProcedureManagementPage() {
 
   return (
     <div className="flex flex-col flex-1 p-6 overflow-auto">
+      <AppBreadcrumb
+          items={[
+            { label: "Inicio", href: "/businesses" },
+            { label: business?.displayName ?? "Business", href: `/businesses/${businessId}` },
+            { label: "Progreso", href: `/businesses/${businessId}/procedure-management` },
+        ]}
+      />
       <h1 className="text-2xl text-slate-700 font-semibold mb-6">
         Progreso de Formalización
       </h1>

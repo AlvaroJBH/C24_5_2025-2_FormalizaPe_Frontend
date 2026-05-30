@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useAuthStore } from "@/store/auth-store";
+import { useBusinessStore } from "@/store/business-store";
 
 import {
   getFormalizationStatus,
@@ -10,11 +11,10 @@ import {
   FormalizationStepDTO,
   FormalizationProcedureDTO,
 } from "@/services/formalization-service";
-
+import { AppBreadcrumb } from "@/components/common/app-breadcrumb";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Textarea } from "@/components/ui/textarea";
-import { Check } from "lucide-react";
+import { getStepComponent } from "./_components/stepComponentMap";
 
 export default function ProcedureDetailsPage() {
   const params = useParams();
@@ -22,13 +22,14 @@ export default function ProcedureDetailsPage() {
   const procedureId = Number(params.procedureId);
 
   const { token } = useAuthStore();
-
-  const [procedure, setProcedure] = useState<FormalizationProcedureDTO | null>(
-    null
-  );
+  const business = useBusinessStore((s) => s.business);
+  const refreshBusiness = useBusinessStore((s) => s.refreshBusiness);
+  const [procedure, setProcedure] = useState<FormalizationProcedureDTO | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [savingStep, setSavingStep] = useState<number | null>(null);
+  const [selectedStep, setSelectedStep] = useState<FormalizationStepDTO | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const fetchProcedureData = async () => {
     try {
@@ -53,7 +54,23 @@ export default function ProcedureDetailsPage() {
     if (token) fetchProcedureData();
   }, [token]);
 
+  const handleOpenStep = (step: FormalizationStepDTO) => {
+    setSelectedStep(step);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedStep(null);
+  };
+
   const handleToggleStep = async (step: FormalizationStepDTO) => {
+    if (step.status === "COMPLETED") {
+      await refreshBusiness(businessId);
+      handleCloseModal();
+      return;
+    }
+
     try {
       setSavingStep(step.stepId);
 
@@ -61,11 +78,12 @@ export default function ProcedureDetailsPage() {
         businessId,
         procedureId,
         stepId: step.stepId,
-        completed: step.status !== "COMPLETED",
-        notes: step.notes || "",
+        completed: true,
       });
 
       await fetchProcedureData();
+      await refreshBusiness(businessId);
+      handleCloseModal();
     } catch (err) {
       console.error(err);
       alert("Error al actualizar el paso");
@@ -78,129 +96,134 @@ export default function ProcedureDetailsPage() {
   if (error) return <div className="p-6 text-red-500">{error}</div>;
   if (!procedure) return <div className="p-6">Procedimiento no encontrado</div>;
 
-  // 🎨 Colores del borde según estado
   const statusStyles: Record<string, string> = {
     COMPLETED: "border-green-500",
     IN_PROGRESS: "border-blue-500",
     PENDING: "border-gray-300",
   };
 
-  // 🎨 Badge colors
   const badgeColors: Record<string, string> = {
     COMPLETED: "bg-green-500",
     IN_PROGRESS: "bg-blue-500",
     PENDING: "bg-gray-400",
   };
 
-  // 🏷️ Labels amigables
   const statusLabels: Record<string, string> = {
     COMPLETED: "Completado",
     IN_PROGRESS: "En progreso",
     PENDING: "Pendiente",
   };
 
+  const StepModalComponent = selectedStep
+    ? getStepComponent(selectedStep.identifier)
+    : null;
+
   return (
-    <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-10">
-      {/* LEFT COLUMN – card */}
-      <div className="md:col-span-1">
-        <div
-          className={`bg-white rounded-none shadow-md p-6 space-y-5 border border-gray-300 border-l-[6px] ${
-            statusStyles[procedure.status]
-          }`}
-        >
-          <div>
-            <h1 className="text-2xl font-semibold text-blue-700">
-              {procedure.name}
-            </h1>
+    <div className="flex flex-col flex-1 p-6 overflow-auto">
+      <AppBreadcrumb
+        items={[
+          { label: "Inicio", href: "/businesses" },
+          { label: business?.displayName ?? "Business", href: `/businesses/${businessId}` },
+          { label: "Progreso", href: `/businesses/${businessId}/procedure-management` },
+          { label: procedure?.name ?? "Procedure", href: `/businesses/${businessId}/procedure-management/${procedureId}` },
+        ]}
+      />
+      <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="md:col-span-1">
+          <div
+            className={`bg-white rounded-none shadow-md p-6 space-y-5 border border-gray-300 border-l-[6px] ${
+              statusStyles[procedure.status]
+            }`}
+          >
+            <div>
+              <h1 className="text-2xl font-semibold text-blue-700">
+                {procedure.name}
+              </h1>
 
-            <p className="text-gray-600 mt-1">{procedure.description}</p>
+              <p className="text-gray-600 mt-1">{procedure.description}</p>
 
-            <span className="text-xs text-gray-500">{procedure.category}</span>
+              <span className="text-xs text-gray-500">{procedure.category}</span>
 
-            <div className="mt-3">
-              <Badge
-                className={`${
-                  badgeColors[procedure.status]
-                } text-white rounded-none`}
-              >
-                {statusLabels[procedure.status]}
-              </Badge>
+              <div className="mt-3">
+                <Badge
+                  className={`${
+                    badgeColors[procedure.status]
+                  } text-white rounded-none`}
+                >
+                  {statusLabels[procedure.status]}
+                </Badge>
+              </div>
+            </div>
+
+            <div>
+              <Progress
+                value={procedure.progressPercent}
+                className="h-2 rounded-none"
+              />
+              <p className="text-sm text-gray-500 mt-2">
+                {procedure.completedSteps} / {procedure.totalSteps} pasos
+                completados
+              </p>
             </div>
           </div>
-
-          {/* progress */}
-          <div>
-            <Progress
-              value={procedure.progressPercent}
-              className="h-2 rounded-none"
-            />
-            <p className="text-sm text-gray-500 mt-2">
-              {procedure.completedSteps} / {procedure.totalSteps} pasos
-              completados
-            </p>
-          </div>
         </div>
-      </div>
 
-      {/* RIGHT COLUMN – steps list */}
-      <div className="md:col-span-2 space-y-4">
-        <h2 className="text-xl font-semibold">Pasos</h2>
+        <div className="md:col-span-2 space-y-4">
+          <h2 className="text-xl font-semibold">Pasos</h2>
 
-        <div className="space-y-4">
-          {procedure.steps.map((step: FormalizationStepDTO) => (
-            <div
-              key={step.stepId}
-              className={`
-              bg-white rounded-none shadow-md p-4 border border-gray-300 border-l-[6px]
-              ${
-                step.status === "COMPLETED"
-                  ? "border-green-600"
-                  : step.status === "IN_PROGRESS"
-                  ? "border-blue-600"
-                  : "border-gray-400"
-              }
-              flex items-start justify-between
-            `}
-            >
-              {/* Step content */}
-              <div className="flex-1 pr-6">
-                <p className="font-medium">{step.title}</p>
-                <p className="text-sm text-gray-600">{step.description}</p>
-
-                <Textarea
-                  className="mt-2 rounded-none"
-                  defaultValue={step.notes || ""}
-                  onBlur={(e) =>
-                    toggleStep({
-                      businessId,
-                      procedureId,
-                      stepId: step.stepId,
-                      completed: step.status === "COMPLETED",
-                      notes: e.target.value,
-                    })
-                  }
-                />
-              </div>
-
-              {/* small square toggle */}
-              <button
-                onClick={() => handleToggleStep(step)}
-                disabled={savingStep === step.stepId}
+          <div className="space-y-4">
+            {procedure.steps.map((step: FormalizationStepDTO) => (
+              <div
+                key={step.stepId}
                 className={`
-                w-9 h-9 flex items-center justify-center border rounded-none transition
+                bg-white rounded-none shadow-md p-4 border border-gray-300 border-l-[6px]
                 ${
                   step.status === "COMPLETED"
-                    ? "bg-green-600 border-green-700 text-white"
-                    : "bg-gray-100 border-gray-400"
+                    ? "border-green-600"
+                    : step.status === "IN_PROGRESS"
+                    ? "border-blue-600"
+                    : "border-gray-400"
                 }
+                cursor-pointer hover:shadow-lg transition-shadow
               `}
+                onClick={() => handleOpenStep(step)}
               >
-                {step.status === "COMPLETED" && <Check size={18} />}
-              </button>
-            </div>
-          ))}
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <p className="font-medium">{step.title}</p>
+                    <p className="text-sm text-gray-600">{step.description}</p>
+                  </div>
+                  <Badge
+                    variant="outline"
+                    className={`rounded-none ml-4 ${
+                      step.status === "COMPLETED"
+                        ? "bg-green-100 text-green-700 border-green-300"
+                        : step.status === "IN_PROGRESS"
+                        ? "bg-blue-100 text-blue-700 border-blue-300"
+                        : "bg-gray-100 text-gray-600 border-gray-300"
+                    }`}
+                  >
+                    {statusLabels[step.status]}
+                  </Badge>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
+
+      {StepModalComponent && selectedStep && (
+        <StepModalComponent
+          businessId={businessId}
+          stepId={selectedStep.stepId}
+          stepIdentifier={selectedStep.identifier}
+          stepTitle={selectedStep.title}
+          stepDescription={selectedStep.description}
+          stepStatus={selectedStep.status}
+          onClose={handleCloseModal}
+          onComplete={() => handleToggleStep(selectedStep)}
+        />
+      )}
     </div>
   );
 }

@@ -1,0 +1,2156 @@
+{
+  "A": {
+    "titulo": "Agricultura, ganadería, silvicultura y pesca",
+    "divisiones": {
+      "01": {
+        "titulo": "Agricultura, ganadería, caza y actividades de servicios conexas",
+        "subdivisiones": {
+          "011": {
+            "titulo": "Cultivo de plantas no perennes",
+            "actividades": {
+              "0111": "Cultivo de cereales (excepto arroz), legumbres y semillas oleaginosas",
+              "0112": "Cultivo de arroz",
+              "0113": "Cultivo de hortalizas y melones, raíces y tubérculos",
+              "0114": "Cultivo de caña de azúcar",
+              "0115": "Cultivo de tabaco",
+              "0116": "Cultivo de plantas de fibra",
+              "0119": "Cultivo de otras plantas no perennes"
+            }
+          },
+          "012": {
+            "titulo": "Cultivo de plantas perennes",
+            "actividades": {
+              "0121": "Cultivo de uva",
+              "0122": "Cultivo de frutas tropicales y subtropicales",
+              "0123": "Cultivo de cítricos",
+              "0124": "Cultivo de frutas de pepita y de hueso",
+              "0125": "Cultivo de otros frutos y nueces de árboles y arbustos",
+              "0126": "Cultivo de frutos oleaginosos",
+              "0127": "Cultivo de plantas con las que se preparan bebidas",
+              "0128": "Cultivo de especias y de plantas aromáticas, medicinales y farmacéuticas",
+              "0129": "Cultivo de otras plantas perennes"
+            }
+          },
+          "013": {
+            "titulo": "Propagación de plantas",
+            "actividades": {
+              "0130": "Propagación de plantas"
+            }
+          },
+          "014": {
+            "titulo": "Ganadería",
+            "actividades": {
+              "0141": "Cría de ganado bovino y búfalos",
+              "0142": "Cría de caballos y otros equinos",
+              "0143": "Cría de camellos y otros camélidos",
+              "0144": "Cría de ovejas y cabras",
+              "0145": "Cría de cerdos",
+              "0146": "Cría de aves de corral",
+              "0149": "Cría de otros animales"
+            }
+          },
+          "015": {
+            "titulo": "Cultivo de productos agrícolas en combinación con la cría de animales (explotación mixta)",
+            "actividades": {
+              "0150": "Cultivo de productos agrícolas en combinación con la cría de animales (explotación mixta)"
+            }
+          },
+          "016": {
+            "titulo": "Actividades de apoyo a la agricultura y la ganadería y actividades poscosecha",
+            "actividades": {
+              "0161": "Actividades de apoyo a la agricultura",
+              "0162": "Actividades de apoyo a la ganadería",
+              "0163": "Actividades poscosecha",
+              "0164": "Tratamiento de semillas para propagación"
+            }
+          },
+          "017": {
+            "titulo": "Caza ordinaria y mediante trampas y actividades de servicios conexas",
+            "actividades": {
+              "0170": "Caza ordinaria y mediante trampas y actividades de servicios conexas"
+            }
+          }
+        }
+      },
+      "02": {
+        "titulo": "Silvicultura y extracción de madera",
+        "subdivisiones": {
+          "021": {
+            "titulo": "Silvicultura y otras actividades forestales",
+            "actividades": {
+              "0210": "Silvicultura y otras actividades forestales"
+            }
+          },
+          "022": {
+            "titulo": "Extracción de madera",
+            "actividades": {
+              "0220": "Extracción de madera"
+            }
+          },
+          "023": {
+            "titulo": "Recolección de productos forestales distintos de la madera",
+            "actividades": {
+              "0230": "Recolección de productos forestales distintos de la madera"
+            }
+          },
+          "024": {
+            "titulo": "Servicios de apoyo a la silvicultura",
+            "actividades": {
+              "0240": "Servicios de apoyo a la silvicultura"
+            }
+          }
+        }
+      },
+      "03": {
+        "titulo": "Pesca y acuicultura",
+        "subdivisiones": {
+          "031": {
+            "titulo": "Pesca",
+            "actividades": {
+              "0311": "Pesca marítima",
+              "0312": "Pesca de agua dulce"
+            }
+          },
+          "032": {
+            "titulo": "Acuicultura",
+            "actividades": {
+              "0321": "Acuicultura marina",
+              "0322": "Acuicultura de agua dulce"
+            }
+          }
+        }
+      }
+    }
+  },
+  "B": {
+    "titulo": "Explotación de minas y canteras",
+    "divisiones": {
+      "05": {
+        "titulo": "Extracción de carbón de piedra y lignito",
+        "subdivisiones": {
+          "051": {
+            "titulo": "Extracción de carbón de piedra",
+            "actividades": {
+              "0510": "Extracción de carbón de piedra"
+            }
+          },
+          "052": {
+            "titulo": "Extracción de lignito",
+            "actividades": {
+              "0520": "Extracción de lignito"
+            }
+          }
+        }
+      },
+      "06": {
+        "titulo": "Extracción de petróleo crudo y gas natural",
+        "subdivisiones": {
+          "061": {
+            "titulo": "Extracción de petróleo crudo",
+            "actividades": {
+              "0610": "Extracción de petróleo crudo"
+            }
+          },
+          "062": {
+            "titulo": "Extracción de gas natural",
+            "actividades": {
+              "0620": "Extracción de gas natural"
+            }
+          }
+        }
+      },
+      "07": {
+        "titulo": "Extracción de minerales metalíferos",
+        "subdivisiones": {
+          "071": {
+            "titulo": "Extracción de minerales de hierro",
+            "actividades": {
+              "0710": "Extracción de minerales de hierro"
+            }
+          },
+          "072": {
+            "titulo": "Extracción de minerales metalíferos no ferrosos",
+            "actividades": {
+              "0721": "Extracción de minerales de uranio y torio",
+              "0729": "Extracción de otros minerales metalíferos no ferrosos"
+            }
+          }
+        }
+      },
+      "08": {
+        "titulo": "Explotación de otras minas y canteras",
+        "subdivisiones": {
+          "081": {
+            "titulo": "Extracción de piedra, arena y arcilla",
+            "actividades": {
+              "0810": "Extracción de piedra, arena y arcilla"
+            }
+          },
+          "089": {
+            "titulo": "Explotación de minas y canteras n.c.p.",
+            "actividades": {
+              "0891": "Extracción de minerales para la fabricación de abonos y productos químicos",
+              "0892": "Extracción de turba",
+              "0893": "Extracción de sal",
+              "0899": "Explotación de otras minas y canteras n.c.p."
+            }
+          }
+        }
+      },
+      "09": {
+        "titulo": "Actividades de servicios de apoyo para la explotación de minas y canteras",
+        "subdivisiones": {
+          "091": {
+            "titulo": "Actividades de apoyo para la extracción de petróleo y gas natural",
+            "actividades": {
+              "0910": "Actividades de apoyo para la extracción de petróleo y gas natural"
+            }
+          },
+          "099": {
+            "titulo": "Actividades de apoyo para otras actividades de explotación de minas y canteras",
+            "actividades": {
+              "0990": "Actividades de apoyo para otras actividades de explotación de minas y canteras"
+            }
+          }
+        }
+      }
+    }
+  },
+  "C": {
+    "titulo": "Industrias manufactureras",
+    "divisiones": {
+      "10": {
+        "titulo": "Elaboración de productos alimenticios",
+        "subdivisiones": {
+          "101": {
+            "titulo": "Elaboración y conservación de carne",
+            "actividades": {
+              "1010": "Elaboración y conservación de carne"
+            }
+          },
+          "102": {
+            "titulo": "Elaboración y conservación de pescado, crustáceos y moluscos",
+            "actividades": {
+              "1020": "Elaboración y conservación de pescado, crustáceos y moluscos"
+            }
+          },
+          "103": {
+            "titulo": "Elaboración y conservación de frutas, legumbres y hortalizas",
+            "actividades": {
+              "1030": "Elaboración y conservación de frutas, legumbres y hortalizas"
+            }
+          },
+          "104": {
+            "titulo": "Elaboración de aceites y grasas de origen vegetal y animal",
+            "actividades": {
+              "1040": "Elaboración de aceites y grasas de origen vegetal y animal"
+            }
+          },
+          "105": {
+            "titulo": "Elaboración de productos lácteos",
+            "actividades": {
+              "1050": "Elaboración de productos lácteos"
+            }
+          },
+          "106": {
+            "titulo": "Elaboración de productos de molinería, almidones y productos derivados del almidón",
+            "actividades": {
+              "1061": "Elaboración de productos de molinería",
+              "1062": "Elaboración de almidones y productos derivados del almidón"
+            }
+          },
+          "107": {
+            "titulo": "Elaboración de otros productos alimenticios",
+            "actividades": {
+              "1071": "Elaboración de productos de panadería",
+              "1072": "Elaboración de azúcar",
+              "1073": "Elaboración de cacao y chocolate y de productos de confitería",
+              "1074": "Elaboración de macarrones, fideos, alcuzcuz y productos farináceos similares",
+              "1075": "Elaboración de comidas y platos preparados",
+              "1079": "Elaboración de otros productos alimenticios n.c.p."
+            }
+          },
+          "108": {
+            "titulo": "Elaboración de piensos preparados para animales",
+            "actividades": {
+              "1080": "Elaboración de piensos preparados para animales"
+            }
+          }
+        }
+      },
+      "11": {
+        "titulo": "Elaboración de bebidas",
+        "subdivisiones": {
+          "110": {
+            "titulo": "Elaboración de bebidas",
+            "actividades": {
+              "1101": "Destilación, rectificación y mezcla de bebidas alcohólicas",
+              "1102": "Elaboración de vinos",
+              "1103": "Elaboración de bebidas malteadas y de malta",
+              "1104": "Elaboración de bebidas no alcohólicas; producción de aguas minerales y otras aguas embotelladas"
+            }
+          }
+        }
+      },
+      "12": {
+        "titulo": "Elaboración de productos de tabaco",
+        "subdivisiones": {
+          "120": {
+            "titulo": "Elaboración de productos de tabaco",
+            "actividades": {
+              "1200": "Elaboración de productos de tabaco"
+            }
+          }
+        }
+      },
+      "13": {
+        "titulo": "Fabricación de productos textiles",
+        "subdivisiones": {
+          "131": {
+            "titulo": "Hilatura, tejedura y acabado de productos textiles",
+            "actividades": {
+              "1311": "Preparación e hilatura de fibras textiles",
+              "1312": "Tejedura de productos textiles",
+              "1313": "Acabado de productos textiles"
+            }
+          },
+          "139": {
+            "titulo": "Fabricación de otros productos textiles",
+            "actividades": {
+              "1391": "Fabricación de tejidos de punto y ganchillo",
+              "1392": "Fabricación de artículos confeccionados de materiales textiles, excepto prendas de vestir",
+              "1393": "Fabricación de tapices y alfombras",
+              "1394": "Fabricación de cuerdas, cordeles, bramantes y redes",
+              "1399": "Fabricación de otros productos textiles n.c.p."
+            }
+          }
+        }
+      },
+      "14": {
+        "titulo": "Fabricación de prendas de vestir",
+        "subdivisiones": {
+          "141": {
+            "titulo": "Fabricación de prendas de vestir, excepto prendas de piel",
+            "actividades": {
+              "1410": "Fabricación de prendas de vestir, excepto prendas de piel"
+            }
+          },
+          "142": {
+            "titulo": "Fabricación de artículos de piel",
+            "actividades": {
+              "1420": "Fabricación de artículos de piel"
+            }
+          },
+          "143": {
+            "titulo": "Fabricación de artículos de punto y ganchillo",
+            "actividades": {
+              "1430": "Fabricación de artículos de punto y ganchillo"
+            }
+          }
+        }
+      },
+      "15": {
+        "titulo": "Fabricación de productos de cuero y productos conexos",
+        "subdivisiones": {
+          "151": {
+            "titulo": "Curtido y adobo de cueros; fabricación de maletas, bolsos de mano y artículos de talabartería y guarnicionería; adobo y teñido de pieles",
+            "actividades": {
+              "1511": "Curtido y adobo de cueros; adobo y teñido de pieles",
+              "1512": "Fabricación de maletas, bolsos de mano y artículos similares, y de artículos de talabartería y guarnicionería"
+            }
+          },
+          "152": {
+            "titulo": "Fabricación de calzado",
+            "actividades": {
+              "1520": "Fabricación de calzado"
+            }
+          }
+        }
+      },
+      "16": {
+        "titulo": "Producción de madera y fabricación de productos de madera y corcho, excepto muebles; fabricación de artículos de paja y de materiales trenzables",
+        "subdivisiones": {
+          "161": {
+            "titulo": "Aserrado y acepilladura de madera",
+            "actividades": {
+              "1610": "Aserrado y acepilladura de madera"
+            }
+          },
+          "162": {
+            "titulo": "Fabricación de productos de madera, corcho, paja y materiales trenzables",
+            "actividades": {
+              "1621": "Fabricación de hojas de madera para enchapado y tableros a base de madera",
+              "1622": "Fabricación de partes y piezas de carpintería para edificios y construcciones",
+              "1623": "Fabricación de recipientes de madera",
+              "1629": "Fabricación de otros productos de madera; fabricación de artículos de corcho, paja y materiales trenzables"
+            }
+          }
+        }
+      },
+      "17": {
+        "titulo": "Fabricación de papel y de productos de papel",
+        "subdivisiones": {
+          "170": {
+            "titulo": "Fabricación de papel y de productos de papel",
+            "actividades": {
+              "1701": "Fabricación de pasta de madera, papel y cartón",
+              "1702": "Fabricación de papel y cartón ondulado y de envases de papel y cartón",
+              "1709": "Fabricación de otros artículos de papel y cartón"
+            }
+          }
+        }
+      },
+      "18": {
+        "titulo": "Impresión y reproducción de grabaciones",
+        "subdivisiones": {
+          "181": {
+            "titulo": "Impresión y actividades de servicios relacionadas con la impresión",
+            "actividades": {
+              "1811": "Impresión",
+              "1812": "Actividades de servicios relacionadas con la impresión"
+            }
+          },
+          "182": {
+            "titulo": "Reproducción de grabaciones",
+            "actividades": {
+              "1820": "Reproducción de grabaciones"
+            }
+          }
+        }
+      },
+      "19": {
+        "titulo": "Fabricación de coque y productos de la refinación del petróleo",
+        "subdivisiones": {
+          "191": {
+            "titulo": "Fabricación de productos de hornos de coque",
+            "actividades": {
+              "1910": "Fabricación de productos de hornos de coque"
+            }
+          },
+          "192": {
+            "titulo": "Fabricación de productos de la refinación del petróleo",
+            "actividades": {
+              "1920": "Fabricación de productos de la refinación del petróleo"
+            }
+          }
+        }
+      },
+      "20": {
+        "titulo": "Fabricación de sustancias y productos químicos",
+        "subdivisiones": {
+          "201": {
+            "titulo": "Fabricación de sustancias químicas básicas, de abonos y compuestos de nitrógeno y de plásticos y caucho sintético en formas primarias",
+            "actividades": {
+              "2011": "Fabricación de sustancias químicas básicas",
+              "2012": "Fabricación de abonos y compuestos de nitrógeno",
+              "2013": "Fabricación de plásticos y caucho sintético en formas primarias"
+            }
+          },
+          "202": {
+            "titulo": "Fabricación de otros productos químicos",
+            "actividades": {
+              "2021": "Fabricación de plaguicidas y otros productos químicos de uso agropecuario",
+              "2022": "Fabricación de pinturas, barnices y productos de revestimiento similares, tintas de imprenta y masillas",
+              "2023": "Fabricación de jabones y detergentes, preparados para limpiar y pulir, perfumes y preparados de tocador",
+              "2029": "Fabricación de otros productos químicos n.c.p."
+            }
+          },
+          "203": {
+            "titulo": "Fabricación de fibras artificiales",
+            "actividades": {
+              "2030": "Fabricación de fibras artificiales"
+            }
+          }
+        }
+      },
+      "21": {
+        "titulo": "Fabricación de productos farmacéuticos, sustancias químicas medicinales y productos botánicos de uso farmacéutico",
+        "subdivisiones": {
+          "210": {
+            "titulo": "Fabricación de productos farmacéuticos, sustancias químicas medicinales y productos botánicos de uso farmacéutico",
+            "actividades": {
+              "2100": "Fabricación de productos farmacéuticos, sustancias químicas medicinales y productos botánicos de uso farmacéutico"
+            }
+          }
+        }
+      },
+      "22": {
+        "titulo": "Fabricación de productos de caucho y de plástico",
+        "subdivisiones": {
+          "221": {
+            "titulo": "Fabricación de productos de caucho",
+            "actividades": {
+              "2211": "Fabricación de cubiertas y cámaras de caucho; recauchutado y renovación de cubiertas de caucho",
+              "2219": "Fabricación de otros productos de caucho"
+            }
+          },
+          "222": {
+            "titulo": "Fabricación de productos de plástico",
+            "actividades": {
+              "2220": "Fabricación de productos de plástico"
+            }
+          }
+        }
+      },
+      "23": {
+        "titulo": "Fabricación de otros productos minerales no metálicos",
+        "subdivisiones": {
+          "231": {
+            "titulo": "Fabricación de vidrio y productos de vidrio",
+            "actividades": {
+              "2310": "Fabricación de vidrio y productos de vidrio"
+            }
+          },
+          "239": {
+            "titulo": "Fabricación de productos minerales no metálicos n.c.p.",
+            "actividades": {
+              "2391": "Fabricación de productos refractarios",
+              "2392": "Fabricación de materiales de construcción de arcilla",
+              "2393": "Fabricación de otros productos de porcelana y de cerámica",
+              "2394": "Fabricación de cemento, cal y yeso",
+              "2395": "Fabricación de artículos de hormigón, cemento y yeso",
+              "2396": "Corte, talla y acabado de la piedra",
+              "2399": "Fabricación de otros productos minerales no metálicos n.c.p."
+            }
+          }
+        }
+      },
+      "24": {
+        "titulo": "Fabricación de metales comunes",
+        "subdivisiones": {
+          "241": {
+            "titulo": "Industrias básicas de hierro y acero",
+            "actividades": {
+              "2410": "Industrias básicas de hierro y acero"
+            }
+          },
+          "242": {
+            "titulo": "Fabricación de productos primarios de metales preciosos y otros metales no ferrosos",
+            "actividades": {
+              "2420": "Fabricación de productos primarios de metales preciosos y otros metales no ferrosos"
+            }
+          },
+          "243": {
+            "titulo": "Fundición de metales",
+            "actividades": {
+              "2431": "Fundición de hierro y acero",
+              "2432": "Fundición de metales no ferrosos"
+            }
+          }
+        }
+      },
+      "25": {
+        "titulo": "Fabricación de productos elaborados de metal, excepto maquinaria y equipo",
+        "subdivisiones": {
+          "251": {
+            "titulo": "Fabricación de productos metálicos para uso estructural, tanques, depósitos y recipientes de metal",
+            "actividades": {
+              "2511": "Fabricación de productos metálicos para uso estructural",
+              "2512": "Fabricación de tanques, depósitos y recipientes de metal",
+              "2513": "Fabricación de generadores de vapor, excepto calderas de agua caliente para calefacción central"
+            }
+          },
+          "252": {
+            "titulo": "Fabricación de armas y municiones",
+            "actividades": {
+              "2520": "Fabricación de armas y municiones"
+            }
+          },
+          "259": {
+            "titulo": "Fabricación de otros productos elaborados de metal; actividades de servicios de trabajo de metales",
+            "actividades": {
+              "2591": "Forja, prensado, estampado y laminado de metales; pulvimetalurgia",
+              "2592": "Tratamiento y revestimiento de metales; maquinado",
+              "2593": "Fabricación de artículos de cuchillería, herramientas de mano y artículos de ferretería",
+              "2599": "Fabricación de otros productos elaborados de metal n.c.p."
+            }
+          }
+        }
+      },
+      "26": {
+        "titulo": "Fabricación de productos de informática, de electrónica y de óptica",
+        "subdivisiones": {
+          "261": {
+            "titulo": "Fabricación de componentes y tableros electrónicos",
+            "actividades": {
+              "2610": "Fabricación de componentes y tableros electrónicos"
+            }
+          },
+          "262": {
+            "titulo": "Fabricación de ordenadores y equipo periférico",
+            "actividades": {
+              "2620": "Fabricación de ordenadores y equipo periférico"
+            }
+          },
+          "263": {
+            "titulo": "Fabricación de equipo de comunicaciones",
+            "actividades": {
+              "2630": "Fabricación de equipo de comunicaciones"
+            }
+          },
+          "264": {
+            "titulo": "Fabricación de aparatos electrónicos de consumo",
+            "actividades": {
+              "2640": "Fabricación de aparatos electrónicos de consumo"
+            }
+          },
+          "265": {
+            "titulo": "Fabricación de equipo de medición, prueba, navegación y control y de relojes",
+            "actividades": {
+              "2651": "Fabricación de equipo de medición, prueba, navegación y control",
+              "2652": "Fabricación de relojes"
+            }
+          },
+          "266": {
+            "titulo": "Fabricación de equipo de irradiación y equipo electrónico de uso médico y terapéutico",
+            "actividades": {
+              "2660": "Fabricación de equipo de irradiación y equipo electrónico de uso médico y terapéutico"
+            }
+          },
+          "267": {
+            "titulo": "Fabricación de instrumentos ópticos y equipo fotográfico",
+            "actividades": {
+              "2670": "Fabricación de instrumentos ópticos y equipo fotográfico"
+            }
+          },
+          "268": {
+            "titulo": "Fabricación de soportes magnéticos y ópticos",
+            "actividades": {
+              "2680": "Fabricación de soportes magnéticos y ópticos"
+            }
+          }
+        }
+      },
+      "27": {
+        "titulo": "Fabricación de equipo eléctrico",
+        "subdivisiones": {
+          "271": {
+            "titulo": "Fabricación de motores, generadores y transformadores eléctricos y aparatos de distribución y control de la energía eléctrica",
+            "actividades": {
+              "2710": "Fabricación de motores, generadores y transformadores eléctricos y aparatos de distribución y control de la energía eléctrica"
+            }
+          },
+          "272": {
+            "titulo": "Fabricación de pilas, baterías y acumuladores",
+            "actividades": {
+              "2720": "Fabricación de pilas, baterías y acumuladores"
+            }
+          },
+          "273": {
+            "titulo": "Fabricación de cables y dispositivos de cableado",
+            "actividades": {
+              "2731": "Fabricación de cables de fibra óptica",
+              "2732": "Fabricación de otros hilos y cables eléctricos",
+              "2733": "Fabricación de dispositivos de cableado"
+            }
+          },
+          "274": {
+            "titulo": "Fabricación de equipo eléctrico de iluminación",
+            "actividades": {
+              "2740": "Fabricación de equipo eléctrico de iluminación"
+            }
+          },
+          "275": {
+            "titulo": "Fabricación de aparatos de uso doméstico",
+            "actividades": {
+              "2750": "Fabricación de aparatos de uso doméstico"
+            }
+          },
+          "279": {
+            "titulo": "Fabricación de otros tipos de equipo eléctrico",
+            "actividades": {
+              "2790": "Fabricación de otros tipos de equipo eléctrico"
+            }
+          }
+        }
+      },
+      "28": {
+        "titulo": "Fabricación de maquinaria y equipo n.c.p.",
+        "subdivisiones": {
+          "281": {
+            "titulo": "Fabricación de maquinaria de uso general",
+            "actividades": {
+              "2811": "Fabricación de motores y turbinas, excepto motores para aeronaves, vehículos automotores y motocicletas",
+              "2812": "Fabricación de equipo de propulsión de fluidos",
+              "2813": "Fabricación de otras bombas, compresores, grifos y válvulas",
+              "2814": "Fabricación de cojinetes, engranajes, trenes de engranajes y piezas de transmisión",
+              "2815": "Fabricación de hornos, hogares y quemadores",
+              "2816": "Fabricación de equipo de elevación y manipulación",
+              "2817": "Fabricación de maquinaria y equipo de oficina (excepto ordenadores y equipo periférico)",
+              "2818": "Fabricación de herramientas de mano motorizadas",
+              "2819": "Fabricación de otros tipos de maquinaria de uso general"
+            }
+          },
+          "282": {
+            "titulo": "Fabricación de maquinaria de uso especial",
+            "actividades": {
+              "2821": "Fabricación de maquinaria agropecuaria y forestal",
+              "2822": "Fabricación de maquinaria para la conformación de metales y de máquinas herramienta",
+              "2823": "Fabricación de maquinaria metalúrgica",
+              "2824": "Fabricación de maquinaria para la explotación de minas y canteras y para obras de construcción",
+              "2825": "Fabricación de maquinaria para la elaboración de alimentos, bebidas y tabaco",
+              "2826": "Fabricación de maquinaria para la elaboración de productos textiles, prendas de vestir y cueros",
+              "2829": "Fabricación de otros tipos de maquinaria de uso especial"
+            }
+          }
+        }
+      },
+      "29": {
+        "titulo": "Fabricación de vehículos automotores, remolques y semirremolques",
+        "subdivisiones": {
+          "291": {
+            "titulo": "Fabricación de vehículos automotores",
+            "actividades": {
+              "2910": "Fabricación de vehículos automotores"
+            }
+          },
+          "292": {
+            "titulo": "Fabricación de carrocerías para vehículos automotores; fabricación de remolques y semirremolques",
+            "actividades": {
+              "2920": "Fabricación de carrocerías para vehículos automotores; fabricación de remolques y semirremolques"
+            }
+          },
+          "293": {
+            "titulo": "Fabricación de partes, piezas y accesorios para vehículos automotores",
+            "actividades": {
+              "2930": "Fabricación de partes, piezas y accesorios para vehículos automotores"
+            }
+          }
+        }
+      },
+      "30": {
+        "titulo": "Fabricación de otro equipo de transporte",
+        "subdivisiones": {
+          "301": {
+            "titulo": "Construcción de buques y otras embarcaciones",
+            "actividades": {
+              "3011": "Construcción de buques y estructuras flotantes",
+              "3012": "Construcción de embarcaciones de recreo y de deporte"
+            }
+          },
+          "302": {
+            "titulo": "Fabricación de locomotoras y material rodante",
+            "actividades": {
+              "3020": "Fabricación de locomotoras y material rodante"
+            }
+          },
+          "303": {
+            "titulo": "Fabricación de aeronaves, naves espaciales y maquinaria conexa",
+            "actividades": {
+              "3030": "Fabricación de aeronaves, naves espaciales y maquinaria conexa"
+            }
+          },
+          "304": {
+            "titulo": "Fabricación de vehículos militares de combate",
+            "actividades": {
+              "3040": "Fabricación de vehículos militares de combate"
+            }
+          },
+          "309": {
+            "titulo": "Fabricación de equipo de transporte n.c.p.",
+            "actividades": {
+              "3091": "Fabricación de motocicletas",
+              "3092": "Fabricación de bicicletas y de sillones de ruedas para inválidos",
+              "3099": "Fabricación de otros tipos de equipo de transporte n.c.p."
+            }
+          }
+        }
+      },
+      "31": {
+        "titulo": "Fabricación de muebles",
+        "subdivisiones": {
+          "310": {
+            "titulo": "Fabricación de muebles",
+            "actividades": {
+              "3100": "Fabricación de muebles"
+            }
+          }
+        }
+      },
+      "32": {
+        "titulo": "Otras industrias manufactureras",
+        "subdivisiones": {
+          "321": {
+            "titulo": "Fabricación de joyas, bisutería y artículos conexos",
+            "actividades": {
+              "3211": "Fabricación de joyas y artículos conexos",
+              "3212": "Fabricación de bisutería y artículos conexos"
+            }
+          },
+          "322": {
+            "titulo": "Fabricación de instrumentos de música",
+            "actividades": {
+              "3220": "Fabricación de instrumentos de música"
+            }
+          },
+          "323": {
+            "titulo": "Fabricación de artículos de deporte",
+            "actividades": {
+              "3230": "Fabricación de artículos de deporte"
+            }
+          },
+          "324": {
+            "titulo": "Fabricación de juegos y juguetes",
+            "actividades": {
+              "3240": "Fabricación de juegos y juguetes"
+            }
+          },
+          "325": {
+            "titulo": "Fabricación de instrumentos y materiales médicos y odontológicos",
+            "actividades": {
+              "3250": "Fabricación de instrumentos y materiales médicos y odontológicos"
+            }
+          },
+          "329": {
+            "titulo": "Otras industrias manufactureras n.c.p.",
+            "actividades": {
+              "3290": "Otras industrias manufactureras n.c.p."
+            }
+          }
+        }
+      },
+      "33": {
+        "titulo": "Reparación e instalación de maquinaria y equipo",
+        "subdivisiones": {
+          "331": {
+            "titulo": "Reparación de productos elaborados de metal, maquinaria y equipo",
+            "actividades": {
+              "3311": "Reparación de productos elaborados de metal",
+              "3312": "Reparación de maquinaria",
+              "3313": "Reparación de equipo electrónico y óptico",
+              "3314": "Reparación de equipo eléctrico",
+              "3315": "Reparación de equipo de transporte, excepto vehículos automotores",
+              "3319": "Reparación de otros tipos de equipo"
+            }
+          },
+          "332": {
+            "titulo": "Instalación de maquinaria y equipo industriales",
+            "actividades": {
+              "3320": "Instalación de maquinaria y equipo industriales"
+            }
+          }
+        }
+      }
+    }
+  },
+  "D": {
+    "titulo": "Suministro de electricidad, gas, vapor y aire acondicionado",
+    "divisiones": {
+      "35": {
+        "titulo": "Suministro de electricidad, gas, vapor y aire acondicionado",
+        "subdivisiones": {
+          "351": {
+            "titulo": "Generación, transmisión y distribución de energía eléctrica",
+            "actividades": {
+              "3510": "Generación, transmisión y distribución de energía eléctrica"
+            }
+          },
+          "352": {
+            "titulo": "Fabricación de gas; distribución de combustibles gaseosos por tuberías",
+            "actividades": {
+              "3520": "Fabricación de gas; distribución de combustibles gaseosos por tuberías"
+            }
+          },
+          "353": {
+            "titulo": "Suministro de vapor y de aire acondicionado",
+            "actividades": {
+              "3530": "Suministro de vapor y de aire acondicionado"
+            }
+          }
+        }
+      }
+    }
+  },
+  "E": {
+    "titulo": "Suministro de agua; evacuación de aguas residuales, gestión de desechos y descontaminación",
+    "divisiones": {
+      "36": {
+        "titulo": "Captación, tratamiento y distribución de agua",
+        "subdivisiones": {
+          "360": {
+            "titulo": "Captación, tratamiento y distribución de agua",
+            "actividades": {
+              "3600": "Captación, tratamiento y distribución de agua"
+            }
+          }
+        }
+      },
+      "37": {
+        "titulo": "Evacuación de aguas residuales",
+        "subdivisiones": {
+          "370": {
+            "titulo": "Evacuación de aguas residuales",
+            "actividades": {
+              "3700": "Evacuación de aguas residuales"
+            }
+          }
+        }
+      },
+      "38": {
+        "titulo": "Recogida, tratamiento y eliminación de desechos; recuperación de materiales",
+        "subdivisiones": {
+          "381": {
+            "titulo": "Recogida de desechos",
+            "actividades": {
+              "3811": "Recogida de desechos no peligrosos",
+              "3812": "Recogida de desechos peligrosos"
+            }
+          },
+          "382": {
+            "titulo": "Tratamiento y eliminación de desechos",
+            "actividades": {
+              "3821": "Tratamiento y eliminación de desechos no peligrosos",
+              "3822": "Tratamiento y eliminación de desechos peligrosos"
+            }
+          },
+          "383": {
+            "titulo": "Recuperación de materiales",
+            "actividades": {
+              "3830": "Recuperación de materiales"
+            }
+          }
+        }
+      },
+      "39": {
+        "titulo": "Actividades de descontaminación y otros servicios de gestión de desechos",
+        "subdivisiones": {
+          "390": {
+            "titulo": "Actividades de descontaminación y otros servicios de gestión de desechos",
+            "actividades": {
+              "3900": "Actividades de descontaminación y otros servicios de gestión de desechos"
+            }
+          }
+        }
+      }
+    }
+  },
+  "F": {
+    "titulo": "Construcción",
+    "divisiones": {
+      "41": {
+        "titulo": "Construcción de edificios",
+        "subdivisiones": {
+          "410": {
+            "titulo": "Construcción de edificios",
+            "actividades": {
+              "4100": "Construcción de edificios"
+            }
+          }
+        }
+      },
+      "42": {
+        "titulo": "Obras de ingeniería civil",
+        "subdivisiones": {
+          "421": {
+            "titulo": "Construcción de carreteras y vías de ferrocarril",
+            "actividades": {
+              "4210": "Construcción de carreteras y vías de ferrocarril"
+            }
+          },
+          "422": {
+            "titulo": "Construcción de proyectos de servicio público",
+            "actividades": {
+              "4220": "Construcción de proyectos de servicio público"
+            }
+          },
+          "429": {
+            "titulo": "Construcción de otras obras de ingeniería civil",
+            "actividades": {
+              "4290": "Construcción de otras obras de ingeniería civil"
+            }
+          }
+        }
+      },
+      "43": {
+        "titulo": "Actividades especializadas de construcción",
+        "subdivisiones": {
+          "431": {
+            "titulo": "Demolición y preparación del terreno",
+            "actividades": {
+              "4311": "Demolición",
+              "4312": "Preparación del terreno"
+            }
+          },
+          "432": {
+            "titulo": "Instalaciones eléctricas y de fontanería y otras instalaciones para obras de construcción",
+            "actividades": {
+              "4321": "Instalaciones eléctricas",
+              "4322": "Instalaciones de fontanería, calefacción y aire acondicionado",
+              "4329": "Otras instalaciones para obras de construcción"
+            }
+          },
+          "433": {
+            "titulo": "Terminación y acabado de edificios",
+            "actividades": {
+              "4330": "Terminación y acabado de edificios"
+            }
+          },
+          "439": {
+            "titulo": "Otras actividades especializadas de construcción",
+            "actividades": {
+              "4390": "Otras actividades especializadas de construcción"
+            }
+          }
+        }
+      }
+    }
+  },
+  "G": {
+    "titulo": "Comercio al por mayor y al por menor; reparación de vehículos automotores y motocicletas",
+    "divisiones": {
+      "45": {
+        "titulo": "Comercio al por mayor y al por menor y reparación de vehículos automotores y motocicletas",
+        "subdivisiones": {
+          "451": {
+            "titulo": "Venta de vehículos automotores",
+            "actividades": {
+              "4510": "Venta de vehículos automotores"
+            }
+          },
+          "452": {
+            "titulo": "Mantenimiento y reparación de vehículos automotores",
+            "actividades": {
+              "4520": "Mantenimiento y reparación de vehículos automotores"
+            }
+          },
+          "453": {
+            "titulo": "Venta de partes, piezas y accesorios para vehículos automotores",
+            "actividades": {
+              "4530": "Venta de partes, piezas y accesorios para vehículos automotores"
+            }
+          },
+          "454": {
+            "titulo": "Venta, mantenimiento y reparación de motocicletas y sus partes, piezas y accesorios",
+            "actividades": {
+              "4540": "Venta, mantenimiento y reparación de motocicletas y sus partes, piezas y accesorios"
+            }
+          }
+        }
+      },
+      "46": {
+        "titulo": "Comercio al por mayor, excepto el de vehículos automotores y motocicletas",
+        "subdivisiones": {
+          "461": {
+            "titulo": "Venta al por mayor a cambio de una retribución o por contrata",
+            "actividades": {
+              "4610": "Venta al por mayor a cambio de una retribución o por contrata"
+            }
+          },
+          "462": {
+            "titulo": "Venta al por mayor de materias primas agropecuarias y animales vivos",
+            "actividades": {
+              "4620": "Venta al por mayor de materias primas agropecuarias y animales vivos"
+            }
+          },
+          "463": {
+            "titulo": "Venta al por mayor de alimentos, bebidas y tabaco",
+            "actividades": {
+              "4630": "Venta al por mayor de alimentos, bebidas y tabaco"
+            }
+          },
+          "464": {
+            "titulo": "Venta al por mayor de enseres domésticos",
+            "actividades": {
+              "4641": "Venta al por mayor de productos textiles, prendas de vestir y calzado",
+              "4649": "Venta al por mayor de otros enseres domésticos"
+            }
+          },
+          "465": {
+            "titulo": "Venta al por mayor de maquinaria, equipo y materiales",
+            "actividades": {
+              "4651": "Venta al por mayor de ordenadores, equipo periférico y programas de informática",
+              "4652": "Venta al por mayor de equipo, partes y piezas electrónicos y de telecomunicaciones",
+              "4653": "Venta al por mayor de maquinaria, equipo y materiales agropecuarios",
+              "4659": "Venta al por mayor de otros tipos de maquinaria y equipo"
+            }
+          },
+          "466": {
+            "titulo": "Otras actividades de venta al por mayor especializada",
+            "actividades": {
+              "4661": "Venta al por mayor de combustibles sólidos, líquidos y gaseosos y productos conexos",
+              "4662": "Venta al por mayor de metales y minerales metalíferos",
+              "4663": "Venta al por mayor de materiales de construcción, artículos de ferretería y equipo y materiales de fontanería y calefacción",
+              "4669": "Venta al por mayor de desperdicios, desechos y chatarra y otros productos n.c.p."
+            }
+          },
+          "469": {
+            "titulo": "Venta al por mayor no especializada",
+            "actividades": {
+              "4690": "Venta al por mayor no especializada"
+            }
+          }
+        }
+      },
+      "47": {
+        "titulo": "Comercio al por menor, excepto el de vehículos automotores y motocicletas",
+        "subdivisiones": {
+          "471": {
+            "titulo": "Venta al por menor en comercios no especializados",
+            "actividades": {
+              "4711": "Venta al por menor en comercios no especializados con predominio de la venta de alimentos, bebidas o tabaco",
+              "4719": "Otras actividades de venta al por menor en comercios no especializados"
+            }
+          },
+          "472": {
+            "titulo": "Venta al por menor de alimentos, bebidas y tabaco en comercios especializados",
+            "actividades": {
+              "4721": "Venta al por menor de alimentos en comercios especializados",
+              "4722": "Venta al por menor de bebidas en comercios especializados",
+              "4723": "Venta al por menor de productos de tabaco en comercios especializados"
+            }
+          },
+          "473": {
+            "titulo": "Venta al por menor de combustibles para vehículos automotores en comercios especializados",
+            "actividades": {
+              "4730": "Venta al por menor de combustibles para vehículos automotores en comercios especializados"
+            }
+          },
+          "474": {
+            "titulo": "Venta al por menor de equipo de información y de comunicaciones en comercios especializados",
+            "actividades": {
+              "4741": "Venta al por menor de ordenadores, equipo periférico, programas de informática y equipo de telecomunicaciones en comercios especializados",
+              "4742": "Venta al por menor de equipo de sonido y de video en comercios especializados"
+            }
+          },
+          "475": {
+            "titulo": "Venta al por menor de otros enseres domésticos en comercios especializados",
+            "actividades": {
+              "4751": "Venta al por menor de productos textiles en comercios especializados",
+              "4752": "Venta al por menor de artículos de ferretería, pinturas y productos de vidrio en comercios especializados",
+              "4753": "Venta al por menor de tapices, alfombras y cubrimientos para paredes y pisos en comercios especializados",
+              "4759": "Venta al por menor de aparatos eléctricos de uso doméstico, muebles, equipo de iluminación y otros enseres domésticos en comercios especializados"
+            }
+          },
+          "476": {
+            "titulo": "Venta al por menor de productos culturales y recreativos en comercios especializados",
+            "actividades": {
+              "4761": "Venta al por menor de libros, periódicos y artículos de papelería en comercios especializados",
+              "4762": "Venta al por menor de grabaciones de música y de vídeo en comercios especializados",
+              "4763": "Venta al por menor de equipo de deporte en comercios especializados",
+              "4764": "Venta al por menor de juegos y juguetes en comercios especializados"
+            }
+          },
+          "477": {
+            "titulo": "Venta al por menor de otros productos en comercios especializados",
+            "actividades": {
+              "4771": "Venta al por menor de prendas de vestir, calzado y artículos de cuero en comercios especializados",
+              "4772": "Venta al por menor de productos farmacéuticos y médicos, cosméticos y artículos de tocador en comercios especializados",
+              "4773": "Venta al por menor de otros productos nuevos en comercios especializados",
+              "4774": "Venta al por menor de artículos de segunda mano"
+            }
+          },
+          "478": {
+            "titulo": "Venta al por menor en puestos de venta y mercados",
+            "actividades": {
+              "4781": "Venta al por menor de alimentos, bebidas y tabaco en puestos de venta y mercados",
+              "4782": "Venta al por menor de productos textiles, prendas de vestir y calzado en puestos de venta y mercados",
+              "4789": "Venta al por menor de otros productos en puestos de venta y mercados"
+            }
+          },
+          "479": {
+            "titulo": "Venta al por menor no realizada en comercios, puestos de venta o mercados",
+            "actividades": {
+              "4791": "Venta al por menor por correo y por Internet",
+              "4799": "Otras actividades de venta al por menor no realizadas en comercios, puestos de venta o mercados"
+            }
+          }
+        }
+      }
+    }
+  },
+  "H": {
+    "titulo": "Transporte y almacenamiento",
+    "divisiones": {
+      "49": {
+        "titulo": "Transporte por vía terrestre y transporte por tuberías",
+        "subdivisiones": {
+          "491": {
+            "titulo": "Transporte por ferrocarril",
+            "actividades": {
+              "4911": "Transporte interurbano de pasajeros por ferrocarril",
+              "4912": "Transporte de carga por ferrocarril"
+            }
+          },
+          "492": {
+            "titulo": "Otras actividades de transporte por vía terrestre",
+            "actividades": {
+              "4921": "Transporte urbano y suburbano de pasajeros por vía terrestre",
+              "4922": "Otras actividades de transporte por vía terrestre",
+              "4923": "Transporte de carga por carretera"
+            }
+          },
+          "493": {
+            "titulo": "Transporte por tuberías",
+            "actividades": {
+              "4930": "Transporte por tuberías"
+            }
+          }
+        }
+      },
+      "50": {
+        "titulo": "Transporte por vía acuática",
+        "subdivisiones": {
+          "501": {
+            "titulo": "Transporte marítimo y de cabotaje",
+            "actividades": {
+              "5011": "Transporte de pasajeros marítimo y de cabotaje",
+              "5012": "Transporte de carga marítimo y de cabotaje"
+            }
+          },
+          "502": {
+            "titulo": "Transporte por vías de navegación interiores",
+            "actividades": {
+              "5021": "Transporte de pasajeros por vías de navegación interiores",
+              "5022": "Transporte de carga por vías de navegación interiores"
+            }
+          }
+        }
+      },
+      "51": {
+        "titulo": "Transporte por vía aérea",
+        "subdivisiones": {
+          "511": {
+            "titulo": "Transporte de pasajeros por vía aérea",
+            "actividades": {
+              "5110": "Transporte de pasajeros por vía aérea"
+            }
+          },
+          "512": {
+            "titulo": "Transporte de carga por vía aérea",
+            "actividades": {
+              "5120": "Transporte de carga por vía aérea"
+            }
+          }
+        }
+      },
+      "52": {
+        "titulo": "Almacenamiento y actividades de apoyo al transporte",
+        "subdivisiones": {
+          "521": {
+            "titulo": "Almacenamiento y depósito",
+            "actividades": {
+              "5210": "Almacenamiento y depósito"
+            }
+          },
+          "522": {
+            "titulo": "Actividades de apoyo al transporte",
+            "actividades": {
+              "5221": "Actividades de servicios vinculadas al transporte terrestre",
+              "5222": "Actividades de servicios vinculadas al transporte acuático",
+              "5223": "Actividades de servicios vinculadas al transporte aéreo",
+              "5224": "Manipulación de la carga",
+              "5229": "Otras actividades de apoyo al transporte"
+            }
+          }
+        }
+      },
+      "53": {
+        "titulo": "Actividades postales y de mensajería",
+        "subdivisiones": {
+          "531": {
+            "titulo": "Actividades postales",
+            "actividades": {
+              "5310": "Actividades postales"
+            }
+          },
+          "532": {
+            "titulo": "Actividades de mensajería",
+            "actividades": {
+              "5320": "Actividades de mensajería"
+            }
+          }
+        }
+      }
+    }
+  },
+  "I": {
+    "titulo": "Actividades de alojamiento y de servicio de comidas",
+    "divisiones": {
+      "55": {
+        "titulo": "Actividades de alojamiento",
+        "subdivisiones": {
+          "551": {
+            "titulo": "Actividades de alojamiento para estancias cortas",
+            "actividades": {
+              "5510": "Actividades de alojamiento para estancias cortas"
+            }
+          },
+          "552": {
+            "titulo": "Actividades de campamentos, parques de vehículos recreativos y parques de caravanas",
+            "actividades": {
+              "5520": "Actividades de campamentos, parques de vehículos recreativos y parques de caravanas"
+            }
+          },
+          "559": {
+            "titulo": "Otras actividades de alojamiento",
+            "actividades": {
+              "5590": "Otras actividades de alojamiento"
+            }
+          }
+        }
+      },
+      "56": {
+        "titulo": "Actividades de servicio de comidas y bebidas",
+        "subdivisiones": {
+          "561": {
+            "titulo": "Actividades de restaurantes y de servicio móvil de comidas",
+            "actividades": {
+              "5610": "Actividades de restaurantes y de servicio móvil de comidas"
+            }
+          },
+          "562": {
+            "titulo": "Suministro de comidas por encargo y otras actividades de servicio de comidas",
+            "actividades": {
+              "5621": "Suministro de comidas por encargo",
+              "5629": "Otras actividades de servicio de comidas"
+            }
+          },
+          "563": {
+            "titulo": "Actividades de servicio de bebidas",
+            "actividades": {
+              "5630": "Actividades de servicio de bebidas"
+            }
+          }
+        }
+      }
+    }
+  },
+  "J": {
+    "titulo": "Información y comunicaciones",
+    "divisiones": {
+      "58": {
+        "titulo": "Actividades de edición",
+        "subdivisiones": {
+          "581": {
+            "titulo": "Edición de libros y publicaciones periódicas y otras actividades de edición",
+            "actividades": {
+              "5811": "Edición de libros",
+              "5812": "Edición de directorios y listas de correo",
+              "5813": "Edición de periódicos, revistas y otras publicaciones periódicas",
+              "5819": "Otras actividades de edición"
+            }
+          },
+          "582": {
+            "titulo": "Edición de programas informáticos",
+            "actividades": {
+              "5820": "Edición de programas informáticos"
+            }
+          }
+        }
+      },
+      "59": {
+        "titulo": "Actividades de producción de películas cinematográficas, vídeos y programas de televisión, grabación de sonido y edición de música",
+        "subdivisiones": {
+          "591": {
+            "titulo": "Actividades de producción de películas cinematográficas, vídeos y programas de televisión",
+            "actividades": {
+              "5911": "Actividades de producción de películas cinematográficas, vídeos y programas de televisión",
+              "5912": "Actividades de postproducción de películas cinematográficas, vídeos y programas de televisión",
+              "5913": "Actividades de distribución de películas cinematográficas, vídeos y programas de televisión",
+              "5914": "Actividades de exhibición de películas cinematográficas y cintas de vídeo"
+            }
+          },
+          "592": {
+            "titulo": "Actividades de grabación de sonido y edición de música",
+            "actividades": {
+              "5920": "Actividades de grabación de sonido y edición de música"
+            }
+          }
+        }
+      },
+      "60": {
+        "titulo": "Actividades de programación y transmisión",
+        "subdivisiones": {
+          "601": {
+            "titulo": "Transmisiones de radio",
+            "actividades": {
+              "6010": "Transmisiones de radio"
+            }
+          },
+          "602": {
+            "titulo": "Programación y transmisiones de televisión",
+            "actividades": {
+              "6020": "Programación y transmisiones de televisión"
+            }
+          }
+        }
+      },
+      "61": {
+        "titulo": "Telecomunicaciones",
+        "subdivisiones": {
+          "611": {
+            "titulo": "Actividades de telecomunicaciones alámbricas",
+            "actividades": {
+              "6110": "Actividades de telecomunicaciones alámbricas"
+            }
+          },
+          "612": {
+            "titulo": "Actividades de telecomunicaciones inalámbricas",
+            "actividades": {
+              "6120": "Actividades de telecomunicaciones inalámbricas"
+            }
+          },
+          "613": {
+            "titulo": "Actividades de telecomunicaciones por satélite",
+            "actividades": {
+              "6130": "Actividades de telecomunicaciones por satélite"
+            }
+          },
+          "619": {
+            "titulo": "Otras actividades de telecomunicaciones",
+            "actividades": {
+              "6190": "Otras actividades de telecomunicaciones"
+            }
+          }
+        }
+      },
+      "62": {
+        "titulo": "Programación informática, consultoría de informática y actividades conexas",
+        "subdivisiones": {
+          "620": {
+            "titulo": "Programación informática, consultoría de informática y actividades conexas",
+            "actividades": {
+              "6201": "Programación informática",
+              "6202": "Consultoría de informática y gestión de instalaciones informáticas",
+              "6209": "Otras actividades de tecnología de la información y de servicios informáticos"
+            }
+          }
+        }
+      },
+      "63": {
+        "titulo": "Actividades de servicios de información",
+        "subdivisiones": {
+          "631": {
+            "titulo": "Procesamiento de datos, hospedaje y actividades conexas; portales web",
+            "actividades": {
+              "6311": "Procesamiento de datos, hospedaje y actividades conexas",
+              "6312": "Portales web"
+            }
+          },
+          "639": {
+            "titulo": "Otras actividades de servicios de información",
+            "actividades": {
+              "6391": "Actividades de agencias de noticias",
+              "6399": "Otras actividades de servicios de información n.c.p."
+            }
+          }
+        }
+      }
+    }
+  },
+  "K": {
+    "titulo": "Actividades financieras y de seguros",
+    "divisiones": {
+      "64": {
+        "titulo": "Actividades de servicios financieros, excepto las de seguros y fondos de pensiones",
+        "subdivisiones": {
+          "641": {
+            "titulo": "Intermediación monetaria",
+            "actividades": {
+              "6411": "Banca central",
+              "6419": "Otros tipos de intermediación monetaria"
+            }
+          },
+          "642": {
+            "titulo": "Actividades de sociedades de cartera",
+            "actividades": {
+              "6420": "Actividades de sociedades de cartera"
+            }
+          },
+          "643": {
+            "titulo": "Fondos y sociedades de inversión y entidades financieras similares",
+            "actividades": {
+              "6430": "Fondos y sociedades de inversión y entidades financieras similares"
+            }
+          },
+          "649": {
+            "titulo": "Otras actividades de servicios financieros, excepto las de seguros y fondos de pensiones",
+            "actividades": {
+              "6491": "Arrendamiento financiero",
+              "6492": "Otras actividades de concesión de crédito",
+              "6499": "Otras actividades de servicios financieros, excepto las de seguros y fondos de pensiones, n.c.p."
+            }
+          }
+        }
+      },
+      "65": {
+        "titulo": "Seguros, reaseguros y fondos de pensiones, excepto planes de seguridad social de afiliación obligatoria",
+        "subdivisiones": {
+          "651": {
+            "titulo": "Seguros",
+            "actividades": {
+              "6511": "Seguros de vida",
+              "6512": "Seguros generales"
+            }
+          },
+          "652": {
+            "titulo": "Reaseguros",
+            "actividades": {
+              "6520": "Reaseguros"
+            }
+          },
+          "653": {
+            "titulo": "Fondos de pensiones",
+            "actividades": {
+              "6530": "Fondos de pensiones"
+            }
+          }
+        }
+      },
+      "66": {
+        "titulo": "Actividades auxiliares de las actividades de servicios financieros",
+        "subdivisiones": {
+          "661": {
+            "titulo": "Actividades auxiliares de las actividades de servicios financieros, excepto las de seguros y fondos de pensiones",
+            "actividades": {
+              "6611": "Administración de mercados financieros",
+              "6612": "Corretaje de valores y de contratos de productos básicos",
+              "6619": "Otras actividades auxiliares de las actividades de servicios financieros"
+            }
+          },
+          "662": {
+            "titulo": "Actividades auxiliares de las actividades de seguros y fondos de pensiones",
+            "actividades": {
+              "6621": "Evaluación de riesgos y daños",
+              "6622": "Actividades de agentes y corredores de seguros",
+              "6629": "Otras actividades auxiliares de las actividades de seguros y fondos de pensiones"
+            }
+          },
+          "663": {
+            "titulo": "Actividades de gestión de fondos",
+            "actividades": {
+              "6630": "Actividades de gestión de fondos"
+            }
+          }
+        }
+      }
+    }
+  },
+  "L": {
+    "titulo": "Actividades inmobiliarias",
+    "divisiones": {
+      "68": {
+        "titulo": "Actividades inmobiliarias",
+        "subdivisiones": {
+          "681": {
+            "titulo": "Actividades inmobiliarias realizadas con bienes propios o arrendados",
+            "actividades": {
+              "6810": "Actividades inmobiliarias realizadas con bienes propios o arrendados"
+            }
+          },
+          "682": {
+            "titulo": "Actividades inmobiliarias realizadas a cambio de una retribución o por contrata",
+            "actividades": {
+              "6820": "Actividades inmobiliarias realizadas a cambio de una retribución o por contrata"
+            }
+          }
+        }
+      }
+    }
+  },
+  "M": {
+    "titulo": "Actividades profesionales, científicas y técnicas",
+    "divisiones": {
+      "69": {
+        "titulo": "Actividades jurídicas y de contabilidad",
+        "subdivisiones": {
+          "691": {
+            "titulo": "Actividades jurídicas",
+            "actividades": {
+              "6910": "Actividades jurídicas"
+            }
+          },
+          "692": {
+            "titulo": "Actividades de contabilidad, teneduría de libros y auditoría; consultoría fiscal",
+            "actividades": {
+              "6920": "Actividades de contabilidad, teneduría de libros y auditoría; consultoría fiscal"
+            }
+          }
+        }
+      },
+      "70": {
+        "titulo": "Actividades de oficinas principales; actividades de consultoría de gestión",
+        "subdivisiones": {
+          "701": {
+            "titulo": "Actividades de oficinas principales",
+            "actividades": {
+              "7010": "Actividades de oficinas principales"
+            }
+          },
+          "702": {
+            "titulo": "Actividades de consultoría de gestión",
+            "actividades": {
+              "7020": "Actividades de consultoría de gestión"
+            }
+          }
+        }
+      },
+      "71": {
+        "titulo": "Actividades de arquitectura e ingeniería; ensayos y análisis técnicos",
+        "subdivisiones": {
+          "711": {
+            "titulo": "Actividades de arquitectura e ingeniería y actividades conexas de consultoría técnica",
+            "actividades": {
+              "7110": "Actividades de arquitectura e ingeniería y actividades conexas de consultoría técnica"
+            }
+          },
+          "712": {
+            "titulo": "Ensayos y análisis técnicos",
+            "actividades": {
+              "7120": "Ensayos y análisis técnicos"
+            }
+          }
+        }
+      },
+      "72": {
+        "titulo": "Investigación científica y desarrollo",
+        "subdivisiones": {
+          "721": {
+            "titulo": "Investigaciones y desarrollo experimental en el campo de las ciencias naturales y la ingeniería",
+            "actividades": {
+              "7210": "Investigaciones y desarrollo experimental en el campo de las ciencias naturales y la ingeniería"
+            }
+          },
+          "722": {
+            "titulo": "Investigaciones y desarrollo experimental en el campo de las ciencias sociales y las humanidades",
+            "actividades": {
+              "7220": "Investigaciones y desarrollo experimental en el campo de las ciencias sociales y las humanidades"
+            }
+          }
+        }
+      },
+      "73": {
+        "titulo": "Publicidad y estudios de mercado",
+        "subdivisiones": {
+          "731": {
+            "titulo": "Publicidad",
+            "actividades": {
+              "7310": "Publicidad"
+            }
+          },
+          "732": {
+            "titulo": "Estudios de mercado y encuestas de opinión pública",
+            "actividades": {
+              "7320": "Estudios de mercado y encuestas de opinión pública"
+            }
+          }
+        }
+      },
+      "74": {
+        "titulo": "Otras actividades profesionales, científicas y técnicas",
+        "subdivisiones": {
+          "741": {
+            "titulo": "Actividades especializadas de diseño",
+            "actividades": {
+              "7410": "Actividades especializadas de diseño"
+            }
+          },
+          "742": {
+            "titulo": "Actividades de fotografía",
+            "actividades": {
+              "7420": "Actividades de fotografía"
+            }
+          },
+          "749": {
+            "titulo": "Otras actividades profesionales, científicas y técnicas n.c.p.",
+            "actividades": {
+              "7490": "Otras actividades profesionales, científicas y técnicas n.c.p."
+            }
+          }
+        }
+      },
+      "75": {
+        "titulo": "Actividades veterinarias",
+        "subdivisiones": {
+          "750": {
+            "titulo": "Actividades veterinarias",
+            "actividades": {
+              "7500": "Actividades veterinarias"
+            }
+          }
+        }
+      }
+    }
+  },
+  "N": {
+    "titulo": "Actividades de servicios administrativos y de apoyo",
+    "divisiones": {
+      "77": {
+        "titulo": "Actividades de alquiler y arrendamiento",
+        "subdivisiones": {
+          "771": {
+            "titulo": "Alquiler y arrendamiento de vehículos automotores",
+            "actividades": {
+              "7710": "Alquiler y arrendamiento de vehículos automotores"
+            }
+          },
+          "772": {
+            "titulo": "Alquiler y arrendamiento de efectos personales y enseres domésticos",
+            "actividades": {
+              "7721": "Alquiler y arrendamiento de equipo recreativo y deportivo",
+              "7722": "Alquiler de cintas de vídeo y discos",
+              "7729": "Alquiler y arrendamiento de otros efectos personales y enseres domésticos"
+            }
+          },
+          "773": {
+            "titulo": "Alquiler y arrendamiento de otros tipos de maquinaria, equipo y bienes tangibles",
+            "actividades": {
+              "7730": "Alquiler y arrendamiento de otros tipos de maquinaria, equipo y bienes tangibles"
+            }
+          },
+          "774": {
+            "titulo": "Arrendamiento de propiedad intelectual y productos similares, excepto obras protegidas por derechos de autor",
+            "actividades": {
+              "7740": "Arrendamiento de propiedad intelectual y productos similares, excepto obras protegidas por derechos de autor"
+            }
+          }
+        }
+      },
+      "78": {
+        "titulo": "Actividades de empleo",
+        "subdivisiones": {
+          "781": {
+            "titulo": "Actividades de agencias de empleo",
+            "actividades": {
+              "7810": "Actividades de agencias de empleo"
+            }
+          },
+          "782": {
+            "titulo": "Actividades de agencias de empleo temporal",
+            "actividades": {
+              "7820": "Actividades de agencias de empleo temporal"
+            }
+          },
+          "783": {
+            "titulo": "Otras actividades de dotación de recursos humanos",
+            "actividades": {
+              "7830": "Otras actividades de dotación de recursos humanos"
+            }
+          }
+        }
+      },
+      "79": {
+        "titulo": "Actividades de agencias de viajes y operadores turísticos y servicios de reservas y actividades conexas",
+        "subdivisiones": {
+          "791": {
+            "titulo": "Actividades de agencias de viajes y operadores turísticos",
+            "actividades": {
+              "7911": "Actividades de agencias de viajes",
+              "7912": "Actividades de operadores turísticos"
+            }
+          },
+          "799": {
+            "titulo": "Otros servicios de reservas y actividades conexas",
+            "actividades": {
+              "7990": "Otros servicios de reservas y actividades conexas"
+            }
+          }
+        }
+      },
+      "80": {
+        "titulo": "Actividades de seguridad e investigación",
+        "subdivisiones": {
+          "801": {
+            "titulo": "Actividades de seguridad privada",
+            "actividades": {
+              "8010": "Actividades de seguridad privada"
+            }
+          },
+          "802": {
+            "titulo": "Actividades de servicios de sistemas de seguridad",
+            "actividades": {
+              "8020": "Actividades de servicios de sistemas de seguridad"
+            }
+          },
+          "803": {
+            "titulo": "Actividades de investigación",
+            "actividades": {
+              "8030": "Actividades de investigación"
+            }
+          }
+        }
+      },
+      "81": {
+        "titulo": "Actividades de servicios a edificios y de paisajismo",
+        "subdivisiones": {
+          "811": {
+            "titulo": "Actividades combinadas de apoyo a instalaciones",
+            "actividades": {
+              "8110": "Actividades combinadas de apoyo a instalaciones"
+            }
+          },
+          "812": {
+            "titulo": "Actividades de limpieza",
+            "actividades": {
+              "8121": "Limpieza general de edificios",
+              "8129": "Otras actividades de limpieza de edificios y de instalaciones industriales"
+            }
+          },
+          "813": {
+            "titulo": "Actividades de paisajismo y servicios de mantenimiento conexos",
+            "actividades": {
+              "8130": "Actividades de paisajismo y servicios de mantenimiento conexos"
+            }
+          }
+        }
+      },
+      "82": {
+        "titulo": "Actividades administrativas y de apoyo de oficina y otras actividades de apoyo a las empresas",
+        "subdivisiones": {
+          "821": {
+            "titulo": "Actividades administrativas y de apoyo de oficina",
+            "actividades": {
+              "8211": "Actividades combinadas de servicios administrativos de oficina",
+              "8219": "Fotocopiado, preparación de documentos y otras actividades especializadas de apoyo de oficina"
+            }
+          },
+          "822": {
+            "titulo": "Actividades de centros de llamadas",
+            "actividades": {
+              "8220": "Actividades de centros de llamadas"
+            }
+          },
+          "823": {
+            "titulo": "Organización de convenciones y exposiciones comerciales",
+            "actividades": {
+              "8230": "Organización de convenciones y exposiciones comerciales"
+            }
+          },
+          "829": {
+            "titulo": "Actividades de servicios de apoyo a las empresas n.c.p.",
+            "actividades": {
+              "8291": "Actividades de agencias de cobro y agencias de calificación crediticia",
+              "8292": "Actividades de envasado y empaquetado",
+              "8299": "Otras actividades de servicios de apoyo a las empresas n.c.p."
+            }
+          }
+        }
+      }
+    }
+  },
+  "O": {
+    "titulo": "Administración pública y defensa; planes de seguridad social de afiliación obligatoria",
+    "divisiones": {
+      "84": {
+        "titulo": "Administración pública y defensa; planes de seguridad social de afiliación obligatoria",
+        "subdivisiones": {
+          "841": {
+            "titulo": "Administración del Estado y aplicación de la política económica y social de la comunidad",
+            "actividades": {
+              "8411": "Actividades de la administración pública en general",
+              "8412": "Regulación de las actividades de organismos que prestan servicios sanitarios, educativos, culturales y otros servicios sociales, excepto servicios de seguridad social",
+              "8413": "Regulación y facilitación de la actividad económica"
+            }
+          },
+          "842": {
+            "titulo": "Prestación de servicios a la comunidad en general",
+            "actividades": {
+              "8421": "Relaciones exteriores",
+              "8422": "Actividades de defensa",
+              "8423": "Actividades de mantenimiento del orden público y de seguridad"
+            }
+          },
+          "843": {
+            "titulo": "Actividades de planes de seguridad social de afiliación obligatoria",
+            "actividades": {
+              "8430": "Actividades de planes de seguridad social de afiliación obligatoria"
+            }
+          }
+        }
+      }
+    }
+  },
+  "P": {
+    "titulo": "Enseñanza",
+    "divisiones": {
+      "85": {
+        "titulo": "Enseñanza",
+        "subdivisiones": {
+          "851": {
+            "titulo": "Enseñanza preescolar y primaria",
+            "actividades": {
+              "8510": "Enseñanza preescolar y primaria"
+            }
+          },
+          "852": {
+            "titulo": "Enseñanza secundaria",
+            "actividades": {
+              "8521": "Enseñanza secundaria de formación general",
+              "8522": "Enseñanza secundaria de formación técnica y profesional"
+            }
+          },
+          "853": {
+            "titulo": "Enseñanza superior",
+            "actividades": {
+              "8530": "Enseñanza superior"
+            }
+          },
+          "854": {
+            "titulo": "Otros tipos de enseñanza",
+            "actividades": {
+              "8541": "Enseñanza deportiva y recreativa",
+              "8542": "Enseñanza cultural",
+              "8549": "Otros tipos de enseñanza n.c.p."
+            }
+          },
+          "855": {
+            "titulo": "Actividades de apoyo a la enseñanza",
+            "actividades": {
+              "8550": "Actividades de apoyo a la enseñanza"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Q": {
+    "titulo": "Actividades de atención de la salud humana y de asistencia social",
+    "divisiones": {
+      "86": {
+        "titulo": "Actividades de atención de la salud humana",
+        "subdivisiones": {
+          "861": {
+            "titulo": "Actividades de hospitales",
+            "actividades": {
+              "8610": "Actividades de hospitales"
+            }
+          },
+          "862": {
+            "titulo": "Actividades de médicos y odontólogos",
+            "actividades": {
+              "8620": "Actividades de médicos y odontólogos"
+            }
+          },
+          "869": {
+            "titulo": "Otras actividades de atención de la salud humana",
+            "actividades": {
+              "8690": "Otras actividades de atención de la salud humana"
+            }
+          }
+        }
+      },
+      "87": {
+        "titulo": "Actividades de atención en instituciones",
+        "subdivisiones": {
+          "871": {
+            "titulo": "Actividades de atención de enfermería en instituciones",
+            "actividades": {
+              "8710": "Actividades de atención de enfermería en instituciones"
+            }
+          },
+          "872": {
+            "titulo": "Actividades de atención en instituciones para personas con retraso mental, enfermos mentales y toxicómanos",
+            "actividades": {
+              "8720": "Actividades de atención en instituciones para personas con retraso mental, enfermos mentales y toxicómanos"
+            }
+          },
+          "873": {
+            "titulo": "Actividades de atención en instituciones para personas de edad y personas con discapacidad",
+            "actividades": {
+              "8730": "Actividades de atención en instituciones para personas de edad y personas con discapacidad"
+            }
+          },
+          "879": {
+            "titulo": "Otras actividades de atención en instituciones",
+            "actividades": {
+              "8790": "Otras actividades de atención en instituciones"
+            }
+          }
+        }
+      },
+      "88": {
+        "titulo": "Actividades de asistencia social sin alojamiento",
+        "subdivisiones": {
+          "881": {
+            "titulo": "Actividades de asistencia social sin alojamiento para personas de edad y personas con discapacidad",
+            "actividades": {
+              "8810": "Actividades de asistencia social sin alojamiento para personas de edad y personas con discapacidad"
+            }
+          },
+          "889": {
+            "titulo": "Otras actividades de asistencia social sin alojamiento",
+            "actividades": {
+              "8890": "Otras actividades de asistencia social sin alojamiento"
+            }
+          }
+        }
+      }
+    }
+  },
+  "R": {
+    "titulo": "Actividades artísticas, de entretenimiento y recreativas",
+    "divisiones": {
+      "90": {
+        "titulo": "Actividades creativas, artísticas y de entretenimiento",
+        "subdivisiones": {
+          "900": {
+            "titulo": "Actividades creativas, artísticas y de entretenimiento",
+            "actividades": {
+              "9000": "Actividades creativas, artísticas y de entretenimiento"
+            }
+          }
+        }
+      },
+      "91": {
+        "titulo": "Actividades de bibliotecas, archivos y museos y otras actividades culturales",
+        "subdivisiones": {
+          "910": {
+            "titulo": "Actividades de bibliotecas, archivos y museos y otras actividades culturales",
+            "actividades": {
+              "9101": "Actividades de bibliotecas y archivos",
+              "9102": "Actividades de museos y conservación de lugares y edificios históricos",
+              "9103": "Actividades de jardines botánicos y zoológicos y de reservas naturales"
+            }
+          }
+        }
+      },
+      "92": {
+        "titulo": "Actividades de juegos de azar y apuestas",
+        "subdivisiones": {
+          "920": {
+            "titulo": "Actividades de juegos de azar y apuestas",
+            "actividades": {
+              "9200": "Actividades de juegos de azar y apuestas"
+            }
+          }
+        }
+      },
+      "93": {
+        "titulo": "Actividades deportivas, de esparcimiento y recreativas",
+        "subdivisiones": {
+          "931": {
+            "titulo": "Actividades deportivas",
+            "actividades": {
+              "9311": "Gestión de instalaciones deportivas",
+              "9312": "Actividades de clubes deportivos",
+              "9319": "Otras actividades deportivas"
+            }
+          },
+          "932": {
+            "titulo": "Otras actividades de esparcimiento y recreativas",
+            "actividades": {
+              "9321": "Actividades de parques de atracciones y parques temáticos",
+              "9329": "Otras actividades de esparcimiento y recreativas n.c.p."
+            }
+          }
+        }
+      }
+    }
+  },
+  "S": {
+    "titulo": "Otras actividades de servicios",
+    "divisiones": {
+      "94": {
+        "titulo": "Actividades de asociaciones",
+        "subdivisiones": {
+          "941": {
+            "titulo": "Actividades de asociaciones empresariales, profesionales y de empleadores",
+            "actividades": {
+              "9411": "Actividades de asociaciones empresariales y de empleadores",
+              "9412": "Actividades de asociaciones profesionales"
+            }
+          },
+          "942": {
+            "titulo": "Actividades de sindicatos",
+            "actividades": {
+              "9420": "Actividades de sindicatos"
+            }
+          },
+          "949": {
+            "titulo": "Actividades de otras asociaciones",
+            "actividades": {
+              "9491": "Actividades de organizaciones religiosas",
+              "9492": "Actividades de organizaciones políticas",
+              "9499": "Actividades de otras asociaciones n.c.p."
+            }
+          }
+        }
+      },
+      "95": {
+        "titulo": "Reparación de ordenadores y de efectos personales y enseres domésticos",
+        "subdivisiones": {
+          "951": {
+            "titulo": "Reparación de ordenadores y equipo de comunicaciones",
+            "actividades": {
+              "9511": "Reparación de ordenadores y equipo periférico",
+              "9512": "Reparación de equipo de comunicaciones"
+            }
+          },
+          "952": {
+            "titulo": "Reparación de efectos personales y enseres domésticos",
+            "actividades": {
+              "9521": "Reparación de aparatos electrónicos de consumo",
+              "9522": "Reparación de aparatos de uso doméstico y equipo doméstico y de jardinería",
+              "9523": "Reparación de calzado y de artículos de cuero",
+              "9524": "Reparación de muebles y accesorios domésticos",
+              "9529": "Reparación de otros efectos personales y enseres domésticos"
+            }
+          }
+        }
+      },
+      "96": {
+        "titulo": "Otras actividades de servicios personales",
+        "subdivisiones": {
+          "960": {
+            "titulo": "Otras actividades de servicios personales",
+            "actividades": {
+              "9601": "Lavado y limpieza, incluida la limpieza en seco, de productos textiles y de piel",
+              "9602": "Peluquería y otros tratamientos de belleza",
+              "9603": "Pompas fúnebres y actividades conexas",
+              "9609": "Otras actividades de servicios personales n.c.p."
+            }
+          }
+        }
+      }
+    }
+  },
+  "T": {
+    "titulo": "Actividades de los hogares como empleadores; actividades no diferenciadas de los hogares como productores de bienes y servicios para uso propio",
+    "divisiones": {
+      "97": {
+        "titulo": "Actividades de los hogares como empleadores de personal doméstico",
+        "subdivisiones": {
+          "970": {
+            "titulo": "Actividades de los hogares como empleadores de personal doméstico",
+            "actividades": {
+              "9700": "Actividades de los hogares como empleadores de personal doméstico"
+            }
+          }
+        }
+      },
+      "98": {
+        "titulo": "Actividades no diferenciadas de los hogares como productores de bienes y servicios para uso propio",
+        "subdivisiones": {
+          "981": {
+            "titulo": "Actividades no diferenciadas de los hogares como productores de bienes para uso propio",
+            "actividades": {
+              "9810": "Actividades no diferenciadas de los hogares como productores de bienes para uso propio"
+            }
+          },
+          "982": {
+            "titulo": "Actividades no diferenciadas de los hogares como productores de servicios para uso propio",
+            "actividades": {
+              "9820": "Actividades no diferenciadas de los hogares como productores de servicios para uso propio"
+            }
+          }
+        }
+      }
+    }
+  },
+  "U": {
+    "titulo": "Actividades de organizaciones y órganos extraterritoriales",
+    "divisiones": {
+      "99": {
+        "titulo": "Actividades de organizaciones y órganos extraterritoriales",
+        "subdivisiones": {
+          "990": {
+            "titulo": "Actividades de organizaciones y órganos extraterritoriales",
+            "actividades": {
+              "9900": "Actividades de organizaciones y órganos extraterritoriales"
+            }
+          }
+        }
+      }
+    }
+  }
+}

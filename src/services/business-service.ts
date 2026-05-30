@@ -2,7 +2,33 @@ import { useAuthStore } from "@/store/auth-store";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export interface BusinessSummary {
+export type BusinessStatus = "INFORMAL" | "EN_FORMALIZACION" | "FORMALIZADO";
+
+export interface FormalIdentity {
+  id: number;
+  businessId: number;
+  businessDisplayName: string;
+  tradeName: string;
+  legalName: string;
+  ruc: string;
+  sunatStatus: string;
+  taxpayerType: string;
+  ciiuCode: string;
+  taxRegime: string;
+  taxRegimeSource: string;
+  projectedAnnualIncome: number | null;
+  companyType: string;
+  isRegisteredCompany: boolean | null;
+  voucherType: string;
+  electronicInvoicingEnabled: boolean | null;
+  hasEmployees: boolean | null;
+  payrollEnabled: boolean | null;
+  accountingObligation: string;
+  electronicBooksEnabled: boolean | null;
+  municipalLicenseRequired: boolean | null;
+}
+
+export interface BusinessProcedureSummary {
   id: number;
   name: string;
   status: string;
@@ -10,30 +36,36 @@ export interface BusinessSummary {
 
 export interface Business {
   id: number;
-  name: string;
-  description: string;
-  sector: string;
-  status: string;
+  displayName: string;
+  startDate: string;
+  department: string;
+  province: string;
+  district: string;
+  address: string;
+  status: BusinessStatus;
   ownerId: number;
   ownerUsername: string;
-  procedures: BusinessSummary[];
+  procedures: BusinessProcedureSummary[];
+  formalIdentity: FormalIdentity | null;
 }
 
 export interface CreateBusinessData {
-  name: string;
-  description: string;
-  sector: string;
-  status: string;
+  displayName: string;
+  startDate: string;
+  department: string;
+  province: string;
+  district: string;
+  address: string;
 }
 
-// --- Helper para obtener token ---
+export interface UpdateBusinessData extends CreateBusinessData {}
+
 function getToken(): string {
   const token = useAuthStore.getState().token;
   if (!token) throw new Error("No se encontró token de autenticación");
   return token;
 }
 
-// --- Helper genérico de fetch con auth ---
 async function fetchWithAuth(input: RequestInfo, init?: RequestInit) {
   const token = getToken();
   const headers = {
@@ -44,11 +76,9 @@ async function fetchWithAuth(input: RequestInfo, init?: RequestInit) {
 
   const res = await fetch(input, { ...init, headers });
   if (!res.ok) throw new Error(`Error en la petición: ${res.statusText}`);
-  if (res.status !== 204) return res.json(); // 204 No Content
+  if (res.status !== 204) return res.json();
   return;
 }
-
-// --- Funciones CRUD ---
 
 export async function getBusinesses(): Promise<Business[]> {
   return fetchWithAuth(`${API_BASE_URL}/api/businesses`);
@@ -69,7 +99,7 @@ export async function createBusiness(data: CreateBusinessData): Promise<Business
   });
 }
 
-export async function updateBusiness(id: number, data: CreateBusinessData): Promise<Business> {
+export async function updateBusiness(id: number, data: UpdateBusinessData): Promise<Business> {
   return fetchWithAuth(`${API_BASE_URL}/api/businesses/${id}`, {
     method: "PUT",
     body: JSON.stringify(data),
