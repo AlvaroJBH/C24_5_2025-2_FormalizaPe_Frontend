@@ -73,7 +73,7 @@ export function SunarpRegisterCompanyStep({
         taxRegimeSource: existing?.taxRegimeSource || "",
         projectedAnnualIncome: existing?.projectedAnnualIncome ?? undefined,
         companyType: existing?.companyType || "",
-        isRegisteredCompany: existing?.isRegisteredCompany ?? undefined,
+        isRegisteredCompany: true,
         voucherType: existing?.voucherType || "",
         electronicInvoicingEnabled: existing?.electronicInvoicingEnabled ?? undefined,
         hasEmployees: existing?.hasEmployees ?? undefined,

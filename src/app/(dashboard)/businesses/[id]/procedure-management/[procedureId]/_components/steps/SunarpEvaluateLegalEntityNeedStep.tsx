@@ -167,12 +167,6 @@ export function SunarpEvaluateLegalEntityNeedStep({
                 </p>
               </div>
               <div>
-                <p className="text-xs text-gray-500">Nombre comercial</p>
-                <p className="text-sm font-medium text-gray-800">
-                  {business?.tradeName || "No definido"}
-                </p>
-              </div>
-              <div>
                 <p className="text-xs text-gray-500">Dirección</p>
                 <p className="text-sm font-medium text-gray-800">
                   {formatAddress({
