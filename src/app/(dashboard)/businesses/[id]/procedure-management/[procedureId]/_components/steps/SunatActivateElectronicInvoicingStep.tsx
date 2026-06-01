@@ -17,6 +17,7 @@ import {
   FormalIdentityResponse,
 } from "@/services/formalization-service";
 import { useBusinessStore } from "@/store/business-store";
+import { useAuthStore } from "@/store/auth-store";
 import type { StepComponentProps } from "../StepFallbackModal";
 
 const TAXPAYER_TYPE_LABELS: Record<string, string> = {
@@ -40,10 +41,10 @@ export function SunatActivateElectronicInvoicingStep({
 }: StepComponentProps) {
   const business = useBusinessStore((s) => s.business);
   const formalIdentity = business?.formalIdentity ?? null;
+  const user = useAuthStore((s) => s.user);
 
-  const taxpayerType = formalIdentity?.taxpayerType ?? null;
-  const taxRegime = formalIdentity?.taxRegime ?? null;
-  const ruc = formalIdentity?.ruc ?? null;
+  const isPersonaNatural = formalIdentity?.taxpayerType === "PERSONA_NATURAL";
+  const ruc = isPersonaNatural ? (user?.ruc ?? null) : (formalIdentity?.ruc ?? null);
 
   const [confirmed, setConfirmed] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -106,8 +107,8 @@ export function SunatActivateElectronicInvoicingStep({
                   Tipo de contribuyente
                 </p>
                 <p className="text-sm text-gray-800">
-                  {taxpayerType
-                    ? TAXPAYER_TYPE_LABELS[taxpayerType] || taxpayerType
+                  {formalIdentity?.taxpayerType
+                    ? TAXPAYER_TYPE_LABELS[formalIdentity.taxpayerType] || formalIdentity.taxpayerType
                     : "No definido"}
                 </p>
               </div>
@@ -116,8 +117,8 @@ export function SunatActivateElectronicInvoicingStep({
                   Régimen tributario
                 </p>
                 <p className="text-sm text-gray-800">
-                  {taxRegime
-                    ? TAX_REGIME_LABELS[taxRegime] || taxRegime
+                  {formalIdentity?.taxRegime
+                    ? TAX_REGIME_LABELS[formalIdentity.taxRegime] || formalIdentity.taxRegime
                     : "No definido"}
                 </p>
               </div>

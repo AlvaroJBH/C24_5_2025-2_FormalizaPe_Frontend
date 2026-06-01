@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 import { useBusinessStore } from "@/store/business-store";
+import { useAuthStore } from "@/store/auth-store";
 import {
   createFormalIdentity,
   getFormalIdentity,
@@ -40,6 +41,10 @@ export function SunatActivatePayrollStep({
   const business = useBusinessStore((s) => s.business);
   const refreshBusiness = useBusinessStore((s) => s.refreshBusiness);
   const formalIdentity = business?.formalIdentity ?? null;
+  const user = useAuthStore((s) => s.user);
+
+  const isPersonaNatural = formalIdentity?.taxpayerType === "PERSONA_NATURAL";
+  const ruc = isPersonaNatural ? (user?.ruc ?? null) : (formalIdentity?.ruc ?? null);
 
   const hasEmployees = formalIdentity?.hasEmployees ?? null;
 
@@ -172,7 +177,7 @@ export function SunatActivatePayrollStep({
                 <div>
                   <p className="text-xs text-blue-500 font-medium mb-1">RUC</p>
                   <p className="text-sm text-gray-800 font-medium font-mono">
-                    {formalIdentity?.ruc || "No definido"}
+                    {ruc || "No definido"}
                   </p>
                 </div>
                 <div>

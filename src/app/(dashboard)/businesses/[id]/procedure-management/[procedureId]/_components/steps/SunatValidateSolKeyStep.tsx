@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 import { useBusinessStore } from "@/store/business-store";
+import { useAuthStore } from "@/store/auth-store";
 import type { StepComponentProps } from "../StepFallbackModal";
 
 export function SunatValidateSolKeyStep({
@@ -20,7 +21,11 @@ export function SunatValidateSolKeyStep({
   onComplete,
 }: StepComponentProps) {
   const business = useBusinessStore((s) => s.business);
-  const ruc = business?.formalIdentity?.ruc ?? null;
+  const user = useAuthStore((s) => s.user);
+  const formalIdentity = business?.formalIdentity ?? null;
+
+  const isPersonaNatural = formalIdentity?.taxpayerType === "PERSONA_NATURAL";
+  const ruc = isPersonaNatural ? (user?.ruc ?? null) : (formalIdentity?.ruc ?? null);
 
   const [confirmed, setConfirmed] = useState(false);
 

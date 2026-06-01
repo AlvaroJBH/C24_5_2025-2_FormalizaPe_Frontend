@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useBusinessStore } from "@/store/business-store";
+import { useAuthStore } from "@/store/auth-store";
 import type { StepComponentProps } from "../StepFallbackModal";
 
 function formatAddress(business: {
@@ -30,7 +31,11 @@ export function MunicipalPrepareDocumentationStep({
 }: StepComponentProps) {
   const business = useBusinessStore((s) => s.business);
   const formalIdentity = business?.formalIdentity ?? null;
+  const user = useAuthStore((s) => s.user);
   const municipalLicenseRequired = formalIdentity?.municipalLicenseRequired ?? null;
+
+  const isPersonaNatural = formalIdentity?.taxpayerType === "PERSONA_NATURAL";
+  const ruc = isPersonaNatural ? (user?.ruc ?? null) : (formalIdentity?.ruc ?? null);
   const [confirmed, setConfirmed] = useState(false);
   const canComplete = confirmed;
 
@@ -137,7 +142,7 @@ export function MunicipalPrepareDocumentationStep({
                 <div>
                   <p className="text-xs text-blue-500 font-medium mb-1">RUC</p>
                   <p className="text-sm text-gray-800 font-medium">
-                    {formalIdentity?.ruc || "No disponible"}
+                    {ruc || "No disponible"}
                   </p>
                 </div>
                 <div>

@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
 import { useBusinessStore } from "@/store/business-store";
+import { useAuthStore } from "@/store/auth-store";
 import type { StepComponentProps } from "../StepFallbackModal";
 
 const TAX_REGIME_LABELS: Record<string, string> = {
@@ -34,8 +35,10 @@ export function SunatEmitFirstVoucherStep({
 }: StepComponentProps) {
   const business = useBusinessStore((s) => s.business);
   const formalIdentity = business?.formalIdentity ?? null;
+  const user = useAuthStore((s) => s.user);
 
-  const ruc = formalIdentity?.ruc ?? null;
+  const isPersonaNatural = formalIdentity?.taxpayerType === "PERSONA_NATURAL";
+  const ruc = isPersonaNatural ? (user?.ruc ?? null) : (formalIdentity?.ruc ?? null);
   const taxRegime = formalIdentity?.taxRegime ?? null;
   const voucherType = formalIdentity?.voucherType ?? null;
 

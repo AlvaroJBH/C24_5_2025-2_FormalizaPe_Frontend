@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useBusinessStore } from "@/store/business-store";
+import { useAuthStore } from "@/store/auth-store";
 import type { StepComponentProps } from "../StepFallbackModal";
 
 const TAXPAYER_TYPE_LABELS: Record<string, string> = {
@@ -24,6 +25,10 @@ export function SunatFulfillLaborObligationsStep({
 }: StepComponentProps) {
   const business = useBusinessStore((s) => s.business);
   const formalIdentity = business?.formalIdentity ?? null;
+  const user = useAuthStore((s) => s.user);
+
+  const isPersonaNatural = formalIdentity?.taxpayerType === "PERSONA_NATURAL";
+  const ruc = isPersonaNatural ? (user?.ruc ?? null) : (formalIdentity?.ruc ?? null);
 
   const hasEmployees = formalIdentity?.hasEmployees ?? null;
 
@@ -132,7 +137,7 @@ export function SunatFulfillLaborObligationsStep({
                 <div>
                   <p className="text-xs text-blue-500 font-medium mb-1">RUC</p>
                   <p className="text-sm text-gray-800 font-medium font-mono">
-                    {formalIdentity?.ruc || "No definido"}
+                    {ruc || "No definido"}
                   </p>
                 </div>
                 <div>
