@@ -93,7 +93,7 @@ export function RegisterForm() {
 
       <div>
         <Label htmlFor="dni" className="text-gray-700 text-sm">
-          DNI
+          DNI (opcional)
         </Label>
         <Input
           type="text"
@@ -103,13 +103,12 @@ export function RegisterForm() {
           onChange={(e) => setDni(e.target.value)}
           className="rounded-none border-gray-400 focus-visible:ring-blue-700"
           disabled={success}
-          required
         />
       </div>
 
       <div>
         <Label htmlFor="ruc" className="text-gray-700 text-sm">
-          RUC
+          RUC (opcional)
         </Label>
         <Input
           type="text"
@@ -119,7 +118,6 @@ export function RegisterForm() {
           onChange={(e) => setRuc(e.target.value)}
           className="rounded-none border-gray-400 focus-visible:ring-blue-700"
           disabled={success}
-          required
         />
       </div>
 

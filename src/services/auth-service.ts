@@ -13,8 +13,8 @@ interface RegisterData {
   username: string;
   email: string;
   password: string;
-  dni: string;
-  ruc: string;
+  dni?: string;
+  ruc?: string;
 }
 
 export async function login(email: string, password: string) {
