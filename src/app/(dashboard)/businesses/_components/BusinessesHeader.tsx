@@ -12,7 +12,7 @@ export function BusinessesHeader() {
         ]}
       />
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-semibold text-blue-700">Empresas</h1>
+        <h1 className="text-2xl font-semibold text-blue-700">Negocios</h1>
         <CreateBusinessDialog />
       </div>
     </>
