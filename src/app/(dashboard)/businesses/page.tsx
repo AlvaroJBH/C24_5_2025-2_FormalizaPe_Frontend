@@ -31,7 +31,7 @@ export default function BusinessesPage() {
         setBusinesses(data);
         setError(null);
       } catch {
-        setError("Error al cargar empresas");
+        setError("Error al cargar negocios");
       } finally {
         setLoading(false);
       }
@@ -73,7 +73,7 @@ export default function BusinessesPage() {
   if (loading)
     return (
       <div className="min-h-screen flex items-center justify-center text-gray-500">
-        Cargando empresas...
+        Cargando negocios...
       </div>
     );
   if (error)
@@ -98,8 +98,8 @@ export default function BusinessesPage() {
             <path d="M14 16h1" />
             <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16" />
           </svg>
-          <p className="text-lg font-medium">No tienes empresas registradas</p>
-          <p className="text-sm mt-1">Crea tu primera empresa para comenzar</p>
+          <p className="text-lg font-medium">No tienes negocios registrados</p>
+          <p className="text-sm mt-1">Crea tu primer negocio para comenzar</p>
         </div>
       </div>
     );

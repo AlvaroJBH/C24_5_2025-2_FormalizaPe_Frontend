@@ -21,14 +21,14 @@ export function CreateBusinessDialog() {
       <DialogTrigger asChild>
         <Button className="rounded-none">
           <PlusIcon className="w-4 h-4 mr-2" />
-          Crear Empresa
+          Crear Negocio
         </Button>
       </DialogTrigger>
       <DialogContent className="rounded-none max-w-md">
         <DialogHeader>
-          <DialogTitle>¿Deseas crear una nueva empresa?</DialogTitle>
+          <DialogTitle>¿Deseas crear un nuevo negocio?</DialogTitle>
           <DialogDescription>
-            El asistente te guiará paso a paso para registrar los datos de tu empresa.
+            El asistente te guiará paso a paso para registrar los datos de tu negocio.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="gap-2">
@@ -46,7 +46,7 @@ export function CreateBusinessDialog() {
             className="rounded-none"
             onClick={() => router.push("/businesses/new")}
           >
-            Sí, crear empresa
+            Sí, crear negocio
           </Button>
         </DialogFooter>
       </DialogContent>
